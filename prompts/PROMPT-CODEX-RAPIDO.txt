@@ -1,0 +1,4 @@
+Analise o projeto Crônicas de Avernor aberto no VS Code e implemente diretamente a solicitação abaixo, preservando toda a lore e a identidade visual. Use as pastas de mídia em public/assets, os caminhos centralizados em src/data/assets.js e as regras do arquivo prompts/PROMPT-CODEX-MESTRE.md. Não faça commit nem push. Execute o build, corrija erros e informe os arquivos alterados.
+
+SOLICITAÇÃO:
+[COLE AQUI A ALTERAÇÃO QUE DESEJA]

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Gere sitemap.xml com SITE_URL=https://dominio npm run sitemap quando o domínio canônico for definido.

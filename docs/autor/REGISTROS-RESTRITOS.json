@@ -1,0 +1,64 @@
+{
+  "format": "avernor-author-records/v1",
+  "scope": "author-only",
+  "warning": "Nunca importar este arquivo em src/ ou expô-lo no bundle público.",
+  "updatedAt": "2026-07-21",
+  "records": [
+    {
+      "id": "secret-sirius-parentage",
+      "domain": "genealogy",
+      "subjects": ["sirius-kayler", "normus-kayler", "namidia-bellatrix"],
+      "fact": "Sirius é o único filho de Normus e Namídia.",
+      "revealRule": "A revelação deve alterar uma escolha sem retirar a agência de Sirius, Elara ou Namídia."
+    },
+    {
+      "id": "secret-nimbus-survival",
+      "domain": "genealogy",
+      "subjects": ["casa-nimbus"],
+      "fact": "Um ramo Nimbus sobreviveu sob nomes comuns; a magia permaneceu recessiva por quatro gerações.",
+      "revealRule": "Não identificar publicamente a primeira manifestação contemporânea antes de existir evidência narrativa."
+    },
+    {
+      "id": "secret-rivs-naelor",
+      "domain": "genealogy",
+      "subjects": ["casa-rivs", "naelor"],
+      "fact": "Dois guardiões Rivs atravessaram uma Fratura com o índice do Arquivo Submerso; descendentes podem existir em Naelor.",
+      "revealRule": "Possibilidade não equivale a retorno confirmado."
+    },
+    {
+      "id": "secret-bellatrix-copies",
+      "domain": "archive",
+      "subjects": ["lena-bellatrix", "namidia-bellatrix"],
+      "fact": "Lena preservou cópias parciais do caderno de Namídia.",
+      "revealRule": "Os descendentes conhecem rotas, não a localização de Sirius."
+    },
+    {
+      "id": "secret-veyron-marriages",
+      "domain": "succession",
+      "subjects": ["linhagem-veyron"],
+      "fact": "Dois casamentos Veyron posteriores à Queda foram falsificados.",
+      "revealRule": "Nenhuma pretensão atual à Coroa Una deve ser tratada como genealogicamente íntegra."
+    },
+    {
+      "id": "secret-elara-choice",
+      "domain": "succession",
+      "subjects": ["elara", "sylvaris"],
+      "fact": "Elara foi escolhida pelos Círculos e por sua relação com a Vontade da Floresta, não pelo pacto Kayler.",
+      "revealRule": "O pacto nunca deve substituir a escolha política ou pessoal de Elara."
+    },
+    {
+      "id": "secret-prisoner-origin",
+      "domain": "cosmology",
+      "subjects": ["prisioneiro-sem-nome", "nar-khalion"],
+      "fact": "O Prisioneiro foi uma consciência usada para estabilizar a primeira costura do Véu e perdeu o nome no selo.",
+      "revealRule": "A tragédia explica sua motivação, mas não absolve o risco."
+    },
+    {
+      "id": "secret-five-relics",
+      "domain": "relics",
+      "subjects": ["cinco-reliquias", "veu"],
+      "fact": "As cinco relíquias tornam-se uma chave quando cinco portadores transferem a mesma intenção; unanimidade por medo inverte a função.",
+      "revealRule": "Não publicar a mecânica completa antes de a vontade dos portadores ser uma escolha narrativa ativa."
+    }
+  ]
+}

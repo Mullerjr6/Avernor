@@ -1,0 +1,45 @@
+const claim = (personId, priority, status, reason, role = 'heir') => ({ personId, priority, status, reason, role })
+
+function buildSuccession(definition) {
+  const sorted = [...definition.claims].sort((a, b) => a.priority - b.priority || a.personId.localeCompare(b.personId))
+  const current = sorted.find(({ role }) => role === 'ruler') ?? null
+  const order = sorted.filter(({ role }) => role === 'heir').map((candidate, index) => ({ ...candidate, rank: index + 1 }))
+  const pretenders = sorted.filter(({ role }) => role === 'pretender')
+  const excluded = sorted.filter(({ role }) => role === 'excluded')
+  return { truthStatus: 'documented', ...definition, slug: definition.id, current, order, pretenders, excluded }
+}
+
+const successionDefinitions = [
+  {
+    id: 'sylvaris', name: 'Sucessão de Sylvaris', realm: 'Sylvaris', dynastyId: 'copa-prateada', genealogyId: 'real-sylvaris',
+    rule: 'Os Círculos escolhem entre descendentes capazes de guardar memória, território e pacto; primogenitura não cria preferência automática.',
+    claims: [claim('aelwen', 0, 'reinante', 'Reconhecida pelos Círculos e limitada por suas decisões.', 'ruler'), claim('elara', 10, 'designada', 'Escolha convergente dos Círculos; Aelysar só será entregue na coroação.'), claim('lyssara', 20, 'elegível', 'Irmã mais velha; mantém direito de substituição.'), claim('maeriel', 30, 'elegível', 'Terceira voz da mesma geração e descendente reconhecida.')],
+    disputes: ['Parte do conselho teme que o pacto Kayler influencie Elara.', 'Primogenitura não é regra élfica.'], marriages: ['Nenhum casamento é requisito sucessório atual.', 'O pacto Kayler não constitui união matrimonial.'], possibleCrises: ['Recusa de Elara', 'Ruptura entre Círculos sobre abertura ao continente'], extinctLines: ['Ramos anteriores não possuem reivindicação pública ativa'], secretClaimsStatus: 'Reivindicações reservadas, se existirem, não são carregadas pelo site público.',
+  },
+  {
+    id: 'winterfeld', name: 'Sucessão de Winterfeld', realm: 'Winterfeld', dynastyId: 'casa-do-lobo', genealogyId: 'winterfeld',
+    rule: 'O Conselho dos Jarls confirma quem sustentar abrigo, estoques e passagens. Sangue sem serviço não basta.', currentRulerLabel: 'Governante atual não registrado nominalmente no arquivo público.',
+    claims: [claim('runa-winterfeld', 10, 'contestada', 'Herdeira de sangue; dois jarls exigem nova Prova do Abrigo.')],
+    disputes: ['A associação popular entre Vyrasul e a coroa não cria direito dracônico.'], marriages: ['Uniões entre jarls alteram apoio político, não a regra de abrigo.'], possibleCrises: ['Falha de estoque durante a prova', 'Recusa de jarls de mineração'], extinctLines: ['Intervalos genealógicos destruídos pelo degelo permanecem explicitamente desconhecidos'], secretClaimsStatus: 'Nenhuma reivindicação secreta publicada.',
+  },
+  {
+    id: 'valoria', name: 'Sucessão de Valoria', realm: 'Valoria', dynastyId: 'casa-arden', genealogyId: 'valoria',
+    rule: 'A linhagem precisa de confirmação das Sete Pontes e quitação de dívidas agrárias.',
+    claims: [claim('roderic-arden', 0, 'reinante', 'Titular reconhecido, sob auditoria dos celeiros.', 'ruler'), claim('ilyra-arden', 10, 'herdeira', 'Popularidade no campo e comando dos diques.')],
+    disputes: ['A ala expansionista tenta declarar Ilyra inapta por recusar guerra preventiva.'], marriages: ['Casamentos podem transferir crédito, nunca quitar automaticamente dívida pública.'], possibleCrises: ['Dívida fabricada contra Ilyra', 'Rompimento de diques durante a confirmação'], extinctLines: ['Ramos Arden sem obrigações de dique não possuem direito atual'], secretClaimsStatus: 'Nenhuma reivindicação secreta publicada.',
+  },
+  {
+    id: 'ravenhold', name: 'Sucessão de Ravenhold', realm: 'Ravenhold', dynastyId: 'casa-corven', genealogyId: 'ravenhold',
+    rule: 'Sangue Corven, juramento militar e maioria no Senado de Estandartes são requisitos cumulativos.',
+    claims: [claim('vera-corven', 0, 'reinante', 'Confirmada após auditoria das legiões.', 'ruler'), claim('cassor-corven', 10, 'pretendente suspenso', 'Defendeu publicamente a Caça às Bruxas e aguarda confirmação senatorial.', 'pretender')],
+    disputes: ['Veteranos reformistas podem bloquear Cassor.'], marriages: ['Uniões militares ampliam votos no Senado, mas não substituem confirmação.'], possibleCrises: ['Cassor mobilizar guarnições antes do voto', 'Ataques de bandeira falsa justificarem emergência'], extinctLines: ['Ramos Corven não juramentados estão fora da sucessão ativa'], secretClaimsStatus: 'Alegações da Corte de Cinza não são reconhecidas como linhagem.',
+  },
+  {
+    id: 'eldemar', name: 'Sucessão de Eldemar', realm: 'Eldemar', dynastyId: 'mare-alta', genealogyId: 'eldemar',
+    rule: 'O Conselho das Marés escolhe descendente com licença de capitão vigente e obrigações de cais cumpridas.',
+    claims: [claim('selka-elmer', 0, 'reinante', 'Capitã e negociadora reconhecida.', 'ruler'), claim('taris-elmer', 10, 'herdeiro condicional', 'Precisa concluir a rota do Arquipélago sem escolta real.')],
+    disputes: ['Guildas temem que a prova seja manipulada por contrabandistas.'], marriages: ['Casamento com casa estrangeira não transfere licença de navegação.'], possibleCrises: ['Sabotagem da prova de Taris', 'Reparações das Águas Negras bloquearem voto'], extinctLines: ['Ramos sem licença marítima não integram a ordem'], secretClaimsStatus: 'Nenhuma reivindicação secreta publicada.',
+  },
+]
+
+export const successions = successionDefinitions.map(buildSuccession)

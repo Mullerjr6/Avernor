@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Imagem preservada no Arquivo de Avernor</title>
+  <desc id="desc">Placeholder ornamental em carvão e ouro envelhecido</desc>
+  <defs><radialGradient id="g"><stop stop-color="#2b241c"/><stop offset="1" stop-color="#0b0f12"/></radialGradient><pattern id="p" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M24 2 46 24 24 46 2 24Z" fill="none" stroke="#c6a15b" stroke-opacity=".08"/></pattern></defs>
+  <rect width="1200" height="800" fill="url(#g)"/><rect width="1200" height="800" fill="url(#p)"/><rect x="34" y="34" width="1132" height="732" rx="14" fill="none" stroke="#c6a15b" stroke-opacity=".45"/>
+  <path d="M600 242 704 346 600 450 496 346Z" fill="none" stroke="#d5b875" stroke-width="3"/><path d="M600 286 660 346 600 406 540 346Z" fill="none" stroke="#d5b875" stroke-opacity=".6"/><text x="600" y="555" text-anchor="middle" fill="#e9dfce" font-family="Georgia,serif" font-size="38" letter-spacing="8">ARQUIVO DE AVERNOR</text><text x="600" y="610" text-anchor="middle" fill="#b7aa96" font-family="Georgia,serif" font-size="22">Imagem em catalogação</text>
+</svg>
