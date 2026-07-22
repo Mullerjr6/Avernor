@@ -1,6 +1,6 @@
 # Terras Sombrias
 
-Status: pendente. Destino master sugerido: `/assets/images/locations/terras-sombrias.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/locations/terras-sombrias.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

@@ -1,6 +1,6 @@
 # Guerra da Cinza Branca
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/guerra-da-cinza-branca.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/gallery/guerra-da-cinza-branca.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

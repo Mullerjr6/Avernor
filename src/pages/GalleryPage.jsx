@@ -52,7 +52,7 @@ export default function GalleryPage() {
           <button type="button" className="lightbox-prev" onClick={() => setActive((active - 1 + galleryItems.length) % galleryItems.length)} aria-label="Imagem anterior">‹</button>
           <ImageWithFallback src={item.src} alt={item.alt} fallback="default" loading="eager" />
           <button type="button" className="lightbox-next" onClick={() => setActive((active + 1) % galleryItems.length)} aria-label="Próxima imagem">›</button>
-          <div className="lightbox-caption"><span>{String(active + 1).padStart(2, '0')} / {String(galleryItems.length).padStart(2, '0')}</span><p><strong>{item.title}</strong><small>{item.kind} · use ← → para navegar</small></p></div>
+          <div className="lightbox-caption"><span>{String(active + 1).padStart(2, '0')} / {String(galleryItems.length).padStart(2, '0')}</span><p><strong>{item.title}</strong><small>{item.kind} · use ← → para navegar</small>{item.note && <em>{item.note}</em>}</p></div>
         </div>}
       </dialog>
     </>

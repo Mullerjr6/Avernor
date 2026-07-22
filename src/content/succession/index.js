@@ -1,3 +1,5 @@
+import { applyArchiveDossiers, successionArchiveDossiers } from '../editorial/archiveDossiers.js'
+
 const claim = (personId, priority, status, reason, role = 'heir') => ({ personId, priority, status, reason, role })
 
 function buildSuccession(definition) {
@@ -42,4 +44,4 @@ const successionDefinitions = [
   },
 ]
 
-export const successions = successionDefinitions.map(buildSuccession)
+export const successions = applyArchiveDossiers(successionDefinitions.map(buildSuccession), successionArchiveDossiers)

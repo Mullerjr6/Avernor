@@ -1,6 +1,6 @@
 # O Pacto dos Descendentes
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/pacto-dos-descendentes.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/gallery/pacto-dos-descendentes.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

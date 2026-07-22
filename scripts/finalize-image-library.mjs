@@ -3,7 +3,9 @@ import path from 'node:path'
 import sharp from 'sharp'
 
 const root = process.cwd()
-const imageRoot = path.join(root, 'public', 'assets', 'images')
+// Lossless masters stay outside public/ so Vite does not copy ~500 MB of source
+// artwork into every production build. optimize-images.mjs publishes WebP only.
+const imageRoot = path.join(root, 'artwork-masters', 'assets', 'images')
 
 const generatedLandscape = {
   backgrounds: ['caca-bruxas', 'era-coroas', 'era-magia', 'grande-guerra', 'queda-coroa'],

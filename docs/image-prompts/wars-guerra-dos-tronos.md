@@ -1,7 +1,7 @@
 # Guerra dos Tronos
 
 - **Modo:** gerador de imagens integrado (`historical-scene`).
-- **Destino:** `public/assets/images/gallery/guerra-dos-tronos.png`.
+- **Destino:** `artwork-masters/assets/images/gallery/guerra-dos-tronos.png`.
 - **Uso:** página de guerra, card e galeria.
 
 ## Prompt final

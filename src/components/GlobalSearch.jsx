@@ -12,16 +12,21 @@ export default function GlobalSearch({ onNavigate }) {
   const results = useMemo(() => {
     const normalized = normalizeText(query.trim())
     if (normalized.length < 2) return []
+    const tokens = normalized.split(/\s+/).filter(Boolean)
     return searchIndex
-      .filter((item) => searchableText(item).includes(normalized))
+      .filter((item) => {
+        const haystack = searchableText(item)
+        return tokens.every((token) => haystack.includes(token))
+      })
       .map((item) => {
         const name = normalizeText(item.name)
-        const score = name === normalized ? 0 : name.startsWith(normalized) ? 1 : name.includes(normalized) ? 2 : 3
+        const aliases = normalizeText(Array.isArray(item.searchAliases) ? item.searchAliases.join(' ') : item.searchAliases ?? '')
+        const score = name === normalized ? 0 : name.startsWith(normalized) ? 1 : name.includes(normalized) ? 2 : aliases.includes(normalized) ? 3 : 4
         return { item, score }
       })
       .sort((a, b) => a.score - b.score || a.item.name.localeCompare(b.item.name, 'pt-BR'))
       .map(({ item }) => item)
-      .slice(0, 7)
+      .slice(0, 10)
   }, [query])
 
   function goToResult(item) {
@@ -47,6 +52,10 @@ export default function GlobalSearch({ onNavigate }) {
       event.preventDefault()
       const direction = event.key === 'ArrowDown' ? 1 : -1
       setActiveIndex((current) => (current + direction + results.length) % results.length)
+    }
+    if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault()
+      setActiveIndex(event.key === 'Home' ? 0 : results.length - 1)
     }
     if (event.key === 'Escape') {
       setFocused(false)
@@ -87,9 +96,12 @@ export default function GlobalSearch({ onNavigate }) {
               onMouseEnter={() => setActiveIndex(index)}
               onClick={() => { setQuery(''); setFocused(false); setActiveIndex(0); onNavigate?.() }}
             >
-              <span>{item.name}</span><small>{item.collectionLabel}<b aria-hidden="true">↗</b></small>
+              <span>{item.name}{item.subtitle && <em>{item.subtitle}</em>}</span><small>{item.collectionLabel}<b aria-hidden="true">↗</b></small>
             </Link>
           )) : <p>Nenhum registro corresponde a “{query}”.</p>}
+          <Link className="search-all-results" role="option" aria-selected="false" to={`/busca?q=${encodeURIComponent(query.trim())}`} onClick={() => { setFocused(false); onNavigate?.() }}>
+            <span>Consultar o índice completo</span><small>Filtros avançados <b aria-hidden="true">→</b></small>
+          </Link>
         </div>
       )}
     </form>

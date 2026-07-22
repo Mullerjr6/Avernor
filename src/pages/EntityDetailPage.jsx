@@ -1,13 +1,17 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
+import ArchiveProvenance from '../components/ArchiveProvenance'
 import Breadcrumbs from '../components/Breadcrumbs'
-import EncyclopediaDossier from '../components/EncyclopediaDossier'
+import EncyclopediaDossier, { FieldValue } from '../components/EncyclopediaDossier'
 import ImageWithFallback from '../components/ImageWithFallback'
 import OrnamentalDivider from '../components/OrnamentalDivider'
+import RecordTableOfContents from '../components/RecordTableOfContents'
 import SEO from '../components/SEO'
 import ShareButton from '../components/ShareButton'
 import TruthBadge from '../components/TruthBadge'
 import { catalogs } from '../data/catalogs'
+import { canonicalAtlasPoints } from '../data/canonicalMap'
 import { visualFor } from '../data/visuals'
+import { toAnchor } from '../utils/text'
 
 const factLabels = {
   status: 'Status', period: 'Período', era: 'Era', origin: 'Origem', location: 'Localização', kingdom: 'Reino',
@@ -15,6 +19,11 @@ const factLabels = {
   population: 'População', threat: 'Ameaça', habitat: 'Habitat', outcome: 'Resultado', traits: 'Traços', motto: 'Lema', leadership: 'Liderança', age: 'Idade',
   birthDate: 'Nascimento', apparentAge: 'Idade aparente', birthPlace: 'Local de nascimento', currentLocation: 'Localização atual',
   foundation: 'Fundação', climate: 'Clima', geography: 'Geografia', succession: 'Sucessão', religion: 'Religião',
+}
+
+function RecordListEntry({ value }) {
+  if (value && typeof value === 'object') return <FieldValue value={value} />
+  return value
 }
 
 export default function EntityDetailPage({ catalogKey }) {
@@ -27,6 +36,11 @@ export default function EntityDetailPage({ catalogKey }) {
   const heroFacts = facts.filter(([key]) => ['status', 'period', 'currentLocation', 'location', 'kingdom', 'threat'].includes(key)).slice(0, 3)
   const hasImage = Boolean(item.image || item.thumbnail)
   const visual = visualFor(item)
+  const itemIndex = catalog.items.indexOf(item)
+  const previousItem = catalog.items[itemIndex - 1]
+  const nextItem = catalog.items[itemIndex + 1]
+  const recordRoute = `${catalog.path}/${item.slug}`
+  const atlasEntries = canonicalAtlasPoints.filter((point) => point.href === recordRoute || point.relatedRecords?.includes(recordRoute))
   const listSections = [
     ['members', 'Membros conhecidos'], ['belligerents', 'Participantes'],
     ['methods', 'Métodos'], ['events', 'Acontecimentos'],
@@ -74,30 +88,37 @@ export default function EntityDetailPage({ catalogKey }) {
             {facts.map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{item[key]}</dd></div>)}
           </dl>
           <p className="archive-date">Atualizado em {new Intl.DateTimeFormat('pt-BR').format(new Date(`${item.updatedAt}T12:00:00`))}</p>
+          <RecordTableOfContents item={item} listSections={listSections} hasAtlasEntry={atlasEntries.length > 0} />
         </aside>
 
         <div className="detail-content">
-          <section>
+          <section id="registro">
             <span className="section-number">I · Registro primário</span><h2>Registro</h2>
             <p className="dropcap">{item.description}</p>
           </section>
-          {item.appearance && <section><span className="section-number">II</span><h2>Aparência documentada</h2><p>{item.appearance}</p></section>}
+          <ArchiveProvenance item={item} />
+          {item.appearance && <section id="aparencia"><span className="section-number">II</span><h2>Aparência documentada</h2><p>{item.appearance}</p></section>}
           <EncyclopediaDossier item={item} />
-          {item.sections?.map((section, index) => <section key={section.title}><span className="section-number">{String(index + 2).padStart(2, '0')}</span><h2>{section.title}</h2>{section.body && <p>{section.body}</p>}{section.items?.length > 0 && <ul className="record-list">{section.items.map((value) => <li key={value}>{value}</li>)}</ul>}</section>)}
+          {item.sections?.map((section, index) => <section id={`secao-${toAnchor(section.title)}`} key={section.title}><span className="section-number">{String(index + 2).padStart(2, '0')}</span><h2>{section.title}</h2>{section.body && <p>{section.body}</p>}{section.items?.length > 0 && <ul className="record-list">{section.items.map((value, valueIndex) => <li key={typeof value === 'string' ? value : `${section.title}-${valueIndex}`}><RecordListEntry value={value} /></li>)}</ul>}</section>)}
           {listSections.map(([key, label], index) => (
-            <section key={key}>
+            <section id={`lista-${key}`} key={key}>
               <span className="section-number">{String(index + (item.appearance ? 3 : 2)).padStart(2, '0')}</span><h2>{label}</h2>
-              <ul className="record-list">{item[key].map((value) => <li key={value}>{value}</li>)}</ul>
+              <ul className="record-list">{item[key].map((value, valueIndex) => <li key={typeof value === 'string' ? value : `${key}-${valueIndex}`}><RecordListEntry value={value} /></li>)}</ul>
             </section>
           ))}
           {item.quotes?.length > 0 && <blockquote className="record-quote">“{item.quotes[0]}”</blockquote>}
-          {item.genealogyId && <section className="lineage-callout"><span className="section-number">⌘</span><h2>Parentesco documentado</h2><p>A árvore pública preserva relações confirmadas e mostra lacunas sem revelar segredos do autor.</p><Link className="button button-secondary" to={`/genealogias/${item.genealogyId}`}>Abrir genealogia</Link></section>}
+          {item.genealogyId && <section id="parentesco" className="lineage-callout"><span className="section-number">⌘</span><h2>Parentesco documentado</h2><p>A árvore pública preserva relações confirmadas e mostra lacunas sem revelar segredos do autor.</p><Link className="button button-secondary" to={`/genealogias/${item.genealogyId}`}>Abrir genealogia</Link></section>}
+          {atlasEntries.length > 0 && <section id="posicao-no-atlas" className="atlas-record-callout"><span className="section-number">⌖</span><h2>Posição no Atlas oficial</h2><p>{atlasEntries.length === 1 ? 'Este registro possui uma posição pública na edição cartográfica de 1204 d.C.' : `Este registro se relaciona a ${atlasEntries.length} posições públicas na edição cartográfica de 1204 d.C.`}</p><div>{atlasEntries.map((point) => <Link key={point.id} to={`/atlas?ponto=${point.id}`}><strong>{point.name}</strong><small>{point.type} · {point.regionName}</small><span aria-hidden="true">→</span></Link>)}</div></section>}
           {item.relations?.length > 0 && (
-            <section className="related-section">
+            <section id="registros-relacionados" className="related-section">
               <span className="section-number">↗</span><h2>Registros relacionados</h2>
               <div className="related-links">{item.relations.map((relation) => <Link key={`${relation.to}-${relation.label}`} to={relation.to}>{relation.label}<span>→</span></Link>)}</div>
             </section>
           )}
+          <nav className="record-pagination" aria-label={`Navegar pelos registros de ${catalog.label}`}>
+            {previousItem ? <Link to={`${catalog.path}/${previousItem.slug}`}><small>Registro anterior</small><strong>← {previousItem.name}</strong></Link> : <span />}
+            {nextItem && <Link to={`${catalog.path}/${nextItem.slug}`}><small>Próximo registro</small><strong>{nextItem.name} →</strong></Link>}
+          </nav>
         </div>
       </div>
     </article>

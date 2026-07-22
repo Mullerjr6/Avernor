@@ -1,6 +1,6 @@
 # II — A Queda da Coroa
 
-Status: pendente. Destino master sugerido: `/assets/images/backgrounds/queda-coroa.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/backgrounds/queda-coroa.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

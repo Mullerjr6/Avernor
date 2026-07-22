@@ -1,5 +1,15 @@
 # Changelog local
 
+## 2026-07-22 — arquivo público ampliado e contenção canônica
+
+- Removidas do bundle público todas as chaves `secrets` e a revelação do mecanismo reservado das Cinco Relíquias.
+- Corrigidos pacto Kayler, metamorfose contestada de Sirius, morte de Normus, ausência de capital permanente nas Montanhas Cinzentas, designação de Elara em 1203, arsenal de Sirius, retratos canônicos e limites da Adaga do Passo Velado.
+- Ampliadas as genealogias para 19 árvores e 140 pessoas, com Gron/Tor separados, lacunas multisseculares explícitas e relações distintas de sangue, adoção, tutela, ofício e custódia.
+- Aprofundados criaturas, livros, lendas, cosmologia, portais, mundos, Retornados, necromancia, fins dos tempos, Nar-Khalion, profecias, relíquias, Celestiais, Lanças, dinastias e sucessões por dossiês documentais não repetitivos.
+- Criada taxonomia pública para informação desconhecida, perdida, contestada, secreta, não registrada, baseada em rumor ou conhecida por um povo.
+- `validate:editorial` passou a cobrir 334 registros em 30 conjuntos e a detectar regressão de profundidade, repetição, preenchimento e exposição autoral.
+- Criados os padrões documentais solicitados e inventário de 132 retratos genealógicos pendentes; nenhum bitmap novo foi gerado.
+
 ## 2026-07-21 — expansão enciclopédica, genealogias e cosmologia
 
 - Adicionados status de verdade documental e campos narrativos estruturados.

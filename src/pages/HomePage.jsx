@@ -4,7 +4,7 @@ import ImageWithFallback from '../components/ImageWithFallback'
 import OrnamentalDivider from '../components/OrnamentalDivider'
 import SectionTitle from '../components/SectionTitle'
 import SEO from '../components/SEO'
-import { characters, kingdoms, books } from '../content'
+import { characters, kingdoms, books, genealogies } from '../content'
 import { assets } from '../data/assets'
 
 export default function HomePage() {
@@ -88,7 +88,7 @@ export default function HomePage() {
           <Link className="portal-card portal-map" to="/reinos"><span>02</span><h2>Sete territórios</h2><p>Fronteiras definidas por recursos, medo e alianças.</p></Link>
           <Link className="portal-card portal-lineage" to="/casas"><span>03</span><h2>Três linhagens</h2><p>Kayler, Nimbus e Rivs: magia verdadeira no sangue.</p></Link>
           <Link className="portal-card portal-bestiary" to="/bestiario"><span>04</span><h2>Bestiário</h2><p>Habitat, comportamento, ameaça e evidências.</p></Link>
-          <Link className="portal-card portal-lineage" to="/genealogias"><span>05</span><h2>Genealogias</h2><p>Quatorze árvores públicas, dinastias e sucessões validadas.</p></Link>
+          <Link className="portal-card portal-lineage" to="/genealogias"><span>05</span><h2>Genealogias</h2><p>{genealogies.length} árvores públicas, com ramos, lacunas documentais, dinastias e sucessões validadas.</p></Link>
           <Link className="portal-card portal-history" to="/cosmologia"><span>06</span><h2>Além do Véu</h2><p>Fraturas, mundos, Retornados, Relíquias e profecias.</p></Link>
         </div>
       </section>
@@ -103,7 +103,7 @@ export default function HomePage() {
       </section>
 
       <section className="home-atlas-callout">
-        <ImageWithFallback src={assets.maps.atlas} alt="Mapa ilustrado do continente de Avernor" fallback="location" />
+        <ImageWithFallback src={assets.maps.official} alt="Mapa oficial canônico do continente de Avernor, edição de 1204 d.C." fallback="location" />
         <div>
           <span className="kicker">Cartografia verificada</span>
           <h2>Do gelo de Winterfeld aos portos de Eldemar</h2>

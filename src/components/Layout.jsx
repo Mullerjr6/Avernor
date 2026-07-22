@@ -13,6 +13,7 @@ const primaryLinks = [
 ]
 
 const archiveLinks = [
+  ['/busca', 'Índice geral'],
   ['/reinos', 'Reinos'], ['/cidades', 'Cidades'], ['/casas', 'Casas'], ['/dinastias', 'Dinastias'], ['/sucessoes', 'Sucessões'],
   ['/povos', 'Povos'], ['/bestiario', 'Bestiário'], ['/guerras', 'Guerras'], ['/artefatos', 'Artefatos'], ['/reliquias', 'Relíquias'],
   ['/mitologia', 'Mitologia'], ['/religioes', 'Religiões'], ['/cosmologia', 'Cosmologia'], ['/portais', 'Portais'], ['/outros-mundos', 'Outros mundos'],
@@ -28,8 +29,20 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     if (archiveMenu.current) archiveMenu.current.open = false
+    if (location.hash) {
+      let frame
+      let attempts = 0
+      const scrollToAnchor = () => {
+        const target = document.getElementById(location.hash.slice(1))
+        if (target) target.scrollIntoView({ block: 'start' })
+        else if (attempts++ < 20) frame = window.requestAnimationFrame(scrollToAnchor)
+      }
+      frame = window.requestAnimationFrame(scrollToAnchor)
+      return () => window.cancelAnimationFrame(frame)
+    }
     window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [location.pathname])
+    return undefined
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     if (!open) return undefined
@@ -83,7 +96,7 @@ export default function Layout({ children }) {
           <p>Uma enciclopédia viva sobre um continente de sangue, magia e juramentos.</p>
         </div>
         <nav aria-label="Navegação do rodapé">
-          <Link to="/genealogias">Genealogias</Link><Link to="/cosmologia">Cosmologia</Link><Link to="/biblioteca">Biblioteca</Link><Link to="/galeria">Galeria</Link><Link to="/sobre">Sobre</Link>
+          <Link to="/busca">Índice geral</Link><Link to="/genealogias">Genealogias</Link><Link to="/cosmologia">Cosmologia</Link><Link to="/biblioteca">Biblioteca</Link><Link to="/galeria">Galeria</Link><Link to="/sobre">Sobre</Link>
         </nav>
         <small>Universo original de Júnior Maia Müller · Arquivo atualizado em 21 de julho de 2026</small>
       </footer>

@@ -4,7 +4,7 @@ import { genealogies, genealogyPeople } from '../src/content/genealogies/index.j
 import { successions } from '../src/content/succession/index.js'
 
 const errors = []
-const routes = new Set(['/', '/cronologia', '/atlas', '/galeria', '/sobre', '/genealogias', '/dinastias', '/sucessoes', '/404'])
+const routes = new Set(['/', '/cronologia', '/atlas', '/galeria', '/sobre', '/busca', '/genealogias', '/dinastias', '/sucessoes', '/404'])
 const entitiesByRoute = new Map()
 
 for (const catalog of Object.values(catalogs)) {

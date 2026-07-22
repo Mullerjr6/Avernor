@@ -1,6 +1,24 @@
 import { useState } from 'react'
 import { assets } from '../data/assets'
 
+function responsiveVariant(src = '') {
+  if (/jornada-floresta-antiga-card\.webp$/i.test(src)) return { width: 720, height: 576 }
+  if (/jornada-floresta-antiga-banner\.webp$/i.test(src)) return { width: 1600, height: 1029 }
+  if (/-card\.webp$/i.test(src) || /-page\.webp$/i.test(src)) {
+    const base = src.replace(/-(?:card|page)\.webp$/i, '')
+    const landscape = /\/(?:backgrounds|cities|gallery|locations)\//i.test(src)
+    const book = /\/books\//i.test(src)
+    return landscape
+      ? { srcSet: `${base}-card.webp 720w, ${base}-page.webp 1600w`, width: 720, height: 405 }
+      : { srcSet: `${base}-card.webp 640w, ${base}-page.webp 960w`, width: 640, height: book ? 960 : 800 }
+  }
+  if (/-preview\.webp$/i.test(src) || /-large\.webp$/i.test(src)) {
+    const base = src.replace(/-(?:preview|large)\.webp$/i, '')
+    return { srcSet: `${base}-preview.webp 768w, ${base}-large.webp 2048w`, width: 768, height: 512 }
+  }
+  return {}
+}
+
 export default function ImageWithFallback({
   src,
   alt,
@@ -11,6 +29,8 @@ export default function ImageWithFallback({
   srcSet,
   objectPosition,
   fetchPriority,
+  width,
+  height,
 }) {
   const fallbackSrc = assets.placeholders[fallback] ?? assets.placeholders.default
   const requestedSrc = src || fallbackSrc
@@ -18,13 +38,16 @@ export default function ImageWithFallback({
   const [loadedSrc, setLoadedSrc] = useState('')
   const currentSrc = failedSrc === requestedSrc ? fallbackSrc : requestedSrc
   const loaded = loadedSrc === currentSrc
+  const inferred = responsiveVariant(src)
 
   return (
     <img
       className={`progressive-image ${loaded ? 'is-loaded' : ''} ${className}`.trim()}
       src={currentSrc}
-      srcSet={currentSrc === src ? srcSet : undefined}
+      srcSet={currentSrc === src ? (srcSet ?? inferred.srcSet) : undefined}
       sizes={sizes}
+      width={width ?? inferred.width}
+      height={height ?? inferred.height}
       alt={alt}
       loading={loading}
       fetchPriority={fetchPriority}

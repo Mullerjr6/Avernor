@@ -6,7 +6,7 @@ Cada sucessão é calculada a partir de reivindicações com prioridade, estado 
 
 ## Regras atuais
 
-- **Sylvaris:** sem preferência automática por gênero ou idade. Os Círculos designam Elara; Lyssara e Maeriel continuam elegíveis.
+- **Sylvaris:** sem preferência automática por gênero ou idade. Os Círculos designaram Elara em 1203; Lyssara e Maeriel continuam elegíveis. Designação, aceitação, coroação e posse de Aelysar são etapas diferentes.
 - **Winterfeld:** o Conselho dos Jarls pode negar a Casa do Lobo se ela falhar no dever de abrigo.
 - **Valoria:** a sucessão exige quitação de dívidas agrárias e confirmação das Sete Pontes.
 - **Ravenhold:** sangue Corven não basta; o Senado de Estandartes confirma e pode depor.
@@ -18,3 +18,5 @@ Cada sucessão é calculada a partir de reivindicações com prioridade, estado 
 Artefatos não seguem automaticamente a coroa. Fulgarion pertence ao legado Kayler; Aelysar só será entregue a Elara no trono; o medalhão do pacto é uma prova, não uma insígnia de governo.
 
 As cinco sucessões calculadas atualmente são Sylvaris, Winterfeld, Valoria, Ravenhold e Eldemar. Quando o governante vigente não é conhecido com segurança, como em Winterfeld, o campo permanece explicitamente desconhecido e não é preenchido por inferência.
+
+Cada sucessão também possui dossiê documental com proveniência, conhecimento público, lacunas, versões contestadas, leitura cultural, fontes e importância narrativa. Resultado de prova futura, voto ainda não realizado ou decisão reservada permanece `unrecorded` ou `secret`; não é antecipado como fato.

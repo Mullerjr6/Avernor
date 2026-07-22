@@ -15,8 +15,9 @@
 - Guerras e eras: causalidade, marcos datados, participantes, estratégias, perdas, consequências e fontes contraditórias.
 - Crenças: mito de origem, criação, morte, magia, símbolos, ritos, calendário, oficiantes, textos, dissidências e interpretações regionais.
 - Artefatos e relíquias: criador, material, aparência, poderes, custos, limites, portadores, ativação, destruição, riscos e versões disputadas.
+- Arquivo ampliado: criaturas, livros, lendas, cosmologia, portais, mundos, Retornados, necromancia, fins dos tempos, Nar-Khalion, profecias, Celestiais, Lanças, dinastias e sucessões precisam de proveniência, conhecimento público, lacunas, versões culturais, fontes, disputa, importância narrativa, orientação de imagem e quatro seções próprias.
 
-`npm run validate:editorial` aplica esse piso aos registros centrais. O validador não mede qualidade literária, mas impede que uma ficha profunda regrida para um cartão superficial.
+`npm run validate:editorial` aplica esse piso a todos os 30 conjuntos editoriais públicos, detecta repetição e texto de preenchimento e bloqueia chaves ou referências reservadas. Consulte `REGISTROS-ENCICLOPEDICOS.md`, `PADRAO-DE-PERFIS.md`, `PADRAO-DE-GUERRAS-E-ERAS.md`, `PADRAO-DE-IMAGENS.md`, `RELACOES-ENTRE-REGISTROS.md` e `VALIDACAO-DO-CANONE.md`.
 
 ## Tom editorial
 
@@ -45,5 +46,7 @@ Mantenha `createdAt` e `updatedAt` em ISO (`AAAA-MM-DD`). Status devem ser descr
 ## Verdade documental e spoilers
 
 Use `truthStatus`: `documented`, `witnessed`, `disputed`, `legendary`, `prophetic` ou `redacted`. O status informa a qualidade da fonte; não mede importância. `redacted` pode indicar que o Arquivo limita a versão pública, mas jamais deve carregar o segredo no próprio JavaScript.
+
+Use `knowledgeStatus` para o alcance do conhecimento: `public`, `documented`, `unknown`, `lost`, `disputed`, `secret`, `unrecorded`, `rumor` ou `people-only`. Uma informação conhecida apenas pelo autor não entra em `src`; sua classificação e seu conteúdo permanecem na documentação reservada.
 
 Genealogias públicas ficam em `src/content/genealogies/`; parentescos verdadeiros ainda não revelados ficam somente em `docs/autor/GENEALOGIAS-SECRETAS.md`. Depois de qualquer alteração, execute `npm run validate:genealogies`.

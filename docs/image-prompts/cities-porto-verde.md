@@ -1,6 +1,6 @@
 # Porto Verde
 
-Status: pendente. Destino master sugerido: `/assets/images/cities/porto-verde.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/cities/porto-verde.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

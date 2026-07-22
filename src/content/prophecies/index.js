@@ -1,4 +1,5 @@
 import { record } from '../schema.js'
+import { applyArchiveDossiers, prophecyArchiveDossiers } from '../editorial/archiveDossiers.js'
 
 const propheciesData = [
   ['ultimo-violeta', 'Último Violeta', '“Quando o último violeta fechar os olhos, a tempestade escolherá entre nome e céu.”', 'Pode indicar Sirius, o fim das linhagens ou apenas um crepúsculo raro.'],
@@ -10,12 +11,14 @@ const propheciesData = [
   ['mar-acima', 'Mar Acima', '“Quando o mar navegar sobre as estrelas, a margem pedirá um nome.”', 'Eldemar teme inundação; os Cartógrafos veem uma passagem para Naelor.'],
   ['chama-sem-coroa', 'Chama sem Coroa', '“A chama sem coroa guardará a criança que reis decidiram esquecer.”', 'A tradição Bellatrix aplica o verso a Sirius, mas cópias anteriores falam em crianças no plural.'],
   ['sete-silencios-profecia', 'Sete Silêncios', '“Sete nomes foram ditos; sete silêncios podem desfazê-los.”', 'Não se sabe se são mortes, línguas perdidas, votos ou Celestiais.'],
-  ['cinco-reliquias', 'Profecia das Cinco Relíquias', '“Quando as cinco mãos tocarem a mesma porta, vontade unida costurará o Véu; medo reunido abrirá o cárcere.”', 'Versões divergem sobre mãos, portadores e se o cárcere é Nar-Khalion.'],
+  ['cinco-reliquias', 'Profecia das Cinco Relíquias', '“Cinco testemunhos buscarão uma porta que nenhum escriba consegue nomear.”', 'O verso sobrevive em cópias incompletas. Não se sabe se “testemunhos” significa pessoas, objetos, povos ou decisões, nem qual porta é mencionada.'],
   ['porta-sem-fechadura', 'Porta sem Fechadura', '“A porta que não se fecha só abre para quem deixou o próprio nome do outro lado.”', 'Pode ser uma Fratura, Nar-Khalion ou metáfora para o retorno dos mortos.'],
 ]
 
-export const prophecies = propheciesData.map(([id, name, quote, interpretation]) => record({
+const prophecyRecords = propheciesData.map(([id, name, quote, interpretation]) => record({
   id, name, subtitle: 'Texto de interpretação disputada', summary: quote, description: `${interpretation} Existem traduções adulteradas e versões promovidas por facções; nenhuma leitura é confirmada pelo Arquivo.`,
   category: 'Profecia central', status: 'Em circulação', truthStatus: 'prophetic', quotes: [quote.replace(/[“”]/g, '')],
   disputedClaims: [interpretation], relations: [{ label: 'Fim dos Tempos', to: '/fim-dos-tempos' }],
 }))
+
+export const prophecies = applyArchiveDossiers(prophecyRecords, prophecyArchiveDossiers)

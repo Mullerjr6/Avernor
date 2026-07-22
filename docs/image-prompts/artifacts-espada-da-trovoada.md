@@ -1,6 +1,6 @@
 # Espada da Trovoada
 
-Status: pendente. Destino master sugerido: `/assets/images/artifacts/espada-da-trovoada.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/artifacts/espada-da-trovoada.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

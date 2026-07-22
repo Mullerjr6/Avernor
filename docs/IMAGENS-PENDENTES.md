@@ -4,9 +4,11 @@ Esta fila documenta os registros que dependiam de placeholder editorial. Os brie
 
 Status comum a todos os itens marcados: **Imagem adicionada** · **Imagem revisada** · **Imagem integrada**. A aprovação autoral final continua sendo uma decisão editorial do proprietário do projeto.
 
-> Auditoria visual de 21/07/2026: os 54 registros foram produzidos com o gerador de imagens integrado, tratados em alta resolução, convertidos para WebP responsivo e ligados ao conteúdo. Os PNGs mestres e os briefings individuais foram preservados.
+> Auditoria visual de 21/07/2026: os 54 registros foram produzidos com o gerador de imagens integrado, tratados em alta resolução, convertidos para WebP responsivo e ligados ao conteúdo. Os PNGs mestres foram preservados em `artwork-masters/assets/images/`, fora de `public/`; somente os derivados WebP ficam em `public/assets/images/`. Os briefings individuais também foram preservados.
 
 > Expansão do mesmo ciclo: a nova Guerra dos Tronos recebeu master e variantes responsivas. O total produzido pelo gerador passou a 55 masters; não há item técnico pendente nesta fila, apenas aprovação autoral.
+
+> Genealogias: **132 retratos pessoais continuam pendentes**. O inventário integral, agrupado por árvore e acompanhado de descrição visual e prompt-base específico, está em [RETRATOS-GENEALOGICOS-PENDENTES.md](image-prompts/RETRATOS-GENEALOGICOS-PENDENTES.md). Cada futuro PNG mestre deve ser preservado em `artwork-masters/assets/images/characters/`; somente seus derivados WebP podem seguir para `public/assets/images/characters/`. Fallbacks heráldicos já mantêm a interface estável, mas não contam como retratos autênticos e não autorizam inventar aparências desconhecidas.
 
 ## Prioridade
 

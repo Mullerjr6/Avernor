@@ -1,6 +1,6 @@
 # I — A Grande Guerra
 
-Status: pendente. Destino master sugerido: `/assets/images/backgrounds/grande-guerra.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/backgrounds/grande-guerra.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

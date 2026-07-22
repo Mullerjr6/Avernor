@@ -1,6 +1,6 @@
 # Caminho das Raízes
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/caminho-das-raizes.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/religions/caminho-das-raizes.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

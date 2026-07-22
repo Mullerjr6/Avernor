@@ -25,7 +25,13 @@ import {
   celestials,
   lances,
   factions,
+  genealogies,
+  genealogyPeople,
+  dynasties,
+  successions,
 } from '../content/index.js'
+import { canonicalAtlasPoints, atlasRoutes, historicalMaps } from './canonicalMap.js'
+import { publicSearchFields, toAnchor } from '../utils/text.js'
 
 export const catalogs = {
   historia: {
@@ -44,13 +50,13 @@ export const catalogs = {
     path: '/cidades', label: 'Cidades', kicker: 'Gazeta geográfica', title: 'Cidades e fortalezas',
     description: 'Capitais, portos e fortalezas cuja arquitetura responde à geografia e à história.',
     items: cities, filters: ['category', 'kingdom', 'status'], placeholder: 'location', theme: 'city', glyph: 'C', accent: '#9e8b70',
-    mastheadImage: '/assets/images/maps/avernor-map-regions-large.webp',
+    mastheadImage: '/assets/images/maps/avernor-map-atlas-large.webp',
   },
   casas: {
     path: '/casas', label: 'Casas', kicker: 'Sangue e juramento', title: 'Casas de Avernor',
     description: 'As três linhagens bruxas e famílias políticas que atravessam a saga.',
     items: houses, filters: ['category', 'lineage', 'status', 'kingdom'], placeholder: 'default', theme: 'heraldry', glyph: 'K', accent: '#9b72c4',
-    mastheadImage: '/assets/images/maps/avernor-map-parchment-large.webp',
+    mastheadImage: '/assets/images/maps/avernor-map-atlas-large.webp',
   },
   personagens: {
     path: '/personagens', label: 'Personagens', kicker: 'Registros biográficos', title: 'Vidas que movem a história',
@@ -88,7 +94,7 @@ export const catalogs = {
     path: '/biblioteca', label: 'Biblioteca', kicker: 'Estantes do Arquivo', title: 'Biblioteca de Avernor',
     description: 'Volumes da saga de Sirius, crônicas, tratados e documentos preservados.',
     items: books, filters: ['category', 'status', 'period'], placeholder: 'book', theme: 'library', glyph: 'I', accent: '#b48755',
-    mastheadImage: '/assets/images/maps/avernor-map-parchment-large.webp',
+    mastheadImage: '/assets/images/maps/avernor-map-atlas-large.webp',
   },
   povos: {
     path: '/povos', label: 'Povos', kicker: 'Culturas e capacidades', title: 'Povos de Avernor',
@@ -191,14 +197,115 @@ for (const [, sourceCatalog] of canonicalCatalogs) {
 
 export const relationIndex = Object.fromEntries([...entityByRoute].map(([route, { item }]) => [route, item.relations]))
 
+function publicSearchRecord(item, metadata) {
+  const reviewedFields = Object.fromEntries(publicSearchFields
+    .filter((field) => item[field] !== undefined && item[field] !== null && item[field] !== '')
+    .map((field) => [field, item[field]]))
+  return { id: item.id, name: item.name, truthStatus: item.truthStatus ?? 'documented', ...reviewedFields, ...metadata }
+}
+
+const genealogyForMember = new Map(genealogies.flatMap((tree) => tree.memberIds.map((memberId) => [memberId, tree])))
+const catalogSearchRecords = Object.values(catalogs)
+  .filter((catalog) => catalog !== catalogs.bestiario)
+  .flatMap((catalog) => catalog.items.map((item) => publicSearchRecord(item, {
+    collectionLabel: catalog.label,
+    href: `${catalog.path}/${item.slug}`,
+    region: item.region ?? item.location,
+    house: item.house ?? item.lineage,
+    war: item.warParticipation ?? item.relatedWars,
+    character: item.importantCharacters ?? item.relatedCharacters,
+    sourceType: item.sourceType ?? 'Dossiê enciclopédico',
+    sourceReliability: item.sourceReliability ?? item.truthStatus,
+  })))
+
+const genealogySearchRecords = genealogies.map((tree) => publicSearchRecord(tree, {
+  category: 'Árvore genealógica', collectionLabel: 'Genealogias', href: `/genealogias/${tree.slug}`,
+  lineage: tree.house, house: tree.house, sourceType: 'Registro genealógico',
+  sourceReliability: tree.truthStatus, searchAliases: tree.memberIds.map((id) => genealogyPeople.find((person) => person.id === id)?.name).filter(Boolean),
+}))
+
+const historicalPeopleSearchRecords = genealogyPeople.filter((person) => !person.profile).map((person) => {
+  const tree = genealogyForMember.get(person.id)
+  return publicSearchRecord(person, {
+    category: person.role ?? 'Pessoa histórica', collectionLabel: 'Pessoas nas genealogias',
+    href: `/genealogias/${tree?.slug ?? 'kayler'}?pessoa=${person.id}`, lineage: person.house,
+    house: person.house, period: person.period, sourceType: 'Registro genealógico',
+    sourceReliability: person.confidence ?? person.truthStatus,
+  })
+})
+
+const dynastySearchRecords = dynasties.map((dynasty) => publicSearchRecord({ ...dynasty, subtitle: dynasty.realm, description: dynasty.rule }, {
+  category: 'Dinastia', collectionLabel: 'Dinastias', href: `/dinastias/${dynasty.slug}`,
+  kingdom: dynasty.realm, lineage: dynasty.id, sourceType: 'Registro dinástico', sourceReliability: dynasty.truthStatus,
+  searchAliases: dynasty.turningPoints,
+}))
+
+const successionSearchRecords = successions.map((succession) => publicSearchRecord({
+  ...succession, subtitle: succession.realm, summary: succession.rule, description: succession.disputes?.join(' '),
+}, {
+  category: 'Ordem sucessória', collectionLabel: 'Sucessões', href: `/sucessoes/${succession.slug}`,
+  kingdom: succession.realm, lineage: succession.dynastyId, sourceType: 'Registro sucessório',
+  sourceReliability: succession.truthStatus, searchAliases: succession.claims?.map((claim) => genealogyPeople.find((person) => person.id === claim.personId)?.name).filter(Boolean),
+}))
+
+const atlasSearchRecords = canonicalAtlasPoints.map((point) => publicSearchRecord(point, {
+  category: point.type, collectionLabel: 'Atlas oficial', href: `/atlas?ponto=${point.id}`,
+  region: point.regionName, kingdom: point.kingdom, character: point.relatedCharacters,
+  war: point.relatedWars, sourceType: 'Ponto do Atlas', sourceReliability: point.coordinatePrecision,
+  searchAliases: [point.label, point.terrain, point.politicalControl].filter(Boolean),
+}))
+
+const routeSearchRecords = atlasRoutes.map((route) => publicSearchRecord({
+  ...route, summary: route.description, description: `${route.distanceKm} km; ${route.durationDays.min} a ${route.durationDays.max} dias.`,
+}, {
+  category: route.mode, collectionLabel: 'Rotas do Atlas', href: `/atlas?rota=${route.id}`,
+  status: route.status, sourceType: 'Rota cartográfica', sourceReliability: route.sourceStatus,
+  searchAliases: [route.from, route.to, ...(route.via ?? []).flat()].filter((value) => typeof value === 'string'),
+}))
+
+const historicalMapSearchRecords = historicalMaps.map((map) => publicSearchRecord({
+  id: map.id, name: map.title, summary: map.warning, description: `${map.publicUse} ${map.producedBy}`,
+  status: map.authority, period: map.period, truthStatus: 'disputed',
+}, {
+  category: 'Mapa histórico', collectionLabel: 'Cartografia histórica', href: '/galeria',
+  sourceType: 'Carta não normativa', sourceReliability: map.authority,
+}))
+
+const entryName = (entry) => typeof entry === 'string' ? entry : entry?.name ?? entry?.title ?? entry?.event ?? entry?.label
+const entryDescription = (entry, fallback) => typeof entry === 'string' ? fallback : entry?.description ?? entry?.body ?? entry?.note ?? fallback
+
+const battleSearchRecords = catalogs.guerras.items.flatMap((war) => (war.mainBattles ?? []).map((battle, index) => {
+  const name = entryName(battle)
+  return publicSearchRecord({
+    id: `${war.id}-batalha-${toAnchor(name) || index + 1}`, name,
+    summary: entryDescription(battle, `Batalha registrada no dossiê de ${war.name}.`),
+    description: war.summary, era: war.era, period: war.period, status: war.status,
+    truthStatus: war.truthStatus,
+  }, {
+    category: 'Batalha', collectionLabel: 'Batalhas documentadas',
+    href: `/guerras/${war.slug}#lista-mainBattles`, war: war.name,
+    sourceType: 'Registro de guerra', sourceReliability: war.truthStatus,
+  })
+}).filter((battle) => battle.name))
+
+const eventSearchRecords = catalogs.historia.items.flatMap((era) => (era.events ?? []).map((event, index) => {
+  const name = entryName(event)
+  return publicSearchRecord({
+    id: `${era.id}-evento-${toAnchor(name) || index + 1}`, name,
+    summary: entryDescription(event, `Acontecimento preservado no registro de ${era.name}.`),
+    description: era.summary, era: era.name, period: era.period, truthStatus: era.truthStatus,
+  }, {
+    category: 'Acontecimento histórico', collectionLabel: 'Eventos e marcos',
+    href: `/historia/${era.slug}#lista-events`, sourceType: 'Crônica histórica',
+    sourceReliability: era.truthStatus,
+  })
+}).filter((event) => event.name))
+
 export const searchIndex = [
-  ...Object.values(catalogs)
-    .filter((catalog) => catalog !== catalogs.bestiario)
-    .flatMap((catalog) => catalog.items.map((item) => ({
-      ...item,
-      collectionLabel: catalog.label,
-      href: `${catalog.path}/${item.slug}`,
-    }))),
+  ...catalogSearchRecords, ...genealogySearchRecords, ...historicalPeopleSearchRecords,
+  ...dynastySearchRecords, ...successionSearchRecords, ...atlasSearchRecords,
+  ...routeSearchRecords, ...historicalMapSearchRecords, ...battleSearchRecords,
+  ...eventSearchRecords,
 ]
 
 export const catalogByPath = Object.fromEntries(

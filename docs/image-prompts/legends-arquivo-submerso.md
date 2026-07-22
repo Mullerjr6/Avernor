@@ -1,6 +1,6 @@
 # O Arquivo Submerso
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/arquivo-submerso.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/gallery/arquivo-submerso.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

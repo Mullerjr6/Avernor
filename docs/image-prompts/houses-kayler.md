@@ -1,6 +1,6 @@
 # Casa Kayler
 
-Status: pendente. Destino master sugerido: `/assets/images/houses/kayler.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/houses/kayler.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

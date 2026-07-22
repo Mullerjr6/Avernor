@@ -1,13 +1,17 @@
+import { applyArchiveDossiers, dynastyArchiveDossiers } from '../editorial/archiveDossiers.js'
+
 const dynasty = (id, name, realm, genealogyId, period, rule, turningPoints, extra = {}) => ({
   id, slug: id, name, realm, genealogyId, period, rule, turningPoints, truthStatus: 'documented', ...extra,
 })
 
-export const dynasties = [
+const dynastyRecords = [
   dynasty('averen', 'Dinastia Averen', 'Coroa Una', 'averen', 'Antes do Ano 0', 'Sucessão real sem regra escrita inequívoca.', ['Morte de Edric sem nomeação', 'Cisma das Doze Legiões', 'Guerra dos Três Herdeiros'], { status: 'Extinta politicamente', summary: 'A ambiguidade sucessória desfez o reino humano original.' }),
   dynasty('veyron', 'Dinastia Veyron', 'Reino reunificado', 'veyron', 'Anos 101–158', 'Conquista reconhecida como fonte de legitimidade, sem consentimento duradouro.', ['Marcha de Veyron', 'Fome dos Sete Invernos', 'Noite das Doze Adagas'], { status: 'Deposta', summary: 'Marcellus reunificou Avernor e tornou a própria casa impossível de preservar.' }),
   dynasty('casa-do-lobo', 'Casa do Lobo', 'Winterfeld', 'winterfeld', 'Ano 159–presente', 'Herança familiar confirmada pelo Conselho dos Jarls e pelo dever de abrigo.', ['Pacto dos Gigantes', 'Cerco do Degelo', 'Contestação de Runa'], { status: 'Ativa', summary: 'A linhagem reina enquanto sustenta estoques, passagens e juramentos do norte.' }),
   dynasty('casa-arden', 'Casa Arden', 'Valoria', 'valoria', 'Ano 159–presente', 'Primogenitura limitada por pactos agrários e confirmação das Sete Pontes.', ['Revolta dos Celeiros', 'Reforma dos Diques', 'Ascensão política de Ilyra'], { status: 'Ativa e dividida', summary: 'Coroa, celeiros e associações rurais disputam quem pode confirmar a sucessão.' }),
   dynasty('casa-corven', 'Casa Corven', 'Ravenhold', 'ravenhold', 'Ano 159–presente', 'Herdeiro de sangue confirmado pelo Senado de Estandartes.', ['Reforma das Legiões', 'Caça às Bruxas', 'Crise de consciência militar'], { status: 'Ativa', summary: 'A confirmação militar evita incapazes, mas permite que generais fabriquem incapacidade.' }),
   dynasty('mare-alta', 'Casa da Maré Alta', 'Eldemar', 'eldemar', 'Ano 159–presente', 'Parentesco, licença de navegação e voto do Conselho das Marés.', ['Batalha das Águas Negras', 'Tratado da Madeira Caída', 'Disputa das Licenças'], { status: 'Ativa', summary: 'Nenhum herdeiro governa sem demonstrar capacidade marítima e obter voto portuário.' }),
-  dynasty('copa-prateada', 'Casa da Copa Prateada', 'Sylvaris', 'real-sylvaris', 'Anterior à Era da Magia–presente', 'Escolha entre descendentes elegíveis pelos Círculos da Memória.', ['Defesa de Sylvaris', 'Pacto dos Descendentes', 'Designação futura de Elara'], { status: 'Ativa', summary: 'Elara é a herdeira esperada, embora suas irmãs sejam mais velhas, porque sucessão é função e escolha.' }),
+  dynasty('copa-prateada', 'Casa da Copa Prateada', 'Sylvaris', 'real-sylvaris', 'Anterior à Era da Magia–presente', 'Escolha entre descendentes elegíveis pelos Círculos da Memória.', ['Defesa de Sylvaris', 'Pacto dos Descendentes', 'Designação de Elara pelos Círculos em 1203'], { status: 'Ativa', summary: 'Elara é a herdeira designada desde 1203, embora suas irmãs sejam mais velhas, porque sucessão é função e escolha.' }),
 ]
+
+export const dynasties = applyArchiveDossiers(dynastyRecords, dynastyArchiveDossiers)

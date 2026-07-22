@@ -1,6 +1,6 @@
 # II — A Carta e a Tempestade
 
-Status: pendente. Destino master sugerido: `/assets/images/books/a-carta-e-a-tempestade.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/books/a-carta-e-a-tempestade.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

@@ -10,7 +10,7 @@ if (!/^https:\/\//.test(siteUrl)) {
   process.exit(1)
 }
 
-const staticRoutes = ['/', '/cronologia', '/atlas', '/galeria', '/sobre', '/genealogias', '/dinastias', '/sucessoes']
+const staticRoutes = ['/', '/cronologia', '/atlas', '/galeria', '/sobre', '/busca', '/genealogias', '/dinastias', '/sucessoes']
 const catalogRoutes = Object.values(catalogs).flatMap((catalog) => [catalog.path, ...catalog.items.map((item) => `${catalog.path}/${item.slug}`)])
 const specialistRoutes = [
   ...genealogies.map((item) => `/genealogias/${item.slug}`),

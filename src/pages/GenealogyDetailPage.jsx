@@ -13,6 +13,6 @@ export default function GenealogyDetailPage({ fixedTree }) {
   return <>
     <SEO title={tree.name} description={tree.summary} />
     <div className="page-masthead genealogy-masthead"><div className="content-section page-masthead-inner"><Breadcrumbs items={[{ label: 'Genealogias', to: '/genealogias' }, { label: tree.name }]} /><SectionTitle kicker="Árvore pública validada" title={tree.name} description={tree.summary} as="h1" /></div></div>
-    <section className="content-section genealogy-page"><DisputedLineageNotice>Esta visualização não carrega segredos do autor. Ramos desconhecidos permanecem indicados sem identidades inventadas; a opção autoral aparece bloqueada porque os dados reservados não entram no bundle público.</DisputedLineageNotice><GenealogyTree key={tree.id} tree={tree} /></section>
+    <section className="content-section genealogy-page"><DisputedLineageNotice>Esta visualização não carrega segredos do autor. Ramos desconhecidos permanecem indicados sem identidades inventadas; dados reservados e relações sem versão editorial pública não entram no bundle.</DisputedLineageNotice><GenealogyTree key={tree.id} tree={tree} /></section>
   </>
 }

@@ -3,6 +3,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 
 const root = process.cwd()
+const masterRoot = 'artwork-masters/assets/images'
 
 const characterSources = [
   'sirius-kayler',
@@ -42,27 +43,27 @@ const bookSources = ['a-carta-e-a-tempestade', 'atlas-das-sete-rotas', 'caderno-
 
 const jobs = [
   ...characterSources.flatMap((name) => [
-    { source: `public/assets/images/characters/${name}-enhanced.png`, output: `public/assets/images/characters/${name}-card.webp`, width: 640, height: 800, fit: 'cover', position: 'attention', quality: 80 },
-    { source: `public/assets/images/characters/${name}-enhanced.png`, output: `public/assets/images/characters/${name}-page.webp`, width: 960, height: 1200, fit: 'cover', position: 'attention', quality: 84 },
+    { source: `${masterRoot}/characters/${name}-enhanced.png`, output: `public/assets/images/characters/${name}-card.webp`, width: 640, height: 800, fit: 'cover', position: 'attention', quality: 80 },
+    { source: `${masterRoot}/characters/${name}-enhanced.png`, output: `public/assets/images/characters/${name}-page.webp`, width: 960, height: 1200, fit: 'cover', position: 'attention', quality: 84 },
   ]),
   ...mapSources.flatMap((name) => [
-    { source: `public/assets/images/maps/${name}-enhanced.png`, output: `public/assets/images/maps/${name}-preview.webp`, width: 768, fit: 'inside', quality: 78 },
-    { source: `public/assets/images/maps/${name}-enhanced.png`, output: `public/assets/images/maps/${name}-large.webp`, width: 2048, fit: 'inside', quality: 86 },
+    { source: `${masterRoot}/maps/${name}-enhanced.png`, output: `public/assets/images/maps/${name}-preview.webp`, width: 768, fit: 'inside', quality: 78 },
+    { source: `${masterRoot}/maps/${name}-enhanced.png`, output: `public/assets/images/maps/${name}-large.webp`, width: 2048, fit: 'inside', quality: 86 },
   ]),
   ...Object.entries(landscapeSources).flatMap(([directory, names]) => names.flatMap((name) => [
-    { source: `public/assets/images/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-card.webp`, width: 720, height: 405, fit: 'cover', position: 'attention', quality: 80 },
-    { source: `public/assets/images/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-page.webp`, width: 1600, height: 900, fit: 'cover', position: 'attention', quality: 85 },
+    { source: `${masterRoot}/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-card.webp`, width: 720, height: 405, fit: 'cover', position: 'attention', quality: 80 },
+    { source: `${masterRoot}/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-page.webp`, width: 1600, height: 900, fit: 'cover', position: 'attention', quality: 85 },
   ])),
   ...Object.entries(portraitSources).flatMap(([directory, names]) => names.flatMap((name) => [
-    { source: `public/assets/images/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-card.webp`, width: 640, height: 800, fit: 'cover', position: 'attention', quality: 80 },
-    { source: `public/assets/images/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-page.webp`, width: 960, height: 1200, fit: 'cover', position: 'attention', quality: 85 },
+    { source: `${masterRoot}/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-card.webp`, width: 640, height: 800, fit: 'cover', position: 'attention', quality: 80 },
+    { source: `${masterRoot}/${directory}/${name}.png`, output: `public/assets/images/${directory}/${name}-page.webp`, width: 960, height: 1200, fit: 'cover', position: 'attention', quality: 85 },
   ])),
   ...bookSources.flatMap((name) => [
-    { source: `public/assets/images/books/${name}.png`, output: `public/assets/images/books/${name}-card.webp`, width: 640, height: 960, fit: 'cover', position: 'attention', quality: 80 },
-    { source: `public/assets/images/books/${name}.png`, output: `public/assets/images/books/${name}-page.webp`, width: 960, height: 1440, fit: 'cover', position: 'attention', quality: 85 },
+    { source: `${masterRoot}/books/${name}.png`, output: `public/assets/images/books/${name}-card.webp`, width: 640, height: 960, fit: 'cover', position: 'attention', quality: 80 },
+    { source: `${masterRoot}/books/${name}.png`, output: `public/assets/images/books/${name}-page.webp`, width: 960, height: 1440, fit: 'cover', position: 'attention', quality: 85 },
   ]),
-  { source: 'public/assets/images/locations/jornada-floresta-antiga-enhanced.png', output: 'public/assets/images/locations/jornada-floresta-antiga-card.webp', width: 720, height: 576, fit: 'cover', position: 'attention', quality: 80 },
-  { source: 'public/assets/images/locations/jornada-floresta-antiga-enhanced.png', output: 'public/assets/images/locations/jornada-floresta-antiga-banner.webp', width: 1600, height: 1029, fit: 'cover', position: 'attention', quality: 85 },
+  { source: `${masterRoot}/locations/jornada-floresta-antiga-enhanced.png`, output: 'public/assets/images/locations/jornada-floresta-antiga-card.webp', width: 720, height: 576, fit: 'cover', position: 'attention', quality: 80 },
+  { source: `${masterRoot}/locations/jornada-floresta-antiga-enhanced.png`, output: 'public/assets/images/locations/jornada-floresta-antiga-banner.webp', width: 1600, height: 1029, fit: 'cover', position: 'attention', quality: 85 },
 ]
 
 async function isCurrent(source, output) {

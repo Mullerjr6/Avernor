@@ -1,5 +1,6 @@
 export const assets = {
   maps: {
+    official: '/assets/images/maps/avernor-map-atlas-large.webp',
     main: '/assets/images/maps/avernor-map-main-large.webp',
     atlas: '/assets/images/maps/avernor-map-atlas-large.webp',
     historical: '/assets/images/maps/avernor-map-historical-large.webp',

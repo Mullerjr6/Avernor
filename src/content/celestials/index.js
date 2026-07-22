@@ -1,4 +1,5 @@
 import { record } from '../schema.js'
+import { applyArchiveDossiers, celestialArchiveDossiers, lanceArchiveDossiers } from '../editorial/archiveDossiers.js'
 
 const celestialData = [
   ['aureon', 'Aureon', 'Lei', 'solvaris', 'Solvaris', 'Lança do Julgamento', 'A lei sem misericórdia torna-se apenas uma máquina de culpa.'],
@@ -10,14 +11,18 @@ const celestialData = [
   ['oryndar', 'Oryndar', 'Limiar', 'veyrion', 'Veyrion', 'Lança do Limiar', 'Toda fronteira protege algo e aprisiona outra coisa.'],
 ]
 
-export const celestials = celestialData.map(([id, name, domain, lanceId, lance, lanceTitle, conflict]) => record({
+const celestialRecords = celestialData.map(([id, name, domain, lanceId, lance, lanceTitle, conflict]) => record({
   id, name, subtitle: `Celestial de ${domain}`, summary: `Figura associada a ${domain.toLowerCase()} em textos anteriores à Coroa Una; sua natureza — pessoa, povo, função ou metáfora — permanece incerta.`,
   description: `${conflict} Relatos não provam divindade nem presença física. Igrejas e facções usam o nome de ${name} para interpretações conflitantes.`,
   category: 'Celestial', status: 'Natureza incerta', truthStatus: 'legendary', relations: [{ label: `${lance} — ${lanceTitle}`, to: `/lancas/${lanceId}` }],
 }))
 
-export const lances = celestialData.map(([celestialId, celestial, domain, id, name, title]) => record({
+export const celestials = applyArchiveDossiers(celestialRecords, celestialArchiveDossiers)
+
+const lanceRecords = celestialData.map(([celestialId, celestial, domain, id, name, title]) => record({
   id, name, subtitle: title, summary: `Arma atribuída a ${celestial}, ligada ao domínio de ${domain.toLowerCase()}.`,
   description: `Nenhuma lança foi autenticada em sua forma completa. Fragmentos e cópias podem ser artefatos antigos, propaganda ou objetos tocados pelo Véu. O Arquivo separa a tradição da alegação material.`,
   category: 'Lança celestial', status: 'Não autenticada', truthStatus: 'legendary', relations: [{ label: celestial, to: `/celestiais/${celestialId}` }],
 }))
+
+export const lances = applyArchiveDossiers(lanceRecords, lanceArchiveDossiers)

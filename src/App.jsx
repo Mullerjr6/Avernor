@@ -16,6 +16,7 @@ const GenealogyDetailPage = lazy(() => import('./pages/GenealogyDetailPage'))
 const DynastiesPage = lazy(() => import('./pages/DynastiesPage'))
 const SuccessionsPage = lazy(() => import('./pages/SuccessionsPage'))
 const RelatedGenealogyPage = lazy(() => import('./pages/RelatedGenealogyPage'))
+const SearchPage = lazy(() => import('./pages/SearchPage'))
 
 const catalogRoutes = [
   ['historia', 'historia'], ['reinos', 'reinos'], ['cidades', 'cidades'], ['casas', 'casas'],
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/atlas" element={<AtlasPage />} />
           <Route path="/galeria" element={<GalleryPage />} />
           <Route path="/sobre" element={<AboutPage />} />
+          <Route path="/busca" element={<SearchPage />} />
           <Route path="/genealogias" element={<GenealogiesPage />} />
           <Route path="/genealogias/:slug" element={<GenealogyDetailPage />} />
           <Route path="/dinastias" element={<DynastiesPage />} />

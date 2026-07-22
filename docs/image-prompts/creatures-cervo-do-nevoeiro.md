@@ -1,6 +1,6 @@
 # Cervo do Nevoeiro
 
-Status: pendente. Destino master sugerido: `/assets/images/bestiary/cervo-do-nevoeiro.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/bestiary/cervo-do-nevoeiro.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

@@ -1,6 +1,6 @@
 # Os Sinos do Mar de Cinzas
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/sinos-do-mar-de-cinzas.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/gallery/sinos-do-mar-de-cinzas.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

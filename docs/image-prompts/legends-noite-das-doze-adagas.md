@@ -1,6 +1,6 @@
 # A Noite das Doze Adagas
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/noite-das-doze-adagas.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/gallery/noite-das-doze-adagas.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

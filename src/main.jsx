@@ -6,6 +6,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import './styles.css'
 import './styles/refinement.css'
 import './styles/expansion.css'
+import './styles/archive.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

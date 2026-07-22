@@ -1,6 +1,6 @@
 # Os Nove Ecos
 
-Status: pendente. Destino master sugerido: `/assets/images/gallery/nove-ecos.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/religions/nove-ecos.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

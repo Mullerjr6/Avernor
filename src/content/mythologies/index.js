@@ -30,9 +30,9 @@ const mythologyRecords = [
   }),
   record({
     id: 'metamorfose-do-eco', name: 'Metamorfose do Eco', subtitle: 'A forma animal que também transforma quem a assume',
-    summary: 'Habilidade rara e parcialmente comprovada das três linhagens: uma ou duas formas ligadas à essência do bruxo, sempre com olhos violetas e marcas brancas.',
-    description: 'A transformação exige treino e mana. Roupas e armas permanecem onde foram deixadas; nada desaparece por conveniência. Permanências longas intensificam instintos do animal e podem dificultar o retorno. Nem todo bruxo possui a aptidão, e relatos sem olhos violetas ou marcas brancas são classificados como folclore.',
-    category: 'Tradição arcana', status: 'Rara', truthStatus: 'witnessed',
+    summary: 'Alegação contestada de que certos integrantes das três linhagens assumiriam uma ou duas formas animais ligadas à própria essência.',
+    description: 'Cantos tardios descrevem transformação mediante treino e mana, com roupas e armas deixadas no ponto de partida, olhos violetas e marcas brancas. Nenhum protocolo verificável, corpo transformado ou testemunho contemporâneo autenticado sobreviveu. Permanência longa, instinto animal e dificuldade de retorno pertencem às versões folclóricas, não a uma capacidade confirmada. Relatos sobre uma forma de corvo de Sirius são classificados como rumor.',
+    category: 'Tradição arcana contestada', status: 'Não confirmada', truthStatus: 'disputed', knowledgeStatus: 'rumor',
     limitations: ['No máximo uma ou duas formas', 'Consumo crescente de mana', 'Risco de absorção de instintos', 'Retorno difícil após uso excessivo'],
     relations: [{ label: 'As três Casas', to: '/casas' }, { label: 'Doutrina das Três Correntes', to: '/mitologia/doutrina-tres-correntes' }],
   }),

@@ -1,6 +1,6 @@
 # Vyrasul
 
-Status: pendente. Destino master sugerido: `/assets/images/bestiary/vyrasul.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/bestiary/vyrasul.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

@@ -14,4 +14,4 @@ Dinastia não é sinônimo de genealogia. A genealogia registra parentesco; a di
 | Maré Alta | Eldemar | licença de capitão e Conselho das Marés |
 | Copa Prateada | Sylvaris | escolha dos Círculos entre descendentes elegíveis |
 
-Montanhas Cinzentas não possuem dinastia soberana: títulos Bellatrix representam dever temporário. Kar-Dûm separa herança de sangue, adoção de ofício e autoridade dos Nove Salões. Clãs orcs combinam sangue, adoção e mérito confirmado pela Brasa comunal.
+Montanhas Cinzentas não possuem dinastia soberana nem capital permanente: títulos Bellatrix representam dever temporário. Kar-Dûm separa herança de sangue, transmissão de ofício e autoridade eletiva dos Nove Salões; a Cadeia dos Nove Ecos registra mestres sem fingir parentesco. Clãs orcs combinam sangue, adoção e mérito confirmado pela Brasa comunal, e Gron e Tor permanecem registros independentes.

@@ -1,6 +1,6 @@
 # V — A Caça às Bruxas
 
-Status: pendente. Destino master sugerido: `/assets/images/backgrounds/caca-bruxas.png`.
+Status: gerada e integrada. Destino master sugerido: `artwork-masters/assets/images/backgrounds/caca-bruxas.png`.
 
 Finalidade: substituir o placeholder do registro em cards, busca e página detalhada, preservando leitura nos três recortes.
 

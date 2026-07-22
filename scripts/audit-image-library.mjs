@@ -5,6 +5,7 @@ import { imageManifest } from '../src/content/imageManifest.js'
 
 const root = process.cwd()
 const publicRoot = path.join(root, 'public')
+const masterRoot = path.join(root, 'artwork-masters', 'assets', 'images')
 const failures = []
 
 async function exists(file) {
@@ -54,7 +55,7 @@ for (const [id, images] of Object.entries(imageManifest)) {
   }
 
   const directory = images.image.split('/')[3]
-  const master = path.join(publicRoot, 'assets', 'images', directory, `${id}.png`)
+  const master = path.join(masterRoot, directory, `${id}.png`)
   const metadata = await sharp(master).metadata()
   const expectedMaster = expectedByDirectory[directory].master
   if (metadata.width !== expectedMaster[0] || metadata.height !== expectedMaster[1]) failures.push(`Unexpected master size ${metadata.width}x${metadata.height}: ${path.relative(root, master)}`)
@@ -68,16 +69,20 @@ for (const source of sourceFiles) {
 }
 
 const allAssets = await filesIn(path.join(publicRoot, 'assets', 'images'))
-const pngCount = allAssets.filter((file) => file.endsWith('.png')).length
+const masterAssets = await filesIn(masterRoot)
+const publicPngCount = allAssets.filter((file) => file.endsWith('.png')).length
+const pngCount = masterAssets.filter((file) => file.endsWith('.png')).length
 const webpCount = allAssets.filter((file) => file.endsWith('.webp')).length
-const temporaryCount = allAssets.filter((file) => file.endsWith('.processing')).length
+const temporaryCount = [...allAssets, ...masterAssets].filter((file) => file.endsWith('.processing')).length
 
 if (Object.keys(imageManifest).length !== 55) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 55`)
+if (pngCount !== 90) failures.push(`Master archive has ${pngCount} PNGs instead of 90`)
 if (temporaryCount) failures.push(`${temporaryCount} temporary processing files remain`)
+if (publicPngCount) failures.push(`${publicPngCount} PNG masters remain in public/ and would inflate the production build`)
 
 if (failures.length) {
   console.error(failures.join('\n'))
   process.exitCode = 1
 } else {
-  console.info(`Image audit passed: ${Object.keys(imageManifest).length} integrated records, ${pngCount} PNGs, ${webpCount} WebPs, 0 broken references.`)
+  console.info(`Image audit passed: ${Object.keys(imageManifest).length} integrated records, ${pngCount} preserved PNG masters outside public/, ${webpCount} published WebPs, 0 broken references.`)
 }

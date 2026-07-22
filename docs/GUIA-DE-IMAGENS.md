@@ -2,19 +2,20 @@
 
 ## Regras de uso
 
-- Preserve sempre o PNG original; a interface deve consumir WebP otimizado quando disponível.
+- Preserve sempre o PNG original em `artwork-masters/assets/images/`, fora de `public/`; a interface deve consumir apenas WebP otimizado.
 - Retratos usam proporção 4:5, mínimo de 1000 px de largura e fundo com informação ambiental discreta.
 - Locais, guerras, eras e mapas usam 16:9 ou 3:2, mínimo de 1600 px.
 - Capas usam 2:3 e precisam reservar área segura para tipografia aplicada depois; não gere letras na própria imagem.
 - Artefatos e criaturas usam 4:5, com objeto ou anatomia legíveis em miniatura.
 - Brasões devem ter versão quadrada ou 4:5, composição central e fundo simples.
 - Todo asset publicado recebe `alt` contextual, nunca uma repetição do nome do arquivo.
-- Caminhos públicos começam por `/assets/images/`; caminhos locais do Windows nunca entram no código.
+- Somente derivados WebP e placeholders necessários à interface ficam em `public/assets/images/`; PNGs mestres nunca devem ser copiados para `public/`.
+- Caminhos públicos começam por `/assets/images/`; caminhos locais do Windows e caminhos de preservação de mestres nunca entram nos registros de conteúdo.
 
 ## Pipeline
 
 1. Produza e aprove o master PNG.
-2. Salve no diretório sem sobrescrever um original existente.
+2. Salve-o em `artwork-masters/assets/images/<categoria>/`, sem sobrescrever um original existente e sem duplicá-lo em `public/`.
 3. Atualize `scripts/optimize-images.mjs` quando a categoria exigir novo preset.
 4. Execute `npm run optimize:images`.
 5. Aponte `image` para a variante de detalhe e `thumbnail` para a variante de card.
@@ -50,7 +51,7 @@ As molduras são componentes da interface: cantos editoriais, filetes, numeraç�
 ## Integração de uma arte final
 
 1. Preserve o placeholder e o briefing até a aprovação da nova arte.
-2. Adicione um master com nome novo, sem substituir uma fonte existente.
+2. Adicione um master em `artwork-masters/assets/images/<categoria>/` com nome novo, sem substituir uma fonte existente nem publicá-lo diretamente.
 3. Gere as variantes WebP e confira seus tamanhos.
 4. Atualize `image`, `thumbnail`, `alt`, `thumbnailPosition` e `heroPosition` no registro.
 5. Confira card, masthead/detalhe, busca, galeria quando aplicável, 320 px e 768 px.
@@ -58,7 +59,7 @@ As molduras são componentes da interface: cantos editoriais, filetes, numeraç�
 
 ## Revisão visual de 2026-07-21
 
-O acervo recebeu 54 novos masters pelo gerador de imagens integrado: artefatos, capas, cidades, bestiário, eras, casas, lendas, locais, religiões e guerras. Cada master foi normalizado em sRGB e alta resolução, preservado em PNG e publicado em variantes WebP de card e detalhe.
+O acervo recebeu 54 novos masters pelo gerador de imagens integrado: artefatos, capas, cidades, bestiário, eras, casas, lendas, locais, religiões e guerras. Cada master foi normalizado em sRGB e alta resolução e preservado como PNG em `artwork-masters/assets/images/`; somente suas variantes WebP de card e detalhe foram publicadas em `public/assets/images/`.
 
 Os 17 mestres antigos também foram melhorados sem sobrescrita: dez retratos, seis mapas e a jornada pela Floresta Antiga possuem versões `-enhanced`. Retratos preservam identidade e enquadramento; mapas receberam apenas ampliação e nitidez determinísticas para não alterar rótulos, fronteiras ou geografia.
 
@@ -66,4 +67,4 @@ O vínculo entre conteúdo e arte é centralizado por `src/content/imageManifest
 
 ### Expansão enciclopédica
 
-`gallery/guerra-dos-tronos.png` foi criado como master adicional pelo gerador integrado, inspecionado e publicado em `-card.webp` e `-page.webp`. A composição diferencia forças humanas, anãs, élficas e clãs orcs, reserva a magia visível ao bruxo e não introduz dragões ou texto gerado.
+`artwork-masters/assets/images/gallery/guerra-dos-tronos.png` foi criado como master adicional pelo gerador integrado e inspecionado; seus derivados públicos são `public/assets/images/gallery/guerra-dos-tronos-card.webp` e `public/assets/images/gallery/guerra-dos-tronos-page.webp`. A composição diferencia forças humanas, anãs, élficas e clãs orcs, reserva a magia visível ao bruxo e não introduz dragões ou texto gerado.

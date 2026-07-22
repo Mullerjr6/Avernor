@@ -12,4 +12,6 @@ Dinastia não é sinônimo de genealogia. A genealogia registra parentesco; a di
 | Maré Alta | Eldemar | licença de capitão e Conselho das Marés |
 | Copa Prateada | Sylvaris | escolha dos Círculos entre descendentes elegíveis |
 
-Montanhas Cinzentas não possuem dinastia soberana: títulos Bellatrix representam dever temporário. Kar-Dûm separa herança de sangue, adoção de ofício e autoridade dos Nove Salões. Clãs orcs combinam sangue, adoção e mérito confirmado pela Brasa comunal.
+Montanhas Cinzentas não possuem dinastia soberana nem capital permanente: títulos Bellatrix representam dever temporário. Kar-Dûm separa herança de sangue, transmissão de ofício e autoridade dos Nove Salões; a Cadeia de Ofício dos Nove Ecos torna essa diferença verificável. Clãs orcs combinam sangue, adoção e mérito confirmado pela Brasa comunal, com Gron e Tor mantidos em árvores independentes.
+
+Cada dossiê dinástico registra proveniência, lacunas, leituras culturais, fontes e disputas. Averen não recebe um herdeiro retroativo; Veyron não converte descendência em direito atual; os intervalos perdidos das casas regionais aparecem explicitamente na genealogia. A Copa Prateada registra a designação de Elara em 1203, não como acontecimento futuro.

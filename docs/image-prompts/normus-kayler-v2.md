@@ -1,6 +1,6 @@
 # Normus Kayler — versão 2
 
-Status: gerada e integrada. Destino master: `/assets/images/characters/normus-kayler-v2.png`.
+Status: gerada e integrada. Destino master: `artwork-masters/assets/images/characters/normus-kayler-v2.png`.
 
 Finalidade: retrato principal, miniatura de card e referência visual canônica. Proporção 4:5; master mínimo de 2048 × 2560 px, sRGB.
 
