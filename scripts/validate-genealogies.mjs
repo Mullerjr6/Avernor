@@ -26,6 +26,16 @@ function error(message) { errors.push(message) }
 function hasText(value, minimum = 1) { return typeof value === 'string' && value.trim().length >= minimum }
 function normalize(value) { return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').replace(/\s+/g, ' ').trim() }
 
+function lifeRulesFor(people = '') {
+  const normalized = normalize(people)
+  if (normalized.includes('brux')) return { minimumParentAge: 18, expectedMaximum: 700, label: 'linhagem bruxa' }
+  if (normalized.includes('elf')) return { minimumParentAge: 30, expectedMaximum: 850, label: 'elfos' }
+  if (normalized.includes('gigante')) return { minimumParentAge: 40, expectedMaximum: 500, label: 'gigantes' }
+  if (/^ana(?:o)?(?:\b|\s|—)/.test(normalized)) return { minimumParentAge: 22, expectedMaximum: 220, label: 'anões' }
+  if (normalized.includes('orc')) return { minimumParentAge: 16, expectedMaximum: 130, label: 'orcs' }
+  return { minimumParentAge: 16, expectedMaximum: 130, label: 'humanos' }
+}
+
 function scanForbiddenKeys(value, path = 'genealogias') {
   if (!value || typeof value !== 'object') return
   if (Array.isArray(value)) return value.forEach((entry, index) => scanForbiddenKeys(entry, `${path}[${index}]`))
@@ -84,7 +94,10 @@ for (const tree of genealogies) {
     if (!['parent', 'adopted', 'illegitimate'].includes(edge.type)) continue
     const parent = personById.get(edge.from)
     const child = personById.get(edge.to)
-    if (parent && child && parent.born != null && child.born != null && child.born - parent.born < 12) error(`${tree.id}: idade parental impossível ${edge.from} -> ${edge.to}`)
+    if (parent && child && parent.born != null && child.born != null) {
+      const { minimumParentAge, label } = lifeRulesFor(parent.people)
+      if (child.born - parent.born < minimumParentAge) error(`${tree.id}: idade parental impossível para ${label} (${edge.from} -> ${edge.to})`)
+    }
     if (parent?.died != null && child?.born != null && parent.died < child.born - 1) error(`${tree.id}: nascimento após morte parental ${edge.from} -> ${edge.to}`)
   }
 
@@ -143,6 +156,13 @@ for (const person of genealogyPeople) {
   const status = person.status.toLocaleLowerCase('pt-BR')
   if (person.died != null && status.includes('viv')) error(`${person.id}: possui data de morte, mas aparece como vivo`)
   if (person.died == null && status.includes('mort') && !['unknown', 'lost', 'unrecorded', 'disputed'].includes(person.knowledgeStatus)) error(`${person.id}: aparece como morto sem data/período ou classificação documental que explique a lacuna`)
+  if (person.born != null) {
+    const age = person.died != null ? person.died - person.born : status.includes('viv') ? 1204 - person.born : null
+    const { expectedMaximum, label } = lifeRulesFor(person.people)
+    if (age != null && age > expectedMaximum && !hasText(person.longevityJustification, 24)) {
+      error(`${person.id}: idade ${age} excede a expectativa editorial de ${label} (${expectedMaximum}) sem justificativa racial/canônica`)
+    }
+  }
 }
 
 for (const duplicateSummary of duplicates(genealogyPeople.map(({ summary }) => normalize(summary))).filter(Boolean)) {
