@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { visualFor } from '../data/visuals'
 import ImageWithFallback from './ImageWithFallback'
 import TruthBadge from './TruthBadge'

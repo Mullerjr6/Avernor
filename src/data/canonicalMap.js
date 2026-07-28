@@ -127,10 +127,48 @@ export const atlasRegions = [
 
 const regionsById = Object.fromEntries(atlasRegions.map((region) => [region.id, region]))
 const entitiesById = Object.fromEntries(politicalEntities.map((entity) => [entity.id, entity]))
+const publicAssociationsByPointId = Object.freeze({
+  'fortaleza-do-veu': {
+    relatedCharacters: ['Normus Kayler', 'Sirius Kayler'],
+    relatedHouses: ['Casa Bellatrix', 'Casa Kayler'],
+    relatedEvents: ['Cerco da Fortaleza do Véu'],
+  },
+  'floresta-antiga': {
+    relatedCharacters: ['Sirius Kayler'],
+    relatedHouses: ['Casa Kayler', 'Casa Real de Sylvaris'],
+    relatedEvents: ['Refúgio dos últimos anos da Caça às Bruxas'],
+  },
+  lethariel: {
+    relatedHouses: ['Casa Real de Sylvaris'],
+    relatedEvents: ['Escolha de Elara pelos Círculos em 1203 d.C.'],
+  },
+  valoris: {
+    relatedHouses: ['Casa Arden'],
+    relatedEvents: ['Pacto das Sete Pontes'],
+  },
+  ravencastle: {
+    relatedHouses: ['Casa Corven'],
+  },
+  'thur-kar': {
+    relatedCharacters: ['Normus Kayler'],
+    relatedHouses: ['Sangue da Nona Bigorna'],
+    relatedEvents: ['Guerra dos Túneis Vazios'],
+  },
+  'porto-de-eldemar': {
+    relatedHouses: ['Casa da Maré Alta'],
+    relatedEvents: ['Batalha das Águas Negras'],
+  },
+  'vul-gar': {
+    relatedCharacters: ['Kharza Gron', 'Gorvak Tor'],
+    relatedHouses: ['Clã Gron', 'Clã Tor'],
+    relatedEvents: ['Crise contemporânea da Estrada de Cinza'],
+  },
+})
 
 function atlasPoint(value) {
   const region = regionsById[value.regionId]
   const kingdomId = value.kingdomId ?? region.kingdomId
+  const associations = publicAssociationsByPointId[value.id] ?? {}
   return Object.freeze({
     slug: value.id,
     referenceDate: `${ATLAS_REFERENCE_YEAR} d.C.`,
@@ -142,11 +180,13 @@ function atlasPoint(value) {
     population: 'Não se aplica ou não registrada nesta escala.',
     danger: 'Variável; consultar o registro local.',
     image: '',
-    relatedCharacters: [],
-    relatedWars: [],
-    relatedRecords: [],
     history: 'Posição consolidada a partir dos registros públicos do Arquivo de Avernor.',
     ...value,
+    relatedCharacters: [...new Set([...(associations.relatedCharacters ?? []), ...(value.relatedCharacters ?? [])])],
+    relatedHouses: [...new Set([...(associations.relatedHouses ?? []), ...(value.relatedHouses ?? [])])],
+    relatedEvents: [...new Set([...(associations.relatedEvents ?? []), ...(value.relatedEvents ?? [])])],
+    relatedWars: [...new Set([...(associations.relatedWars ?? []), ...(value.relatedWars ?? [])])],
+    relatedRecords: [...new Set([...(associations.relatedRecords ?? []), ...(value.relatedRecords ?? [])])],
     regionName: region.name,
     kingdomId,
     kingdom: entitiesById[kingdomId].name,
@@ -203,7 +243,7 @@ export const canonicalAtlasPoints = [
   ...cartographicAtlasPoints,
   atlasPoint({ id: 'geleiras-de-winterfeld', name: 'Geleiras de Winterfeld', label: 'Geleiras de Winterfeld', type: 'regiao', layer: 'geografia', regionId: 'winterfeld', x: 32, y: 10, summary: 'Maciço glacial que protege o norte e concentra as passagens de Winterfeld.', description: 'Geleiras, picos e vales termais definem fronteiras mais duráveis que qualquer marco político. As rotas fecham conforme o gelo, e não conforme decreto.', status: 'Vigiadas', danger: 'Alto no inverno', href: '/reinos/winterfeld', importance: 'continental' }),
   atlasPoint({ id: 'winterheim', name: 'Winterheim', label: 'Winterheim', type: 'capital', layer: 'assentamentos', regionId: 'winterfeld', x: 39, y: 22, summary: 'Capital setentrional erguida sobre fontes termais e terraços de pedra negra.', description: 'Canais aquecidos sustentam oficinas e enfermarias; depósitos públicos devem atravessar três invernos.', population: 'Cerca de 38 mil habitantes', status: 'Habitada', danger: 'Baixo dentro das muralhas', href: '/cidades/winterheim', image: '/assets/images/cities/winterheim-page.webp', importance: 'continental', relatedRecords: ['/reinos/winterfeld'] }),
-  atlasPoint({ id: 'ultimo-registro-vyrasul', name: 'Último registro de Vyrasul', label: 'Vyrasul', type: 'criatura', layer: 'criaturas', regionId: 'winterfeld', x: 27, y: 7, summary: 'Setor do último avistamento público do dragão branco Vyrasul.', description: 'O marcador representa uma área de voo registrada, não morada fixa nem domínio político.', coordinatePrecision: 'regional', truthStatus: 'witnessed', status: 'Avistamento recente', danger: 'Evitar aproximação; Vyrasul não é súdito de Winterfeld', href: '/criaturas/vyrasul', image: '/assets/images/bestiary/vyrasul-page.webp', relatedCharacters: ['Vyrasul'] }),
+  atlasPoint({ id: 'ultimo-registro-vyrasul', name: 'Último registro de Vyrasul', label: 'Vyrasul', type: 'criatura', layer: 'criaturas', regionId: 'winterfeld', x: 27, y: 7, summary: 'Setor do último avistamento público do dragão branco Vyrasul.', description: 'O marcador representa uma área de voo registrada, não morada fixa nem domínio político.', coordinatePrecision: 'regional', truthStatus: 'witnessed', status: 'Avistamento recente', danger: 'Evitar aproximação; Vyrasul não é súdito de Winterfeld', href: '/criaturas/vyrasul', image: '/assets/images/bestiary/vyrasul-page.webp', relatedRecords: ['/criaturas/vyrasul'] }),
 
   atlasPoint({ id: 'montanhas-cinzentas', name: 'Montanhas Cinzentas', label: 'Montanhas Cinzentas', type: 'regiao', layer: 'politica', regionId: 'montanhas-cinzentas', x: 65, y: 13, summary: 'Confederação de redutos que acolhe exilados, desertores e famílias perseguidas.', description: 'Não possui capital formal. Fortalezas elegem uma Mesa de Vigias em crises e retomam autonomia quando o perigo cessa.', status: 'Confederação autônoma', danger: 'Moderado fora das passagens vigiadas', href: '/reinos/montanhas-cinzentas', importance: 'continental' }),
   atlasPoint({ id: 'fortaleza-do-veu', name: 'Fortaleza do Véu', label: 'Fortaleza do Véu', type: 'fortaleza', layer: 'assentamentos', regionId: 'montanhas-cinzentas', x: 57, y: 23, summary: 'Maior reduto das Montanhas Cinzentas e antiga residência Bellatrix.', description: 'Escavada atrás de uma queda-d’água sazonal, conserva depósitos dispersos e arquivos cifrados de refugiados.', population: 'Cerca de 9 mil habitantes, além de refugiados sazonais', status: 'Habitada e vigiada', danger: 'Moderado nas passagens', href: '/cidades/fortaleza-do-veu', image: '/assets/images/cities/fortaleza-do-veu-page.webp', importance: 'continental', relatedCharacters: ['Namídia Bellatrix', 'Marek Bellatrix'], relatedWars: ['Guerra da Cinza Branca'] }),
@@ -341,6 +381,7 @@ export const canonicalMap = Object.freeze({
   },
   editorialCorrections: [
     'Lethariel é a capital canônica de Sylvaris; o rótulo Aeloria no raster-base é um erro cartográfico corrigido pelo overlay.',
+    'A faixa inferior do raster-base registra 1024 d.C.; a autoridade temporal vigente do Atlas e de seus overlays é 1204 d.C.',
     'Vul’Gar é região cultural de clãs autônomos, não reino ou vontade política única.',
     'Terras Sombrias são zona interditada por peste e contaminação; relatos de mortos-vivos permanecem não autenticados.',
     'Coordenadas regionais de criaturas, ruínas e Fraturas não revelam posição instantânea, entrada secreta ou covil.',
@@ -358,6 +399,40 @@ export const canonicalMap = Object.freeze({
 
 export function pointById(id) {
   return canonicalAtlasPoints.find((point) => point.id === id)
+}
+
+export function travelProfileForPoint(id) {
+  const point = pointById(id)
+  if (!point) return null
+  const connections = atlasRoutes
+    .filter((route) => route.from === id || route.to === id)
+    .map((route) => {
+      const destinationId = route.from === id ? route.to : route.from
+      return Object.freeze({
+        routeId: route.id,
+        routeName: route.name,
+        destinationId,
+        destinationName: pointById(destinationId)?.name ?? destinationId,
+        mode: route.mode,
+        distanceKm: route.distanceKm,
+        durationDays: route.durationDays,
+        status: route.status,
+        danger: route.danger,
+        season: route.season,
+      })
+    })
+
+  return Object.freeze({
+    pointId: id,
+    networkStatus: connections.length ? 'connected' : 'local-access-unrecorded',
+    connections,
+    distanceStatus: connections.length
+      ? 'Distâncias documentadas por trecho; consulte as ligações abaixo.'
+      : 'Distância de acesso local não registrada na escala continental.',
+    durationStatus: connections.length
+      ? 'Durações estimadas para viagem organizada em condições normais.'
+      : 'Tempo de acesso local não registrado; não é uma rota pública calculável.',
+  })
 }
 
 export function routeGeometry(route) {

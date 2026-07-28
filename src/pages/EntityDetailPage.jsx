@@ -1,10 +1,11 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router'
 import ArchiveProvenance from '../components/ArchiveProvenance'
 import Breadcrumbs from '../components/Breadcrumbs'
 import EncyclopediaDossier, { FieldValue } from '../components/EncyclopediaDossier'
 import ImageWithFallback from '../components/ImageWithFallback'
 import OrnamentalDivider from '../components/OrnamentalDivider'
 import RecordTableOfContents from '../components/RecordTableOfContents'
+import RecordGallery from '../components/RecordGallery'
 import SEO from '../components/SEO'
 import ShareButton from '../components/ShareButton'
 import TruthBadge from '../components/TruthBadge'
@@ -101,6 +102,7 @@ export default function EntityDetailPage({ catalogKey }) {
           <ArchiveProvenance item={item} />
           {item.appearance && <section id="aparencia"><span className="section-number">II</span><h2>Aparência documentada</h2><p>{item.appearance}</p></section>}
           <EncyclopediaDossier item={item} />
+          <RecordGallery items={item.gallery} recordName={item.name} fallback={catalog.placeholder} />
           {item.sections?.map((section, index) => <section id={`secao-${toAnchor(section.title)}`} key={section.title}><span className="section-number">{String(index + 2).padStart(2, '0')}</span><h2>{section.title}</h2>{section.body && <p>{section.body}</p>}{section.items?.length > 0 && <ul className="record-list">{section.items.map((value, valueIndex) => <li key={typeof value === 'string' ? value : `${section.title}-${valueIndex}`}><RecordListEntry value={value} /></li>)}</ul>}</section>)}
           {listSections.map(([key, label], index) => (
             <section id={`lista-${key}`} key={key}>

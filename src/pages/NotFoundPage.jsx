@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router'
 import ImageWithFallback from '../components/ImageWithFallback'
 import OrnamentalDivider from '../components/OrnamentalDivider'
 import SEO from '../components/SEO'

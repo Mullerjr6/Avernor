@@ -1,1 +1,0 @@
-import{t as e}from"./index-ZtRPWJSi.js";var t=e();function n({label:e=``}){return(0,t.jsxs)(`div`,{className:`ornamental-divider`,"aria-hidden":`true`,children:[(0,t.jsx)(`span`,{}),(0,t.jsx)(`i`,{children:`✦`}),e&&(0,t.jsx)(`em`,{children:e}),(0,t.jsx)(`i`,{children:`✦`}),(0,t.jsx)(`span`,{})]})}export{n as t};

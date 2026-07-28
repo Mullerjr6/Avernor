@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router'
 import { genealogies, genealogyPeople } from '../content/genealogies'
 import GenealogyDetailPage from './GenealogyDetailPage'
 

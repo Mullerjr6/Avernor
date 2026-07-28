@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import OrnamentalDivider from '../components/OrnamentalDivider'
 import SectionTitle from '../components/SectionTitle'

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import ImageWithFallback from '../components/ImageWithFallback'
 import SectionTitle from '../components/SectionTitle'
@@ -15,6 +15,7 @@ import {
   politicalEntities,
   politicalRelations,
   routeGeometry,
+  travelProfileForPoint,
 } from '../data/atlas'
 import { normalizeText } from '../utils/text'
 import '../styles/atlas.css'
@@ -42,11 +43,21 @@ function routeDuration(route) {
   return `${route.durationDays.min}–${route.durationDays.max} dias`
 }
 
+function recordLabel(recordPath) {
+  const slug = recordPath.split('/').filter(Boolean).at(-1) ?? recordPath
+  return slug
+    .split('-')
+    .map((part) => part.charAt(0).toLocaleUpperCase('pt-BR') + part.slice(1))
+    .join(' ')
+}
+
 function AtlasPointPanel({ point, onLocate }) {
   if (!point) return null
   const layer = layerById[point.layer]
+  const travel = travelProfileForPoint(point.id)
   return (
-    <aside className="canonical-atlas-panel" aria-live="polite">
+    <aside className="canonical-atlas-panel">
+      <p className="sr-only" role="status">{point.name} selecionado no Atlas.</p>
       {point.image && (
         <figure>
           <ImageWithFallback src={point.image} alt={`Registro visual relacionado a ${point.name}`} fallback={point.type === 'criatura' ? 'creature' : 'location'} />
@@ -69,15 +80,40 @@ function AtlasPointPanel({ point, onLocate }) {
         <div><dt>Perigo</dt><dd>{point.danger}</dd></div>
         <div><dt>Coordenada normalizada</dt><dd>{point.x.toFixed(1)} · {point.y.toFixed(1)}</dd></div>
       </dl>
+      <section className="canonical-atlas-travel-profile" aria-labelledby={`atlas-travel-${point.id}`}>
+        <h3 id={`atlas-travel-${point.id}`}>Acesso, distância e tempo</h3>
+        <p>{travel.distanceStatus} {travel.durationStatus}</p>
+        {travel.connections.length > 0 ? (
+          <ul>
+            {travel.connections.map((connection) => (
+              <li key={connection.routeId}>
+                <strong>{connection.routeName}</strong>
+                <span>{connection.destinationName} · {connection.distanceKm.toLocaleString('pt-BR')} km · {connection.durationDays.min}–{connection.durationDays.max} dias · {connection.mode}</span>
+                <span className="canonical-atlas-route-condition">{connection.status} · {connection.danger} · {connection.season}</span>
+              </li>
+            ))}
+          </ul>
+        ) : <small>A posição permanece válida no mapa, mas o acesso local não integra a malha pública de longa distância.</small>}
+      </section>
       <div className="canonical-atlas-panel-actions">
         <button type="button" className="button button-ghost" onClick={() => onLocate(point)}>Centralizar</button>
         {point.href && <Link className="button button-primary" to={point.href}>Abrir registro</Link>}
       </div>
-      {(point.relatedCharacters.length > 0 || point.relatedWars.length > 0) && (
+      {(point.relatedCharacters.length > 0 || point.relatedHouses.length > 0 || point.relatedEvents.length > 0 || point.relatedWars.length > 0 || point.relatedRecords.length > 0) && (
         <div className="canonical-atlas-related">
           <h3>Relações públicas</h3>
           {point.relatedCharacters.length > 0 && <p><strong>Personagens:</strong> {point.relatedCharacters.join(', ')}</p>}
+          {point.relatedHouses.length > 0 && <p><strong>Casas e clãs:</strong> {point.relatedHouses.join(', ')}</p>}
+          {point.relatedEvents.length > 0 && <p><strong>Acontecimentos:</strong> {point.relatedEvents.join(', ')}</p>}
           {point.relatedWars.length > 0 && <p><strong>Conflitos:</strong> {point.relatedWars.join(', ')}</p>}
+          {point.relatedRecords.length > 0 && (
+            <p>
+              <strong>Registros:</strong>{' '}
+              {point.relatedRecords.map((record, index) => (
+                <span key={record}>{index > 0 && ', '}<Link to={record}>{recordLabel(record)}</Link></span>
+              ))}
+            </p>
+          )}
         </div>
       )}
     </aside>
@@ -260,7 +296,10 @@ export default function AtlasPage() {
   const filteredPoints = useMemo(() => {
     const normalized = normalizeText(query)
     return canonicalAtlasPoints.filter((point) => {
-      const searchable = normalizeText(`${point.name} ${point.summary} ${point.regionName} ${point.kingdom} ${point.type} ${layerById[point.layer].label}`)
+      const routeTerms = travelProfileForPoint(point.id).connections
+        .map((connection) => `${connection.routeName} ${connection.destinationName} ${connection.mode} ${connection.status} ${connection.danger} ${connection.season}`)
+        .join(' ')
+      const searchable = normalizeText(`${point.name} ${point.summary} ${point.description} ${point.history} ${point.regionName} ${point.kingdom} ${point.type} ${layerById[point.layer].label} ${point.relatedCharacters.join(' ')} ${point.relatedHouses.join(' ')} ${point.relatedEvents.join(' ')} ${point.relatedWars.join(' ')} ${point.relatedRecords.join(' ')} ${routeTerms}`)
       return (!normalized || searchable.includes(normalized))
         && (!layerFilter || point.layer === layerFilter)
         && (!regionFilter || point.regionId === regionFilter)

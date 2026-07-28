@@ -1,4 +1,5 @@
 const fieldLabels = {
+  overview: 'Visão geral', narrativeRole: 'Papel narrativo', motivations: 'Motivações', innerConflict: 'Conflito interno', relationshipDynamics: 'Dinâmicas de relação', disputedAbilities: 'Capacidades contestadas', relatedContent: 'Conteúdo relacionado',
   formerNames: 'Nomes antigos', aliases: 'Apelidos', titles: 'Títulos', epithets: 'Epítetos', birthDate: 'Nascimento', apparentAge: 'Idade aparente', birthPlace: 'Local de nascimento', currentLocation: 'Localização atual',
   personality: 'Personalidade', qualities: 'Qualidades', flaws: 'Defeitos', fears: 'Medos', desires: 'Desejos', objectives: 'Objetivos', values: 'Valores', moralLimits: 'Limites morais', beliefs: 'Crenças', speech: 'Maneira de falar', habits: 'Hábitos',
   attire: 'Vestimentas', weapons: 'Armas', equipment: 'Equipamentos', relics: 'Relíquias', abilities: 'Habilidades', powers: 'Poderes', limitations: 'Limitações', weaknesses: 'Fraquezas', knowledge: 'Conhecimento', physicalCondition: 'Condição física', emotionalCondition: 'Condição emocional',
@@ -12,6 +13,7 @@ const fieldLabels = {
 }
 
 const dossierGroups = [
+  ['Papel, motivações e tensões', ['overview', 'narrativeRole', 'motivations', 'innerConflict', 'relationshipDynamics', 'disputedAbilities', 'relatedContent']],
   ['Identidade e trajetória', ['formerNames', 'aliases', 'titles', 'epithets', 'birthDate', 'apparentAge', 'birthPlace', 'currentLocation']],
   ['Temperamento e escolhas', ['personality', 'qualities', 'flaws', 'fears', 'desires', 'objectives', 'values', 'moralLimits', 'beliefs', 'speech', 'habits']],
   ['Capacidades e condição', ['attire', 'weapons', 'equipment', 'relics', 'abilities', 'powers', 'limitations', 'weaknesses', 'knowledge', 'physicalCondition', 'emotionalCondition']],

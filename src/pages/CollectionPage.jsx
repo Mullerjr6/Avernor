@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import ContentComparator from '../components/ContentComparator'
 import EmptyState from '../components/EmptyState'

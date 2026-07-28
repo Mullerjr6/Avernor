@@ -19,6 +19,7 @@ export const publicSearchFields = [
   'era', 'origin', 'location', 'region', 'kingdom', 'race', 'lineage', 'house', 'capital', 'symbol',
   'government', 'economy', 'population', 'threat', 'habitat', 'traits', 'motto',
   'leadership', 'aliases', 'formerNames', 'titles', 'epithets', 'biography',
+  'overview', 'narrativeRole', 'motivations', 'innerConflict', 'relationshipDynamics',
   'detailedTimeline', 'sections', 'events', 'curiosities', 'references', 'relations',
   'appearance', 'personality', 'qualities', 'flaws', 'fears', 'desires',
   'objectives', 'values', 'beliefs', 'knowledge', 'publicSecrets', 'family',

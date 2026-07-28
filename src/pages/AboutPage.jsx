@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import ImageWithFallback from '../components/ImageWithFallback'
 import SectionTitle from '../components/SectionTitle'

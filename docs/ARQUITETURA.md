@@ -14,7 +14,7 @@ A aplicação é uma SPA React 19 construída com Vite. O roteamento usa React R
 6. `GlobalSearch` carrega sob demanda um índice unificado, pesquisa recursivamente os campos públicos e ordena resultados por relevância.
 7. `GenealogyTree` renderiza parentesco público com uma visão gráfica e outra textual.
 8. `src/data/catalogs.js` resolve relações recíprocas para os 27 catálogos canônicos e expõe um índice de relações.
-9. Os validadores de genealogia, conteúdo, profundidade editorial e imagens verificam integridade antes do build.
+9. Os validadores de genealogia, Atlas, conteúdo, profundidade editorial, privacidade pública e imagens verificam integridade antes do build.
 
 Campos comuns: `id`, `slug`, `name`, `title`, `subtitle`, `summary`, `description`, `image`, `thumbnail`, `thumbnailPosition`, `heroPosition`, `accent`, `gallery`, `category`, `status`, `origin`, `location`, `period`, `era`, `kingdom`, `race`, `lineage`, `relations`, `events`, `curiosities`, `quotes`, `references`, `createdAt` e `updatedAt`.
 
@@ -41,11 +41,11 @@ O contrato também aceita biografia em capítulos, cronologia detalhada, psicolo
 - O lightbox da galeria usa o elemento nativo `dialog`, com retorno de foco fornecido pelo navegador.
 - CSS inclui foco visível, contraste alto, redução de movimento, impressão e breakpoints até 320 px.
 - `src/styles.css` contém a base e os tokens; `src/styles/refinement.css` contém a camada visual temática, importada depois da base.
-- `src/styles/expansion.css` concentra dossiês, sucessões e as 14 identidades visuais das árvores genealógicas.
+- `src/styles/expansion.css` concentra dossiês, sucessões e as 15 identidades visuais reutilizadas pelas 19 árvores genealógicas.
 
 ## Imagens
 
-PNGs originais são preservados. `npm run optimize:images` gera variantes WebP para cards, detalhes, banners e mapas com Sharp. O script é idempotente e não modifica a arte-fonte.
+Os 90 PNGs originais são preservados em `artwork-masters/`, fora de `public/`. `npm run optimize:images` gera variantes WebP para cards, detalhes, banners e mapas com Sharp. O script é idempotente e não modifica a arte-fonte.
 
 ## Limites atuais
 

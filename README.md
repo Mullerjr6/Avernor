@@ -37,7 +37,8 @@ Os acervos possuem busca, filtros persistidos na URL, cards e páginas detalhada
 - `src/data/`: índices, configuração de catálogos, atlas e galeria.
 - `src/pages/`: páginas de rota.
 - `src/components/`: componentes reutilizáveis e acessíveis.
-- `public/assets/images/`: originais, variantes otimizadas e placeholders.
+- `artwork-masters/assets/images/`: mestres PNG preservados fora do bundle público.
+- `public/assets/images/`: variantes WebP otimizadas e placeholders publicados.
 - `docs/`: cânone, arquitetura, decisões, guias e roadmap.
 
 Antes de adicionar lore, leia `docs/LORE-CANONICA.md` e `docs/GUIA-DE-CONTEUDO.md`. Novos nomes ou fatos interpretativos devem ser registrados em `docs/DECISOES-CRIATIVAS.md`.
@@ -48,4 +49,4 @@ Os dossiês enciclopédicos profundos ficam em arquivos `dossiers.js` por domín
 
 ## Qualidade
 
-O projeto usa ESLint, lazy loading por página e da busca global, imagens WebP responsivas, fallbacks visuais e metadados dinâmicos. Execute `npm run validate` para verificar genealogias, rotas, reciprocidade das relações, profundidade editorial e biblioteca visual; depois rode `npm run lint` e `npm run build`. Não há serviço externo obrigatório em tempo de execução.
+O projeto usa ESLint, lazy loading por página e da busca global, imagens WebP responsivas, fallbacks visuais e metadados dinâmicos. Execute `npm run validate` para verificar genealogias, Atlas, cronologia, rotas, reciprocidade das relações, profundidade editorial, fronteiras públicas e biblioteca visual; depois rode `npm run lint` e `npm run build`. Não há serviço externo obrigatório em tempo de execução.

@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { searchIndex } from '../data/catalogs'
 import { normalizeText, searchableText } from '../utils/text'
 

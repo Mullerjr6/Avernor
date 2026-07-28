@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import GenealogyTree from '../components/GenealogyTree'
 import { DisputedLineageNotice } from '../components/GenealogyPrimitives'

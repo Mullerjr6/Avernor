@@ -7,6 +7,7 @@ export default function RecordTableOfContents({ item, listSections, hasAtlasEntr
     item.appearance && ['aparencia', 'Aparência documentada'],
     item.biography?.length > 0 && ['biografia-e-percurso', item.biographyTitle ?? 'Biografia e percurso'],
     item.detailedTimeline?.length > 0 && ['linha-do-tempo', 'Linha do tempo'],
+    item.gallery?.length > 0 && ['galeria-do-registro', 'Galeria do registro'],
     ...(item.sections ?? []).map((section) => [`secao-${toAnchor(section.title)}`, section.title]),
     ...listSections.map(([key, label]) => [`lista-${key}`, label]),
     item.genealogyId && ['parentesco', 'Parentesco documentado'],

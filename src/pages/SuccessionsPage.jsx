@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { SuccessionOrder, SuccessionPanel as SuccessionPanelFrame } from '../components/GenealogyPrimitives'
 import SectionTitle from '../components/SectionTitle'

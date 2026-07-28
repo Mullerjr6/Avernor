@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { DynastyProfile, LineageTimeline } from '../components/GenealogyPrimitives'
 import SectionTitle from '../components/SectionTitle'

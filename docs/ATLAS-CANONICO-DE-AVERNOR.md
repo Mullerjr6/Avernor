@@ -13,11 +13,12 @@ Ordem de precedência:
 3. imagem raster oficial preservada como base visual;
 4. cartas históricas, contestadas e apócrifas, apenas para comparação.
 
-O raster mestre de preservação é `artwork-masters/assets/images/maps/avernor-map-atlas.png`, fora do bundle público. A página utiliza a derivação otimizada `public/assets/images/maps/avernor-map-atlas-large.webp` e mantém a proporção **3:2**. Rótulos gravados na imagem nunca substituem os overlays estruturados.
+O raster mestre de preservação é `artwork-masters/assets/images/maps/avernor-map-atlas.png`, fora do bundle público. A página utiliza a derivação otimizada `public/assets/images/maps/avernor-map-atlas-large.webp` e mantém a proporção **3:2**. O master possui 1536 × 1024 pixels; a versão WebP de 2048 × 1365 é uma derivação de entrega e não acrescenta detalhe cartográfico inexistente na fonte. Rótulos gravados na imagem nunca substituem os overlays estruturados.
 
 ## Correções públicas consolidadas
 
 - **Lethariel** é a capital canônica de Sylvaris. “Aeloria”, gravada no raster-base, é um erro cartográfico preservado apenas como testemunho material.
+- A faixa inferior do raster-base registra **1024 d.C.**; a autoridade temporal dos dados, marcadores, fronteiras e rotas do Atlas é **1204 d.C.**
 - **Vul’Gar** é uma região cultural de clãs e cidades autônomas, não um reino unificado.
 - As **Terras Sombrias** são interditadas por peste, contaminação de minas e instabilidade física. Relatos de mortos-vivos não são autenticados.
 - Marcadores de criaturas, Fraturas e ruínas podem indicar setor ou faixa de busca. Eles não revelam covis, entradas variáveis ou posição instantânea.
@@ -68,6 +69,8 @@ O modo textual contém os mesmos resultados dos filtros e é a alternativa princ
 
 O calculador usa a menor malha pública por distância ou tempo médio. O resultado soma apenas trechos registrados e não presume clima perfeito, passagem diplomática ou segurança de campanha.
 
+Cada ponto também recebe um perfil de viagem derivado da mesma malha. Terminais exibem todas as ligações diretas, destino, modo, quilômetros e intervalo de dias. Pontos sem trecho continental não ganham uma distância inventada: aparecem como `local-access-unrecorded`, com distância e tempo locais explicitamente não registrados.
+
 ## Manutenção
 
 Para incluir conteúdo cartográfico:
@@ -78,6 +81,7 @@ Para incluir conteúdo cartográfico:
 4. atribuir coordenada 0–100 e grau de precisão honesto;
 5. preencher clima, terreno, estado, população, controle, perigo, resumo e descrição;
 6. adicionar relações e rota apenas quando houver base pública coerente;
-7. executar `node scripts/validate-atlas.mjs` e `npm run build`.
+7. confirmar que a coordenada está dentro do polígono — e não apenas do retângulo — da região;
+8. executar `node scripts/validate-atlas.mjs` e `npm run build`.
 
 IDs do Atlas são contratos para as **Crônicas Vivas**. `src/data/liveChroniclesAtlas.js` é o adapter separado de campanha: ele referencia IDs canônicos, aplica estados transitórios, bloqueios e atrasos, mas recusa alterações de coordenadas, regiões, terminais, geometrias e distâncias. Assim, uma campanha pode ocupar Winterheim ou bloquear a Estrada do Norte sem reescrever o registro-base de 1204 d.C.

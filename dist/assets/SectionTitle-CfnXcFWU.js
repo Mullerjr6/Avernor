@@ -1,0 +1,1 @@
+import{t as e}from"./index-USXiZ4p4.js";var t=e();function n({kicker:e,title:n,description:r,align:i=`left`,as:a=`h2`}){return(0,t.jsxs)(`header`,{className:`section-title section-title-${i}`,children:[e&&(0,t.jsx)(`span`,{className:`kicker`,children:e}),a===`h1`?(0,t.jsx)(`h1`,{children:n}):(0,t.jsx)(`h2`,{children:n}),r&&(0,t.jsx)(`p`,{children:r})]})}export{n as t};

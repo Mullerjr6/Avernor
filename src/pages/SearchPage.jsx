@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router'
 import Breadcrumbs from '../components/Breadcrumbs'
 import EmptyState from '../components/EmptyState'
 import SectionTitle from '../components/SectionTitle'

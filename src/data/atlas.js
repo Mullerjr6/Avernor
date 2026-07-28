@@ -11,6 +11,7 @@ export {
   politicalEntities,
   politicalRelations,
   routeGeometry,
+  travelProfileForPoint,
 } from './canonicalMap.js'
 
 // Aliases kept for consumers that still use the original Atlas data names.

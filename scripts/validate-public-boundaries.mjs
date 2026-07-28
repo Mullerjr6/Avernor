@@ -18,6 +18,12 @@ const allowedKnowledgeStatuses = new Set([
   'desconhecida', 'perdida', 'contestada', 'secreta', 'não registrada',
   'conhecida apenas pelo autor', 'baseada em rumor', 'conhecida apenas por determinado povo',
 ])
+const prohibitedPublicClaims = [
+  { label: 'causa reservada da designação de Elara', pattern: /escolha dos Círculos não decorre do pacto Kayler/i },
+  { label: 'causa reservada da designação de Elara', pattern: /pacto Kayler não criou sua condição de herdeira/i },
+  { label: 'critério reservado da designação de Elara', pattern: /Elara foi escolhida[^'"\n]{0,180}relação com a floresta/i },
+  { label: 'causa reservada da designação de Elara', pattern: /pacto Kayler[^'"\n]{0,100}(?:não constitui causa|não sustenta essa causa)/i },
+]
 
 async function filesBelow(directory) {
   const entries = await readdir(directory, { withFileTypes: true })
@@ -37,6 +43,9 @@ for (const file of await filesBelow(sourceRoot)) {
   for (const key of reservedKeys) {
     const declaration = new RegExp(`(?:^|[,{\\s])${key}\\s*:`, 'm')
     if (declaration.test(source)) errors.push(`${name}: declara a chave pública reservada "${key}"`)
+  }
+  for (const claim of prohibitedPublicClaims) {
+    if (claim.pattern.test(source)) errors.push(`${name}: expõe semanticamente ${claim.label}`)
   }
 }
 

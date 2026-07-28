@@ -59,6 +59,12 @@
 .dossier-group dd p, .dossier-group dd ul { margin: 0; }
 .dossier-group dd ul { padding-left: 17px; }
 
+.record-gallery > p { max-width: 72ch; }
+.record-gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 24px; }
+.record-gallery figure { overflow: hidden; margin: 0; background: #0b0f11; border: 1px solid var(--line); }
+.record-gallery img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.record-gallery figcaption { padding: 12px 15px; color: var(--muted); font-size: .68rem; line-height: 1.55; }
+
 .genealogy-masthead, .dynasty-masthead, .succession-masthead { background: radial-gradient(circle at 78% 42%, rgba(126,95,143,.2), transparent 33%), linear-gradient(145deg, #19140f, #090d10 70%); }
 .genealogy-intro-note, .genealogy-disclaimer { padding: 22px 25px; color: var(--muted-strong); background: linear-gradient(145deg, #171614, #0c1012); border: 1px solid var(--line); border-left: 3px solid var(--gold); }
 .genealogy-intro-note p, .genealogy-disclaimer { margin-top: 8px; }

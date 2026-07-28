@@ -802,6 +802,59 @@
   line-height: 1.45;
 }
 
+.canonical-atlas-travel-profile {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(205, 169, 99, .22);
+  background: rgba(205, 169, 99, .045);
+}
+
+.canonical-atlas-travel-profile h3 {
+  margin: 0 0 8px;
+  color: var(--ivory);
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.canonical-atlas-travel-profile p,
+.canonical-atlas-travel-profile small {
+  color: var(--muted);
+  font-size: .75rem;
+  line-height: 1.55;
+}
+
+.canonical-atlas-travel-profile ul {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.canonical-atlas-travel-profile li {
+  display: grid;
+  gap: 3px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.canonical-atlas-travel-profile li strong {
+  color: var(--gold-bright);
+  font-size: .76rem;
+}
+
+.canonical-atlas-travel-profile li span {
+  color: var(--ivory-soft);
+  font-size: .7rem;
+  line-height: 1.45;
+}
+
+.canonical-atlas-travel-profile li .canonical-atlas-route-condition {
+  color: var(--muted);
+  font-size: .65rem;
+  font-style: italic;
+}
+
 .canonical-atlas-panel-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -824,6 +877,12 @@
   margin-bottom: 8px;
   font-size: .77rem;
   line-height: 1.55;
+}
+
+.canonical-atlas-related a {
+  color: var(--gold-bright);
+  text-decoration-color: rgba(205, 169, 99, .5);
+  text-underline-offset: .18em;
 }
 
 .canonical-atlas-workbench:fullscreen,
@@ -1137,6 +1196,7 @@
   .canonical-atlas-panel h2,
   .canonical-atlas-panel > p,
   .canonical-atlas-panel .canonical-atlas-facts,
+  .canonical-atlas-panel .canonical-atlas-travel-profile,
   .canonical-atlas-panel .canonical-atlas-panel-actions,
   .canonical-atlas-panel .canonical-atlas-related {
     grid-column: 2;
