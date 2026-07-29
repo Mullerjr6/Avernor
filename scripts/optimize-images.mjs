@@ -30,6 +30,10 @@ const landscapeSources = {
   cities: ['fortaleza-do-veu', 'porto-de-eldemar', 'porto-verde', 'ravencastle', 'thur-kar', 'valoris', 'winterheim'],
   gallery: ['arquivo-submerso', 'batalha-das-aguas-negras', 'guerra-da-cinza-branca', 'guerra-dos-tres-herdeiros', 'guerra-dos-tronos', 'guerra-dos-tuneis-vazios', 'noite-das-doze-adagas', 'pacto-dos-descendentes', 'sinos-do-mar-de-cinzas'],
   locations: ['arquipelago-das-brumas', 'deserto-de-zharak', 'mar-das-estrelas', 'mar-interior', 'terras-sombrias'],
+  'atlas-plates': ['winterfeld-geada', 'montanhas-vigias', 'sylvaris-assentamentos', 'valoria-pontes', 'ravenhold-fronteira', 'kar-dum-profundezas', 'eldemar-corsarios', 'oriente-clas-zharak', 'ilhas-do-nevoeiro'],
+  'archive-plates': ['povos-de-avernor', 'mitos-e-tradicoes', 'veu-e-retornados', 'celestiais-e-lancas', 'faccoes-e-sucessoes'],
+  'lore-locations': ['farol-das-sete-mares', 'mosteiro-da-brasa-tardia', 'arquivo-de-pedra', 'jardim-das-pontes-silenciosas', 'mercado-dos-tres-ventos', 'torre-da-chuva-negra'],
+  'lore-legends': ['barca-sem-remador', 'sino-sob-a-geleira', 'nona-porta'],
 }
 
 const portraitSources = {
@@ -40,6 +44,7 @@ const portraitSources = {
 }
 
 const bookSources = ['a-carta-e-a-tempestade', 'atlas-das-sete-rotas', 'caderno-de-namidia', 'cronicas-perdidas-de-sylvaris', 'o-ultimo-bruxo', 'tratado-das-linhagens']
+const loreBookSources = ['livro-dos-caminhos-fechados', 'registro-das-aguas-partilhadas', 'codice-dos-estandartes-baixos']
 
 const jobs = [
   ...characterSources.flatMap((name) => [
@@ -61,6 +66,10 @@ const jobs = [
   ...bookSources.flatMap((name) => [
     { source: `${masterRoot}/books/${name}.png`, output: `public/assets/images/books/${name}-card.webp`, width: 640, height: 960, fit: 'cover', position: 'attention', quality: 80 },
     { source: `${masterRoot}/books/${name}.png`, output: `public/assets/images/books/${name}-page.webp`, width: 960, height: 1440, fit: 'cover', position: 'attention', quality: 85 },
+  ]),
+  ...loreBookSources.flatMap((name) => [
+    { source: `${masterRoot}/lore-books/${name}.png`, output: `public/assets/images/lore-books/${name}-card.webp`, width: 640, height: 960, fit: 'cover', position: 'attention', quality: 80 },
+    { source: `${masterRoot}/lore-books/${name}.png`, output: `public/assets/images/lore-books/${name}-page.webp`, width: 960, height: 1440, fit: 'cover', position: 'attention', quality: 85 },
   ]),
   { source: `${masterRoot}/locations/jornada-floresta-antiga-enhanced.png`, output: 'public/assets/images/locations/jornada-floresta-antiga-card.webp', width: 720, height: 576, fit: 'cover', position: 'attention', quality: 80 },
   { source: `${masterRoot}/locations/jornada-floresta-antiga-enhanced.png`, output: 'public/assets/images/locations/jornada-floresta-antiga-banner.webp', width: 1600, height: 1029, fit: 'cover', position: 'attention', quality: 85 },

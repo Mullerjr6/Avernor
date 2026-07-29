@@ -14,6 +14,8 @@
 .truth-prophetic { color: #c3769c; }
 .truth-redacted { color: #ba6965; }
 .detail-classification { display: flex; flex-wrap: wrap; gap: 13px; align-items: center; }
+.entity-visual-note { display: block; width: fit-content; margin: 8px 0 2px; color: var(--muted); font-size: .56rem; letter-spacing: .08em; text-transform: uppercase; }
+.detail-visual-note { width: fit-content; max-width: 620px; margin: 12px 0 0; padding: 7px 10px; color: var(--ivory-soft); background: rgba(7,10,12,.66); border-left: 2px solid var(--entity-accent, var(--gold)); font-size: .68rem; line-height: 1.5; }
 .portal-grid-expanded { grid-template-columns: repeat(3, 1fr); }
 .portal-grid-expanded .portal-card:nth-child(4) { border-top: 1px solid var(--line); border-left: 0; }
 .portal-grid-expanded .portal-card:nth-child(5), .portal-grid-expanded .portal-card:nth-child(6) { border-top: 1px solid var(--line); }

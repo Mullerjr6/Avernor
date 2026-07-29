@@ -237,14 +237,21 @@
   vector-effect: non-scaling-stroke;
 }
 .genealogy-edge.edge-partner { stroke: #bd91b3; stroke-dasharray: 9 5; }
+.genealogy-edge.edge-political-marriage { stroke: #d7b773; stroke-width: 3.2; stroke-dasharray: 14 3 2 3; }
 .genealogy-edge.edge-unofficial { stroke: #a9798d; stroke-dasharray: 4 5; }
+.genealogy-edge.edge-annulled-union { stroke: #a96565; stroke-dasharray: 2 5 10 5; opacity: .82; }
 .genealogy-edge.edge-adopted { stroke: #77b7aa; stroke-dasharray: 3 5; }
 .genealogy-edge.edge-illegitimate { stroke: #c18f77; stroke-dasharray: 2 7; }
 .genealogy-edge.edge-guardian,
 .genealogy-edge.edge-oath { stroke: #aaa486; stroke-dasharray: 12 5 2 5; }
+.genealogy-edge.edge-spiritual { stroke: #8cb6bb; stroke-dasharray: 1 6; }
 .genealogy-edge.edge-office { stroke: #d19459; stroke-dasharray: 13 5; }
+.genealogy-edge.edge-master-apprentice { stroke: #d9a65e; stroke-dasharray: 7 3 2 3; }
+.genealogy-edge.edge-succession { stroke: #e2c87b; stroke-width: 3; stroke-dasharray: 16 4; }
+.genealogy-edge.edge-broken-branch { stroke: #76676a; stroke-dasharray: 1 8; opacity: .72; }
 .genealogy-edge.edge-custody { stroke: #9c82c1; stroke-dasharray: 5 4 1 4; }
 .genealogy-edge.edge-contested,
+.genealogy-edge.edge-unconfirmed,
 .genealogy-edge.edge-disputed { stroke: #dd885f; stroke-dasharray: 3 7; }
 .genealogy-edge.edge-redacted,
 .genealogy-edge.edge-lost,
@@ -424,8 +431,11 @@
 .genealogy-legend span { display: inline-flex; gap: 7px; align-items: center; }
 .genealogy-legend i { width: 27px; height: 2px; background: var(--tree-line); }
 .genealogy-legend .legend-partner { background: repeating-linear-gradient(90deg, #bd91b3 0 7px, transparent 7px 11px); }
+.genealogy-legend .legend-political { height: 3px; background: repeating-linear-gradient(90deg, #d7b773 0 10px, transparent 10px 13px, #d7b773 13px 15px, transparent 15px 18px); }
+.genealogy-legend .legend-broken { background: repeating-linear-gradient(90deg, #76676a 0 1px, transparent 1px 7px); }
 .genealogy-legend .legend-adopted { background: repeating-linear-gradient(90deg, #77b7aa 0 2px, transparent 2px 5px); }
 .genealogy-legend .legend-office { background: repeating-linear-gradient(90deg, #d19459 0 10px, transparent 10px 14px); }
+.genealogy-legend .legend-apprentice { background: repeating-linear-gradient(90deg, #d9a65e 0 5px, transparent 5px 8px, #d9a65e 8px 10px, transparent 10px 13px); }
 .genealogy-legend .legend-custody { background: repeating-linear-gradient(90deg, #9c82c1 0 4px, transparent 4px 7px); }
 .genealogy-legend .legend-guardian { background: repeating-linear-gradient(90deg, #aaa486 0 8px, transparent 8px 11px); }
 .genealogy-legend .legend-disputed { background: repeating-linear-gradient(90deg, #dd885f 0 3px, transparent 3px 7px); }

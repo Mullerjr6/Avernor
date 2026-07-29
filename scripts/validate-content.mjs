@@ -34,6 +34,8 @@ function checkLink(to, source) {
 for (const catalog of Object.values(catalogs)) {
   for (const item of catalog.items) {
     if (!item.id || !item.name || !item.summary || !item.description) errors.push(`${catalog.path}/${item.slug}: campos editoriais obrigatórios ausentes`)
+    if (!item.image || !item.thumbnail) errors.push(`${catalog.path}/${item.slug}: registro sem imagem responsiva completa`)
+    if (['thematic', 'regional'].includes(item.imageScope) && !item.imageAlt) errors.push(`${catalog.path}/${item.slug}: prancha compartilhada sem descrição de proveniência visual`)
     if (!['documented', 'witnessed', 'disputed', 'legendary', 'prophetic', 'redacted'].includes(item.truthStatus)) errors.push(`${catalog.path}/${item.slug}: truthStatus inválido ${item.truthStatus}`)
     item.relations?.forEach(({ to }) => checkLink(to, `${catalog.path}/${item.slug}`))
     if (catalog.path !== '/bestiario' && item.relations.length === 0) errors.push(`${catalog.path}/${item.slug}: registro isolado, sem relações`)

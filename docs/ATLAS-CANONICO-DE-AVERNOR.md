@@ -26,12 +26,16 @@ O raster mestre de preservação é `artwork-masters/assets/images/maps/avernor-
 
 O Atlas contém:
 
-- 13 regiões geográficas ou político-geográficas;
-- 39 pontos públicos com identidade estável;
+- 14 regiões geográficas ou político-geográficas;
+- 66 pontos públicos com identidade estável;
 - 8 camadas editoriais;
 - 15 trechos de viagem documentados;
 - 5 cartas comparadas sem autoridade atual;
 - relações políticas que explicam os principais fluxos territoriais.
+
+Dos 66 pontos, 27 foram transcritos diretamente dos topônimos legíveis no raster oficial. Esses verbetes usam precisão `regional`, `truthStatus: witnessed` e `sourceStatus: Testemunho cartográfico do raster oficial`. A carta comprova nome, símbolo e posição relativa; fundação, população, governo e condição atual continuam explicitamente não registrados quando nenhuma fonte textual independente os define.
+
+As **Ilhas do Nevoeiro** formam a décima quarta região. Elas não foram atribuídas a reino algum: o mapa confirma o arquipélago, mas não registra soberania, portos reconhecidos ou povo dominante.
 
 As coordenadas são percentuais normalizadas: `(0, 0)` corresponde ao canto noroeste e `(100, 100)` ao canto sudeste. Esse sistema desacopla o conteúdo da resolução da imagem e permite alinhar SVG, marcadores, rotas e minimapa.
 

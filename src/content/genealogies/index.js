@@ -36,6 +36,44 @@ const periodFor = (born, died) => {
   return died === 0 ? `${born} d.C.–Ano 0` : `${born}–${died} d.C.`
 }
 
+const archiveContextByHouse = {
+  Kayler: 'a continuidade pública da Corrente Celeste',
+  Bellatrix: 'a continuidade civil dos vigias das Montanhas Cinzentas',
+  'Casa Real de Sylvaris': 'a memória dinástica preservada pelos Círculos de Sylvaris',
+  Averen: 'a fragmentação documentada da antiga Coroa Una',
+  Veyron: 'a sucessão administrativa de Ravenhold',
+  'Casa do Lobo': 'a confirmação dos jarls pelos livros de abrigo',
+  Arden: 'a sucessão condicionada pelos pactos agrários de Valoria',
+  Corven: 'a continuidade senatorial dos Estandartes',
+  'Maré Alta': 'a transmissão portuária confirmada pelo Conselho das Marés',
+  Nimbus: 'a sequência pública sobrevivente da Corrente Escarlate',
+  Rivs: 'a sequência pública sobrevivente da Corrente Profunda',
+  'Clã Gron': 'a memória de sangue e adoção reconhecida pelos Gron',
+  'Clã Tor': 'a memória familiar preservada pelos guardiões da Estrada de Cinza',
+  'Sangue da Nona Bigorna': 'a linha de sangue registrada nas placas da Nona Bigorna',
+  'Canto do Pilar': 'a linhagem territorial preservada no canto dos gigantes',
+}
+
+function defaultHistoricalRole(id, name, house, period, source) {
+  const context = archiveContextByHouse[house] ?? `a continuidade pública do ramo ${house}`
+  const variants = [
+    `Função individual: não registrada. A presença de ${name} fixa ${context} em ${period}, com apoio de ${source}.`,
+    `O registro de ${name}, preservado por ${source}, delimita ${context} em ${period}. Cargo e feitos próprios: não registrados.`,
+    `${name} confirma ${context} durante ${period}. As fontes disponíveis — ${source} — não registram ocupação, decisões ou participação política individual.`,
+    `Em ${period}, ${name} ocupa um ponto verificável em ${context}. Biografia individual: não registrada; base documental: ${source}.`,
+  ]
+  return variants[[...id].reduce((total, character) => total + character.charCodeAt(0), 0) % variants.length]
+}
+
+function defaultSummary(id, name, house, period, source) {
+  const variants = [
+    `${name} é um elo nominal confirmado do ramo ${house} em ${period}. Ocupação e decisões individuais não foram registradas.`,
+    `O arquivo preserva nome, período e vínculos de ${name} no ramo ${house}; sua biografia individual permanece não registrada.`,
+    `${source} confirma ${name} na sequência de ${house} durante ${period}, sem informação pública suficiente para atribuir feitos próprios.`,
+  ]
+  return variants[[...id].reduce((total, character) => total + character.charCodeAt(0), 0) % variants.length]
+}
+
 const person = (id, name, born, died, status, people, extra = {}) => {
   const house = extra.house ?? extra.branch ?? 'Registro independente'
   const knowledgeStatus = extra.knowledgeStatus ?? 'documented'
@@ -47,11 +85,10 @@ const person = (id, name, born, died, status, people, extra = {}) => {
     : periodFor(born, died))
   const source = extra.source ?? sourceByHouse[house] ?? 'Registro público confrontado pelo Arquivo de Avernor'
   const role = extra.role ?? 'Elo nominal documentado'
-  const historicalRole = extra.historicalRole ?? `A presença de ${name} mantém a sequência pública de ${house} no intervalo ${period}; as fontes não autorizam atribuir cargo ou feitos além desse vínculo.`
-  const periodSentence = period.endsWith('.') ? period : `${period}.`
+  const historicalRole = extra.historicalRole ?? defaultHistoricalRole(id, name, house, period, source)
   const summary = extra.summary ?? (extra.role
     ? `${name} consta em ${source}, na função registrada como “${role}”. ${historicalRole}`
-    : `${name} é um elo nominal preservado no ramo ${house} durante ${periodSentence} O arquivo registra sua posição sem converter a ausência de uma biografia individual em feitos inventados.`)
+    : defaultSummary(id, name, house, period, source))
   return {
     id, name, born, died, status, people, ...extra,
     role,
@@ -65,7 +102,9 @@ const person = (id, name, born, died, status, people, extra = {}) => {
     truthStatus: extra.truthStatus ?? (knowledgeStatus === 'disputed' || knowledgeStatus === 'unknown' ? 'disputed' : knowledgeStatus === 'rumor' ? 'legendary' : knowledgeStatus === 'people-only' ? 'witnessed' : 'documented'),
     titles: extra.titles?.length ? extra.titles : [extra.role ? role : 'Elo nominal documentado'],
     tags: extra.tags ?? [people, house, knowledgeStatus],
-    visualDescription: extra.visualDescription ?? `Nenhuma fonte confiável preserva a aparência individual de ${name}; o arquivo usa o selo contextual de ${house} sem sugerir um retrato autêntico.`,
+    visualDescription: extra.visualDescription ?? (portrait
+      ? `Retrato oficial integrado ao arquivo público de ${name}; a descrição física canônica permanece vinculada ao perfil completo.`
+      : `Aparência individual: não registrada. O arquivo usa o selo contextual de ${house} sem sugerir um retrato autêntico.`),
     portrait,
     portraitFallback: extra.portraitFallback ?? `heraldic-${slugToken(house)}`,
   }
@@ -242,8 +281,46 @@ const treeIdentity = {
   'vigias-fortaleza-veu': { theme: 'ember', symbol: '⚿' }, 'custodia-aelysar': { theme: 'living', symbol: '➶' },
 }
 
+const relationshipEditorialTypes = Object.freeze({
+  'averen:garric-averen:helena-dor': 'political-marriage',
+  'averen:aldren-averen:seris-aldren': 'political-marriage',
+  'averen:kaelor-averen:mara-kaelor': 'political-marriage',
+  'veyron:marcellus-veyron:cora-tel': 'political-marriage',
+  'winterfeld:eirik-iii:ingrid-eirik': 'political-marriage',
+  'valoria:roderic-arden:helena-diques': 'political-marriage',
+  'eldemar:maeron-elmer:ilara-maeron': 'political-marriage',
+  'winterfeld:astrid-halvard:ramo-degelo-winterfeld': 'broken-branch',
+  'winterfeld:ramo-degelo-winterfeld:ulf-inverno': 'broken-branch',
+  'winterfeld:freya-ulf:ramo-nevasca-winterfeld': 'broken-branch',
+  'winterfeld:ramo-nevasca-winterfeld:eirik-iii': 'broken-branch',
+  'valoria:leon-arden:ramo-colheita-arden': 'broken-branch',
+  'valoria:ramo-colheita-arden:edra-arden': 'broken-branch',
+  'valoria:tomas-arden:ramo-livros-arden': 'broken-branch',
+  'valoria:ramo-livros-arden:cassia-arden': 'broken-branch',
+  'ravenhold:maela-corven:ramo-estandartes-corven': 'broken-branch',
+  'ravenhold:ramo-estandartes-corven:arven-corven': 'broken-branch',
+  'ravenhold:sela-corven:ramo-senado-corven': 'broken-branch',
+  'ravenhold:ramo-senado-corven:darian-corven': 'broken-branch',
+  'eldemar:nerissa-elmer:ramo-mares-elmer': 'broken-branch',
+  'eldemar:ramo-mares-elmer:orsen-elmer': 'broken-branch',
+  'eldemar:naeva-elmer:ramo-bitacora-elmer': 'broken-branch',
+  'eldemar:ramo-bitacora-elmer:maeron-elmer': 'broken-branch',
+  'sangue-da-nona-bigorna:dhorin-orun:ramo-ardosia-bigorna': 'broken-branch',
+  'sangue-da-nona-bigorna:ramo-ardosia-bigorna:mira-brunna': 'broken-branch',
+  'nimbus:sarya-nimbus:registro-nimbus-688': 'unconfirmed',
+  'rivs:oriel-rivs:registro-rivs-evacuacao': 'unconfirmed',
+  'sangue-da-nona-bigorna:gald-peso:brunna-dhorin': 'master-apprentice',
+  'oficio-nove-ecos:brom-nove-ecos:eda-ventos': 'master-apprentice',
+  'oficio-nove-ecos:runa-ardosia:dorim-runa': 'succession',
+})
+
+const classifyRelationships = (treeId, relations) => relations.map((edge) => ({
+  ...edge,
+  type: relationshipEditorialTypes[`${treeId}:${edge.from}:${edge.to}`] ?? edge.type,
+}))
+
 const tree = (id, name, subtitle, memberIds, relations, extra = {}) => ({
-  id, slug: id, name, subtitle, memberIds, relations,
+  id, slug: id, name, subtitle, memberIds, relations: classifyRelationships(id, relations),
   truthStatus: 'documented', knowledgeStatus: 'public',
   scope: 'Registro público; lacunas e vínculos incertos aparecem explicitamente classificados.',
   ...(treeIdentity[id] ?? { theme: 'archive', symbol: '◇' }), ...extra,

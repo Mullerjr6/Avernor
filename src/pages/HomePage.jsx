@@ -6,6 +6,7 @@ import SectionTitle from '../components/SectionTitle'
 import SEO from '../components/SEO'
 import { characters, kingdoms, books, genealogies } from '../content'
 import { assets } from '../data/assets'
+import { catalogs } from '../data/catalogs'
 
 export default function HomePage() {
   const sirius = characters.find((item) => item.id === 'sirius-kayler')
@@ -14,6 +15,7 @@ export default function HomePage() {
   const elara = characters.find((item) => item.id === 'elara')
   const sylvaris = kingdoms.find((item) => item.id === 'sylvaris')
   const legacyFigures = [normus, namidia, elara]
+  const archiveRecordCount = Object.values(catalogs).reduce((total, catalog) => total + catalog.items.length, 0)
 
   return (
     <>
@@ -41,8 +43,8 @@ export default function HomePage() {
         <dl className="archive-metrics">
           <div><dt>05</dt><dd>Eras documentadas</dd></div>
           <div><dt>07</dt><dd>Reinos e territórios</dd></div>
-          <div><dt>03</dt><dd>Dragões conhecidos</dd></div>
-          <div><dt>03</dt><dd>Linhagens bruxas</dd></div>
+          <div><dt>{archiveRecordCount}</dt><dd>Registros conectados</dd></div>
+          <div><dt>{genealogies.length}</dt><dd>Genealogias públicas</dd></div>
         </dl>
         <OrnamentalDivider label="Arquivo Real de Sylvaris" />
       </section>

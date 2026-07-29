@@ -8,6 +8,10 @@ Status comum a todos os itens marcados: **Imagem adicionada** · **Imagem revisa
 
 > Expansão do mesmo ciclo: a nova Guerra dos Tronos recebeu master e variantes responsivas. O total produzido pelo gerador passou a 55 masters; não há item técnico pendente nesta fila, apenas aprovação autoral.
 
+> Cobertura de 29/07/2026: 14 novas pranchas foram produzidas — 9 regionais do Atlas e 5 temáticas do Arquivo — e publicadas em 28 variantes WebP. Os 199 registros dos 27 catálogos agora possuem imagem e thumbnail. As 91 entradas antes dependentes de placeholder e os 27 novos topônimos usam pranchas com proveniência explícita; elas continuam distintas de retratos ou representações individuais canônicas.
+
+> Expansão ilustrada de 29/07/2026: 12 novos registros receberam 12 artes individuais — 6 paisagens institucionais, 3 cenas de tradição e 3 capas documentais — publicadas em 24 variantes WebP. O acervo soma 211 registros com cobertura responsiva integral, 81 assets no manifesto, 116 PNGs mestres fora do bundle público e 192 WebPs. Os prompts finais estão preservados em [LORE-EXPANSAO-2026-07-29.md](image-prompts/LORE-EXPANSAO-2026-07-29.md).
+
 > Genealogias: **132 retratos pessoais continuam pendentes**. O inventário integral, agrupado por árvore e acompanhado de descrição visual e prompt-base específico, está em [RETRATOS-GENEALOGICOS-PENDENTES.md](image-prompts/RETRATOS-GENEALOGICOS-PENDENTES.md). Cada futuro PNG mestre deve ser preservado em `artwork-masters/assets/images/characters/`; somente seus derivados WebP podem seguir para `public/assets/images/characters/`. Fallbacks heráldicos já mantêm a interface estável, mas não contam como retratos autênticos e não autorizam inventar aparências desconhecidas.
 
 ## Prioridade

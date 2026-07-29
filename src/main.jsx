@@ -7,6 +7,7 @@ import './styles.css'
 import './styles/refinement.css'
 import './styles/expansion.css'
 import './styles/archive.css'
+import './styles/polish.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

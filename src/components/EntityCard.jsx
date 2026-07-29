@@ -17,7 +17,7 @@ export default function EntityCard({ item, to, placeholder = 'default', featured
         <div className="entity-card-media">
           <ImageWithFallback
             src={item.thumbnail || item.image}
-            alt={hasImage ? `Ilustração de ${item.name}` : `Representação provisória de ${item.name}`}
+            alt={item.imageAlt || (hasImage ? `Ilustração de ${item.name}` : `Representação provisória de ${item.name}`)}
             fallback={placeholder}
             sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
             objectPosition={visual.thumbnailPosition || item.objectPosition}
@@ -29,6 +29,8 @@ export default function EntityCard({ item, to, placeholder = 'default', featured
         </div>
         <div className="entity-card-body">
           {meta && <span className="kicker">{meta}</span>}
+          {item.imageScope === 'thematic' && <span className="entity-visual-note">Prancha temática do acervo</span>}
+          {item.imageScope === 'regional' && <span className="entity-visual-note">Prancha regional do Atlas</span>}
           <h2>{item.name}</h2>
           {item.subtitle && <p className="entity-card-subtitle">{item.subtitle}</p>}
           <p>{item.summary}</p>

@@ -57,7 +57,7 @@ export default function EntityDetailPage({ catalogKey }) {
         <div className="detail-hero-media">
           <ImageWithFallback
             src={item.image || item.thumbnail}
-            alt={hasImage ? `Ilustração de ${item.name}` : `Representação provisória de ${item.name}`}
+            alt={item.imageAlt || (hasImage ? `Ilustração de ${item.name}` : `Representação provisória de ${item.name}`)}
             fallback={catalog.placeholder}
             loading="eager"
             fetchPriority="high"
@@ -70,6 +70,8 @@ export default function EntityDetailPage({ catalogKey }) {
           <Breadcrumbs items={[{ label: catalog.label, to: catalog.path }, { label: item.name }]} />
           <div className="detail-identity">
             <div className="detail-classification"><span className="kicker">{item.category}</span><TruthBadge status={item.truthStatus} /></div>
+            {item.imageScope === 'thematic' && <p className="detail-visual-note">Prancha temática preservada pelo Arquivo; não constitui retrato individual canônico.</p>}
+            {item.imageScope === 'regional' && <p className="detail-visual-note">Prancha regional baseada no testemunho cartográfico do Atlas oficial.</p>}
             <h1>{item.name}</h1>
             <p className="detail-subtitle">{item.subtitle}</p>
             <OrnamentalDivider />

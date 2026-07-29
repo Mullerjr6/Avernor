@@ -87,9 +87,25 @@ Coordenadas são apresentadas como `x, y` e servem ao alinhamento do overlay 3:2
 | Espelho de Sal | Fratura | Zharak | 82, 88 | Regional |
 | Habitat do Lobo de Vidro | Criatura | Zharak | 87, 82 | Regional |
 
+## Topônimos transcritos do raster oficial em 2026-07-29
+
+| Região | Registros incorporados |
+|---|---|
+| Winterfeld | Fortaleza Gélida; Passagem da Geada |
+| Montanhas Cinzentas | Acampamento da Liberdade; Pico da Vigia; A Fortaleza Esquecida |
+| Ilhas do Nevoeiro | Ilhas do Nevoeiro |
+| Sylvaris | Clarifonte; Enaril; Narin’falas; Vale das Estrelas |
+| Valoria | Campo Belo; Ponte Dourada |
+| Ravenhold e Terras Sombrias | Muralha de Pedra; Campo de Treinamento; Rio Torrente; Fortaleza Solar; Necrópole de Valthor |
+| Kar-Dûm | Portão de Karak; Salão dos Forgemantes; Minas de Ferro |
+| Arquipélago das Brumas | Ancoradouro dos Piratas |
+| Vul’Gar | Cidade de Gron; Fortaleza Kring; Acampamento dos Clãs |
+| Zharak | Porto da Serpente; Oásis Perdido; Cidade da Areia |
+
+Todos possuem verbete em `/locais/:slug`, imagem regional responsiva e ligação direta para o marcador. “A Fortaleza Esquecida” e a grafia “Salão dos Forgemantes” permanecem contestadas; não foram normalizadas por conjectura. Nenhuma nova rota ou distância foi criada somente a partir da proximidade visual entre símbolos.
+
 ## Inclusão e revisão
 
 Um novo ponto precisa ser público, relevante na escala do Atlas e compatível com a região que o contém. Se a fonte confirmar somente uma área, deve-se usar `regional`; se depender de testemunho incompleto, `approximate`. Nunca se aumenta a precisão apenas para melhorar a composição visual.
 
 O validador recusa IDs duplicados, referências inexistentes, coordenadas fora dos limites regionais, campos reservados, imagens ausentes e datas diferentes de 1204 d.C. Execute `node scripts/validate-atlas.mjs` depois de qualquer alteração.
-

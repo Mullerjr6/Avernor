@@ -1,5 +1,27 @@
 # Changelog local
 
+## 2026-07-29 — acabamento visual e doze novos dossiês ilustrados
+
+- Adicionados 6 locais de uso cotidiano e institucional: Farol das Sete Marés, Mosteiro da Brasa Tardia, Arquivo de Pedra, Jardim das Pontes Silenciosas, Mercado dos Três Ventos e Torre da Chuva Negra.
+- Adicionadas 3 lendas com evidência e limite documental explícitos: A Barca sem Remador, O Sino sob a Geleira e A Nona Porta.
+- Adicionados 3 documentos completos: Livro dos Caminhos Fechados, Registro das Águas Partilhadas e Códice dos Estandartes Baixos.
+- O total visível passou de 199 para 211 registros nos 27 catálogos; todos continuam ligados a outros verbetes e possuem imagem e thumbnail.
+- Produzidas 12 artes individuais e 24 derivados responsivos. A biblioteca passou a 81 assets integrados, 116 PNGs mestres preservados e 192 WebPs publicados.
+- Criada `src/styles/polish.css` como camada final não destrutiva para navegação, cards, filtros, mastheads, dossiês, galeria, rodapé e telas estreitas.
+- Atualizadas as métricas da página inicial para apresentar o total real de registros e genealogias públicas.
+- Validações editoriais, de privacidade, conteúdo e imagens executadas sem erro nesta etapa.
+
+## 2026-07-29 — topônimos do raster e cobertura visual integral
+
+- Transcritos 27 topônimos legíveis do raster oficial em 27 novos verbetes geográficos e marcadores normalizados.
+- Adicionada a região pública das Ilhas do Nevoeiro sem atribuição de soberania não documentada.
+- Mantidas como contestadas a Fortaleza Esquecida e a grafia cartográfica do Salão dos Forgemantes.
+- Criadas 9 pranchas regionais para os novos locais e 5 pranchas temáticas para os registros sem representação individual.
+- Completada a cobertura de imagem e thumbnail dos 199 registros visíveis nos 27 catálogos; pranchas compartilhadas recebem legenda de proveniência e não são tratadas como retratos canônicos.
+- Biblioteca ampliada para 69 assets integrados, 104 PNGs mestres preservados e 168 WebPs publicados.
+- `validate:content` passou a recusar registro público sem imagem responsiva completa ou prancha compartilhada sem texto alternativo.
+- Não foram inventadas rotas ou distâncias apenas por proximidade visual no mapa.
+
 ## 2026-07-22 — arquivo público ampliado e contenção canônica
 
 - Removidas do bundle público todas as chaves `secrets` e a revelação do mecanismo reservado das Cinco Relíquias.

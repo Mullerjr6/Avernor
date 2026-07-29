@@ -1,5 +1,7 @@
 import { record } from '../schema.js'
 import { locationDossiers } from '../places/dossiers.js'
+import { cartographicLocations } from './cartographic.js'
+import { chronicleSites } from './chronicleSites.js'
 
 const locationRecords = [
   record({ id: 'floresta-antiga', name: 'Floresta Antiga', subtitle: 'Onde caminhos guardam memória', summary: 'Grande floresta do oeste, lar de Sylvaris e refúgio de Sirius durante a perseguição.', description: 'A floresta reúne zonas manejadas, áreas sagradas e regiões nunca ocupadas. Trilhas mudam porque pontes são recolhidas, vegetação cresce rápido e guardiões desviam invasores — não porque o território ignore as leis naturais.', image: '/assets/images/locations/jornada-floresta-antiga-banner.webp', thumbnail: '/assets/images/locations/jornada-floresta-antiga-card.webp', category: 'Floresta', status: 'Protegida', kingdom: 'Sylvaris', location: 'Oeste de Avernor', relations: [{ label: 'Sylvaris', to: '/reinos/sylvaris' }] }),
@@ -10,4 +12,8 @@ const locationRecords = [
   record({ id: 'mar-interior', name: 'Mar Interior', subtitle: 'A água entre as coroas', summary: 'Sistema de lagos e estreitos que conecta rotas de Valoria, Sylvaris e Kar-Dûm.', description: 'Pontes e balsas fizeram do Mar Interior o principal corredor econômico do continente. As margens guardam ruínas Rivs e antigos postos das Doze Legiões.', category: 'Mar interior', status: 'Navegado', location: 'Centro-oeste de Avernor', relations: [{ label: 'Arquivo Submerso', to: '/lendas/arquivo-submerso' }] }),
 ]
 
-export const locations = locationRecords.map((location) => ({ ...location, ...locationDossiers[location.id] }))
+export const locations = [
+  ...locationRecords.map((location) => ({ ...location, ...locationDossiers[location.id] })),
+  ...cartographicLocations,
+  ...chronicleSites,
+]

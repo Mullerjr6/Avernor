@@ -141,8 +141,10 @@ function TextAtlas({ points, onSelect }) {
 
 export default function AtlasPage() {
   const [params, setParams] = useSearchParams()
-  const initialRoute = routeById[params.get('rota')]
-  const initialPoint = pointById[params.get('ponto')] ?? pointById[initialRoute?.from] ?? canonicalAtlasPoints.find((point) => point.id === 'valoris')
+  const requestedRouteId = params.get('rota')
+  const requestedPointId = params.get('ponto')
+  const initialRoute = routeById[requestedRouteId]
+  const initialPoint = pointById[requestedPointId] ?? pointById[initialRoute?.from] ?? canonicalAtlasPoints.find((point) => point.id === 'valoris')
   const [selectedId, setSelectedId] = useState(initialPoint.id)
   const [query, setQuery] = useState('')
   const [layerFilter, setLayerFilter] = useState('')
@@ -225,10 +227,29 @@ export default function AtlasPage() {
     setPan(constrainPan(next, activeZoom))
   }, [constrainPan])
 
+  useEffect(() => {
+    const requestedRoute = routeById[requestedRouteId]
+    const requestedPoint = pointById[requestedPointId] ?? pointById[requestedRoute?.from]
+    if (!requestedPoint && !requestedRoute) return
+
+    const frame = requestAnimationFrame(() => {
+      if (requestedPoint) setSelectedId(requestedPoint.id)
+      if (requestedRoute) {
+        setJourneyStart(requestedRoute.from)
+        setJourneyEnd(requestedRoute.to)
+        setFocusedRouteId(requestedRoute.id)
+      } else {
+        setFocusedRouteId('')
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [requestedPointId, requestedRouteId])
+
   const selectPoint = useCallback((point, locate = false) => {
     setSelectedId(point.id)
     const next = new URLSearchParams(params)
     next.set('ponto', point.id)
+    next.delete('rota')
     setParams(next, { replace: true })
     if (locate) {
       setViewMode('map')
@@ -361,7 +382,7 @@ export default function AtlasPage() {
         </div>
       </div>
 
-      <main className="content-section canonical-atlas-page">
+      <div className="content-section canonical-atlas-page">
         <section className="canonical-atlas-authority" aria-labelledby="atlas-authority-title">
           <div><span aria-hidden="true">✦</span><div><strong id="atlas-authority-title">Mapa Oficial Canônico de Avernor</strong><small>{canonicalMap.referenceDate} · coordenadas normalizadas</small></div></div>
           <p>{canonicalMap.authority.scope} Dados e overlays prevalecem sobre rótulos gravados no raster preservado.</p>
@@ -497,7 +518,7 @@ export default function AtlasPage() {
             </article>
           ))}</div>
         </section>
-      </main>
+      </div>
     </>
   )
 }

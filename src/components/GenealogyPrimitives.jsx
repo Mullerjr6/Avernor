@@ -8,11 +8,18 @@ const relationshipLabels = {
   adopted: 'Adoção',
   illegitimate: 'Descendência não reconhecida',
   partner: 'Casamento ou união',
+  'political-marriage': 'Casamento político',
   unofficial: 'União não oficial',
+  'annulled-union': 'União anulada',
   guardian: 'Tutela',
   oath: 'Juramento',
+  spiritual: 'Parentesco espiritual',
   contested: 'Vínculo contestado',
+  unconfirmed: 'Parentesco não confirmado',
   office: 'Transmissão de ofício',
+  'master-apprentice': 'Mestre e aprendiz',
+  succession: 'Sucessão sem parentesco',
+  'broken-branch': 'Ramo interrompido ou perdido',
   custody: 'Transmissão de custódia',
 }
 
@@ -55,7 +62,7 @@ export function FamilyTreeNode({ person, generation, lifeState, successionRole, 
 
 export function FamilyRelationshipEdge({ edge, from, to, highlighted, nodeWidth = 264, nodeHeight = 176 }) {
   if (!from || !to) return null
-  const horizontal = ['partner', 'unofficial', 'oath', 'contested'].includes(edge.type) && Math.abs(from.y - to.y) < nodeHeight
+  const horizontal = ['partner', 'political-marriage', 'unofficial', 'annulled-union', 'spiritual', 'oath', 'contested', 'unconfirmed'].includes(edge.type) && Math.abs(from.y - to.y) < nodeHeight
   let d
   if (horizontal) {
     const leftToRight = from.x <= to.x
@@ -104,7 +111,7 @@ export function GenealogyMiniMap({ positions, edges, canvasWidth, canvasHeight, 
 export function RelationshipLegend() {
   return <div className="genealogy-legend" aria-label="Legenda genealógica">
     <strong>Relações</strong>
-    <span><i className="legend-parent" />Descendência</span><span><i className="legend-adopted" />Adoção</span><span><i className="legend-partner" />União</span><span><i className="legend-office" />Ofício</span><span><i className="legend-custody" />Custódia</span><span><i className="legend-guardian" />Tutela/juramento</span><span><i className="legend-disputed" />Contestado</span><span><i className="legend-path" />Caminho calculado</span>
+    <span><i className="legend-parent" />Descendência</span><span><i className="legend-broken" />Ramo interrompido</span><span><i className="legend-adopted" />Adoção</span><span><i className="legend-partner" />União</span><span><i className="legend-political" />Casamento político</span><span><i className="legend-office" />Ofício/sucessão</span><span><i className="legend-apprentice" />Mestre–aprendiz</span><span><i className="legend-custody" />Custódia</span><span><i className="legend-guardian" />Tutela/juramento</span><span><i className="legend-disputed" />Contestado/não confirmado</span><span><i className="legend-path" />Caminho calculado</span>
     <strong>Registro</strong>
     <span><b className="legend-life living" />Vivo</span><span><b className="legend-life dead" />Morto</span><span><b className="legend-life missing" />Desaparecido</span><span><b className="legend-life unknown" />Desconhecido/perdido</span>
   </div>

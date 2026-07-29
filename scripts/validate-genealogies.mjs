@@ -12,8 +12,9 @@ const duplicates = (values) => values.filter((value, index) => values.indexOf(va
 const personById = new Map(genealogyPeople.map((person) => [person.id, person]))
 const treeById = new Map(genealogies.map((tree) => [tree.id, tree]))
 const dynastyById = new Map(dynasties.map((dynasty) => [dynasty.id, dynasty]))
-const validRelationTypes = new Set(['parent', 'adopted', 'illegitimate', 'partner', 'unofficial', 'guardian', 'oath', 'contested', 'office', 'custody'])
-const generationalRelationTypes = new Set(['parent', 'adopted', 'illegitimate', 'office', 'custody'])
+const validRelationTypes = new Set(['parent', 'adopted', 'illegitimate', 'partner', 'political-marriage', 'unofficial', 'annulled-union', 'guardian', 'oath', 'spiritual', 'contested', 'unconfirmed', 'office', 'master-apprentice', 'succession', 'broken-branch', 'custody'])
+const generationalRelationTypes = new Set(['parent', 'adopted', 'illegitimate', 'office', 'master-apprentice', 'succession', 'broken-branch', 'custody'])
+const symmetricRelationTypes = new Set(['partner', 'political-marriage', 'unofficial', 'annulled-union', 'oath', 'spiritual', 'contested', 'unconfirmed'])
 const validRelationStatuses = new Set(['documented', 'witnessed', 'disputed', 'legendary', 'redacted', 'lost', 'unrecorded'])
 const validTruthStatuses = new Set(['documented', 'witnessed', 'disputed', 'legendary', 'prophetic', 'redacted'])
 const validKnowledgeStatuses = new Set(['public', 'documented', 'unknown', 'lost', 'disputed', 'secret', 'unrecorded', 'rumor', 'people-only'])
@@ -70,7 +71,7 @@ for (const tree of genealogies) {
     if (edge.from === edge.to) error(`${tree.id}: autorrelação em ${edge.from}`)
     if (!validRelationTypes.has(edge.type)) error(`${tree.id}: tipo de relação inválido ${edge.type}`)
     if (!validRelationStatuses.has(edge.status)) error(`${tree.id}: status de relação inválido ${edge.status}`)
-    const edgeKey = ['partner', 'unofficial', 'oath', 'contested'].includes(edge.type) ? [edge.from, edge.to].sort().join('|') + `|${edge.type}` : `${edge.from}|${edge.to}|${edge.type}`
+    const edgeKey = symmetricRelationTypes.has(edge.type) ? [edge.from, edge.to].sort().join('|') + `|${edge.type}` : `${edge.from}|${edge.to}|${edge.type}`
     if (edgeKeys.has(edgeKey)) error(`${tree.id}: relação duplicada ou reciprocidade representada duas vezes ${edgeKey}`)
     edgeKeys.add(edgeKey)
     undirected.get(edge.from)?.push(edge.to)

@@ -34,11 +34,16 @@ const expectedByDirectory = {
   cities: { page: [1600, 900], card: [720, 405], master: [2560, 1440] },
   gallery: { page: [1600, 900], card: [720, 405], master: [2560, 1440] },
   locations: { page: [1600, 900], card: [720, 405], master: [2560, 1440] },
+  'atlas-plates': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
+  'archive-plates': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
+  'lore-locations': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
+  'lore-legends': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
   artifacts: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   bestiary: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   houses: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   religions: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   books: { page: [960, 1440], card: [640, 960], master: [2048, 3072] },
+  'lore-books': { page: [960, 1440], card: [640, 960], master: [1024, 1536] },
 }
 
 for (const [id, images] of Object.entries(imageManifest)) {
@@ -75,8 +80,8 @@ const pngCount = masterAssets.filter((file) => file.endsWith('.png')).length
 const webpCount = allAssets.filter((file) => file.endsWith('.webp')).length
 const temporaryCount = [...allAssets, ...masterAssets].filter((file) => file.endsWith('.processing')).length
 
-if (Object.keys(imageManifest).length !== 55) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 55`)
-if (pngCount !== 90) failures.push(`Master archive has ${pngCount} PNGs instead of 90`)
+if (Object.keys(imageManifest).length !== 81) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 81`)
+if (pngCount !== 116) failures.push(`Master archive has ${pngCount} PNGs instead of 116`)
 if (temporaryCount) failures.push(`${temporaryCount} temporary processing files remain`)
 if (publicPngCount) failures.push(`${publicPngCount} PNG masters remain in public/ and would inflate the production build`)
 

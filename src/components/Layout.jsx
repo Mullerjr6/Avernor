@@ -98,7 +98,7 @@ export default function Layout({ children }) {
         <nav aria-label="Navegação do rodapé">
           <Link to="/busca">Índice geral</Link><Link to="/genealogias">Genealogias</Link><Link to="/cosmologia">Cosmologia</Link><Link to="/biblioteca">Biblioteca</Link><Link to="/galeria">Galeria</Link><Link to="/sobre">Sobre</Link>
         </nav>
-        <small>Universo original de Júnior Maia Müller · Arquivo atualizado em 21 de julho de 2026</small>
+        <small>Universo original de Júnior Maia Müller · Arquivo atualizado em 29 de julho de 2026</small>
       </footer>
       <BackToTop />
     </div>

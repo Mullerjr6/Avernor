@@ -25,8 +25,8 @@ const GENERATION_GAP = 116
 const CANVAS_PADDING = 88
 const MIN_ZOOM = .42
 const MAX_ZOOM = 1.9
-const generationalRelations = new Set(['parent', 'adopted', 'illegitimate', 'office', 'custody'])
-const sameLevelRelations = new Set(['partner', 'unofficial'])
+const generationalRelations = new Set(['parent', 'adopted', 'illegitimate', 'office', 'custody', 'master-apprentice', 'succession', 'broken-branch'])
+const sameLevelRelations = new Set(['partner', 'political-marriage', 'unofficial', 'annulled-union', 'spiritual', 'oath', 'unconfirmed'])
 
 const clamp = (value, minimum, maximum) => Math.min(maximum, Math.max(minimum, value))
 const formatYear = (year) => year == null ? 'não registrado' : year < 0 ? `${Math.abs(year)} a.C.` : year === 0 ? 'Ano 0' : `${year} d.C.`
@@ -297,6 +297,26 @@ export default function GenealogyTree({ tree }) {
   }, [canvasWidth, mode, positions, requestedPersonId, tree.memberIds, updatePan, updateZoom, viewportSize.height, viewportSize.width])
 
   useEffect(() => {
+    if (!requestedPersonId || !tree.memberIds.includes(requestedPersonId)) return
+    const frame = requestAnimationFrame(() => {
+      setSelectedId(requestedPersonId)
+      setLocateId(requestedPersonId)
+      if (mode !== 'visual' || !viewportSize.width) return
+
+      const point = positions.get(requestedPersonId)
+      if (!point) return
+      const requestedZoom = clamp(Math.max(.72, zoomRef.current), MIN_ZOOM, MAX_ZOOM)
+      updateZoom(requestedZoom)
+      updatePan({
+        x: viewportSize.width / 2 - (point.x + NODE_WIDTH / 2) * requestedZoom,
+        y: viewportSize.height / 2 - (point.y + NODE_HEIGHT / 2) * requestedZoom,
+      })
+      nodeRefs.current.get(requestedPersonId)?.focus()
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [mode, positions, requestedPersonId, tree.memberIds, updatePan, updateZoom, viewportSize.height, viewportSize.width])
+
+  useEffect(() => {
     const onFullscreen = () => setIsFullscreen(document.fullscreenElement === workbenchRef.current)
     document.addEventListener('fullscreenchange', onFullscreen)
     return () => document.removeEventListener('fullscreenchange', onFullscreen)
@@ -417,9 +437,9 @@ export default function GenealogyTree({ tree }) {
   const selectedParents = parents.get(selectedId) ?? []
   const selectedChildren = children.get(selectedId) ?? []
   const relationsForSelected = tree.relations.filter(({ from, to }) => from === selectedId || to === selectedId)
-  const selectedPartners = relationsForSelected.filter(({ type }) => ['partner', 'unofficial'].includes(type)).map(({ from, to }) => from === selectedId ? to : from)
+  const selectedPartners = relationsForSelected.filter(({ type }) => ['partner', 'political-marriage', 'unofficial', 'annulled-union'].includes(type)).map(({ from, to }) => from === selectedId ? to : from)
   const selectedSiblings = [...new Set(selectedParents.flatMap((parentId) => children.get(parentId) ?? []).filter((id) => id !== selectedId))]
-  const selectedOffices = relationsForSelected.filter(({ type }) => ['office', 'custody', 'guardian', 'oath'].includes(type)).map(({ from, to, type }) => ({ id: from === selectedId ? to : from, type }))
+  const selectedOffices = relationsForSelected.filter(({ type }) => ['office', 'custody', 'guardian', 'oath', 'spiritual', 'master-apprentice', 'succession'].includes(type)).map(({ from, to, type }) => ({ id: from === selectedId ? to : from, type }))
   const namesFor = (ids) => ids.length ? ids.map((id) => genealogyPeopleById[id]?.name).filter(Boolean).join(', ') : 'Não registrado'
 
   const nodeCard = (id, textMode = false) => {
@@ -464,10 +484,10 @@ export default function GenealogyTree({ tree }) {
         <div className="genealogy-detail-heading"><div className="genealogy-detail-badges"><GenealogyStatusBadge status={selected.truthStatus || tree.truthStatus} /><span>{formatKnowledge(selected.knowledgeStatus)}</span></div><span>Geração {generations[selectedId] + 1}</span><h2>{selected.name}</h2><p className="genealogy-detail-title">{selectedProfile?.subtitle || selected.titles?.join(' · ') || selected.role}</p><p>{formatLifespan(selected)}</p></div>
         <p className="genealogy-detail-summary">{selectedProfile?.summary || selected.summary || `O arquivo preserva nome, datas e vínculos de ${selected.name}; a biografia integral não foi registrada.`}</p>
         <dl>
-          <div><dt>Papel</dt><dd>{selected.role || 'Não registrado'}</dd></div><div><dt>Ramo</dt><dd>{selected.branch || selected.house || 'Não registrado'}</dd></div><div><dt>Período</dt><dd>{selected.period || 'Não registrado'}</dd></div><div><dt>Condição</dt><dd>{selected.status}</dd></div><div><dt>Povo</dt><dd>{selected.people}</dd></div><div><dt>Estado do conhecimento</dt><dd>{formatKnowledge(selected.knowledgeStatus)}</dd></div><div><dt>Fonte</dt><dd>{selected.source || 'Não registrada'}</dd></div><div><dt>Confiabilidade</dt><dd>{formatConfidence(selected.confidence)}</dd></div><div><dt>Pais ou predecessores</dt><dd>{namesFor(selectedParents)}</dd></div><div><dt>Filhos ou sucessores</dt><dd>{namesFor(selectedChildren)}</dd></div><div><dt>Cônjuges ou uniões</dt><dd>{namesFor(selectedPartners)}</dd></div><div><dt>Irmãos</dt><dd>{namesFor(selectedSiblings)}</dd></div><div><dt>Ofício, custódia ou juramento</dt><dd>{selectedOffices.length ? selectedOffices.map(({ id, type }) => `${genealogyPeopleById[id]?.name} (${type})`).join(', ') : 'Não registrado'}</dd></div><div><dt>Sucessão</dt><dd>{successionRoles.get(selectedId) ?? 'Sem posição pública'}</dd></div>
+          <div><dt>Papel</dt><dd>{selectedProfile?.category || selected.role || 'Não registrado'}</dd></div><div><dt>Ramo</dt><dd>{selected.branch || selected.house || 'Não registrado'}</dd></div><div><dt>Período</dt><dd>{selected.period || 'Não registrado'}</dd></div><div><dt>Condição</dt><dd>{selected.status}</dd></div><div><dt>Povo</dt><dd>{selected.people}</dd></div><div><dt>Estado do conhecimento</dt><dd>{formatKnowledge(selected.knowledgeStatus)}</dd></div><div><dt>Fonte</dt><dd>{selected.source || 'Não registrada'}</dd></div><div><dt>Confiabilidade</dt><dd>{formatConfidence(selected.confidence)}</dd></div><div><dt>Pais ou predecessores</dt><dd>{namesFor(selectedParents)}</dd></div><div><dt>Filhos ou sucessores</dt><dd>{namesFor(selectedChildren)}</dd></div><div><dt>Cônjuges ou uniões</dt><dd>{namesFor(selectedPartners)}</dd></div><div><dt>Irmãos</dt><dd>{namesFor(selectedSiblings)}</dd></div><div><dt>Ofício, custódia ou juramento</dt><dd>{selectedOffices.length ? selectedOffices.map(({ id, type }) => `${genealogyPeopleById[id]?.name} (${type})`).join(', ') : 'Não registrado'}</dd></div><div><dt>Sucessão</dt><dd>{successionRoles.get(selectedId) ?? 'Sem posição pública'}</dd></div>
         </dl>
-        {selected.historicalRole && <section><h3>Papel histórico</h3><p>{selected.historicalRole}</p></section>}
-        {selected.visualDescription && <section><h3>Descrição visual de arquivo</h3><p>{selected.visualDescription}</p></section>}
+        {(selectedProfile?.legacy || selected.historicalRole) && <section><h3>Papel histórico</h3><p>{selectedProfile?.legacy || selected.historicalRole}</p></section>}
+        {(selectedProfile?.appearance || selected.visualDescription) && <section><h3>Descrição visual de arquivo</h3><p>{selectedProfile?.appearance || selected.visualDescription}</p></section>}
         {!!selected.tags?.length && <ul className="genealogy-detail-tags" aria-label="Marcadores">{selected.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>}
         {selected.profile && <Link className="button button-secondary" to={selected.profile}>Abrir perfil completo</Link>}
         {succession && <Link className="text-link" to={`/sucessoes/${succession.slug}`}>Consultar sucessão de {succession.realm}</Link>}

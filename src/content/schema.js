@@ -1,6 +1,6 @@
 import { imagesFor } from './imageManifest.js'
 
-export const contentDate = '2026-07-21'
+export const contentDate = '2026-07-29'
 
 export function record(entry) {
   const images = imagesFor(entry.id)
@@ -10,6 +10,8 @@ export function record(entry) {
     description: '',
     image: images.image ?? '',
     thumbnail: images.thumbnail ?? '',
+    imageScope: images.imageScope ?? '',
+    imageAlt: images.imageAlt ?? '',
     gallery: [],
     category: '',
     status: 'Registrado',
