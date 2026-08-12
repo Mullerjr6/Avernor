@@ -10,6 +10,9 @@ const errors = []
 const routes = new Set(['/', '/cronologia', '/atlas', '/galeria', '/sobre', '/busca', '/genealogias', '/dinastias', '/sucessoes', '/404'])
 const entitiesByRoute = new Map()
 const genealogyPersonByProfile = new Map(genealogyPeople.filter(({ profile }) => profile).map((person) => [person.profile, person]))
+const geographicCatalogPaths = new Set(['/reinos', '/cidades', '/locais', '/portais', '/outros-mundos', '/nar-khalion'])
+const geographicImages = new Map()
+const geographicThumbnails = new Map()
 
 for (const catalog of Object.values(catalogs)) {
   routes.add(catalog.path)
@@ -19,6 +22,17 @@ for (const catalog of Object.values(catalogs)) {
     const route = `${catalog.path}/${item.slug}`
     routes.add(route)
     if (catalog.path !== '/bestiario') entitiesByRoute.set(route, item)
+    if (geographicCatalogPaths.has(catalog.path)) {
+      if (!item.image || !item.thumbnail) errors.push(`${route}: registro geográfico sem imagem e miniatura próprias`)
+      for (const [kind, source, registry] of [
+        ['imagem', item.image, geographicImages],
+        ['miniatura', item.thumbnail, geographicThumbnails],
+      ]) {
+        if (!source) continue
+        if (registry.has(source)) errors.push(`${route}: ${kind} duplicada de ${registry.get(source)} (${source})`)
+        else registry.set(source, route)
+      }
+    }
   })
 }
 genealogies.forEach((item) => routes.add(`/genealogias/${item.slug}`))

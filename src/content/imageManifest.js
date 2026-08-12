@@ -24,6 +24,8 @@ const imageGroups = {
   'lore-locations': ['farol-das-sete-mares', 'mosteiro-da-brasa-tardia', 'arquivo-de-pedra', 'jardim-das-pontes-silenciosas', 'mercado-dos-tres-ventos', 'torre-da-chuva-negra'],
   'lore-legends': ['barca-sem-remador', 'sino-sob-a-geleira', 'nona-porta'],
   'lore-books': ['livro-dos-caminhos-fechados', 'registro-das-aguas-partilhadas', 'codice-dos-estandartes-baixos'],
+  kingdoms: ['kingdom-winterfeld', 'kingdom-sylvaris', 'kingdom-kar-dum', 'kingdom-valoria', 'kingdom-ravenhold', 'kingdom-eldemar', 'kingdom-montanhas-cinzentas'],
+  cosmology: ['elyra', 'morvath', 'naelor', 'varakh', 'fenda-sem-nome', 'nar-khalion', 'prisioneiro-sem-nome'],
 }
 
 export const imageManifest = Object.fromEntries(

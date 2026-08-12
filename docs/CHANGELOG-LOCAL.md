@@ -1,5 +1,13 @@
 # Changelog local
 
+## 2026-08-12 — identidade visual própria dos territórios
+
+- Criadas 14 paisagens inéditas: sete panoramas políticos para os reinos e territórios e sete pranchas para outros mundos, Nar-Khalion e seu registro deliberadamente oculto.
+- Corrigida a imagem de Lethariel, que reutilizava indevidamente a cena da Floresta Antiga; a capital agora usa sua vista urbana própria do Atlas.
+- Os 64 registros geográficos de reinos, cidades, locais, portais, outros mundos e Nar-Khalion possuem imagem e miniatura distintas.
+- A biblioteca passou a 135 assets integrados, 170 mestres PNG preservados e 300 derivados WebP publicados.
+- A validação de conteúdo agora bloqueia qualquer imagem ausente ou duplicada entre registros geográficos diferentes.
+
 ## 2026-08-12 — recuperação de versão e estabilidade do Arquivo
 
 - Corrigida a falha recorrente causada por páginas antigas que tentavam carregar módulos removidos após uma nova publicação.

@@ -45,6 +45,11 @@ const individualAtlasPlates = [
   'fortaleza-kring', 'acampamento-dos-clas', 'porto-da-serpente', 'oasis-perdido', 'cidade-da-areia',
 ]
 
+const individualGeographicDossiers = {
+  kingdoms: ['kingdom-winterfeld', 'kingdom-sylvaris', 'kingdom-kar-dum', 'kingdom-valoria', 'kingdom-ravenhold', 'kingdom-eldemar', 'kingdom-montanhas-cinzentas'],
+  cosmology: ['elyra', 'morvath', 'naelor', 'varakh', 'fenda-sem-nome', 'nar-khalion', 'prisioneiro-sem-nome'],
+}
+
 const legacyCharacters = [
   'elara',
   'guerreira-orc',
@@ -106,6 +111,13 @@ for (const name of generatedBooks) {
 for (const name of individualAtlasPlates) {
   const file = path.join(imageRoot, 'atlas-plates', `${name}.png`)
   await writeProcessed(file, file, { width: 1672, height: 941, fit: 'fill' })
+}
+
+for (const [directory, names] of Object.entries(individualGeographicDossiers)) {
+  for (const name of names) {
+    const file = path.join(imageRoot, directory, `${name}.png`)
+    await writeProcessed(file, file, { width: 1672, height: 941, fit: 'fill' })
+  }
 }
 
 for (const name of legacyCharacters) {

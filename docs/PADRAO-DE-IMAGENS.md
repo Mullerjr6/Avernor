@@ -24,6 +24,8 @@ Os masters dessas coleções ficam em `artwork-masters/assets/images/archive-pla
 
 No Atlas interativo, cada ponto público possui agora uma imagem individual. As antigas pranchas regionais permanecem preservadas como documentação de conjunto, mas não podem substituir a vista própria de fortaleza, passagem, rio, cidade, ruína ou marco local. `scripts/validate-atlas.mjs` recusa pontos sem imagem e também recusa o mesmo arquivo ligado a dois lugares diferentes.
 
+Essa identidade própria também é obrigatória nos catálogos geográficos. Reinos, cidades, locais, portais, outros mundos e Nar-Khalion não podem compartilhar imagem principal nem miniatura entre registros distintos. A regra é verificada por `scripts/validate-content.mjs`; uma fotografia panorâmica de região não pode ser apresentada como vista documental de uma cidade situada nela.
+
 ## Artes individuais de lore
 
 Locais, lendas e documentos novos com composição própria usam `lore-locations/`, `lore-legends/` e `lore-books/`. Paisagens e cenas documentais são mestres 16:9 de 1672 × 941; capas são mestres 2:3 de 1024 × 1536. O pipeline publica 720 × 405 e 1600 × 900 para paisagens, ou 640 × 960 e 960 × 1440 para capas.

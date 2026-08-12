@@ -49,4 +49,4 @@ Os dossiês enciclopédicos profundos ficam em arquivos `dossiers.js` por domín
 
 ## Qualidade
 
-O projeto usa ESLint, lazy loading por página e da busca global, imagens WebP responsivas, fallbacks visuais e metadados dinâmicos. Execute `npm run validate` para verificar genealogias, Atlas, cronologia, rotas, reciprocidade das relações, profundidade editorial, fronteiras públicas e biblioteca visual; depois rode `npm run lint` e `npm run build`. Não há serviço externo obrigatório em tempo de execução.
+O projeto usa ESLint, lazy loading por página e da busca global, imagens WebP responsivas, fallbacks visuais e metadados dinâmicos. Execute `npm run validate` para verificar genealogias, Atlas, cronologia, rotas, reciprocidade das relações, profundidade editorial, fronteiras públicas e biblioteca visual. A validação também rejeita registros geográficos sem imagem ou que reutilizem a fotografia de outro lugar nos catálogos de reinos, cidades, locais, portais, outros mundos e Nar-Khalion. Depois rode `npm run lint` e `npm run build`. Não há serviço externo obrigatório em tempo de execução.

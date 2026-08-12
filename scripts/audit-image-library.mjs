@@ -38,6 +38,8 @@ const expectedByDirectory = {
   'archive-plates': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
   'lore-locations': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
   'lore-legends': { page: [1600, 900], card: [720, 405], master: [1672, 941] },
+  kingdoms: { page: [1600, 900], card: [720, 405], master: [1672, 941] },
+  cosmology: { page: [1600, 900], card: [720, 405], master: [1672, 941] },
   artifacts: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   bestiary: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
   houses: { page: [960, 1200], card: [640, 800], master: [2048, 2560] },
@@ -80,8 +82,8 @@ const pngCount = masterAssets.filter((file) => file.endsWith('.png')).length
 const webpCount = allAssets.filter((file) => file.endsWith('.webp')).length
 const temporaryCount = [...allAssets, ...masterAssets].filter((file) => file.endsWith('.processing')).length
 
-if (Object.keys(imageManifest).length !== 121) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 121`)
-if (pngCount !== 156) failures.push(`Master archive has ${pngCount} PNGs instead of 156`)
+if (Object.keys(imageManifest).length !== 135) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 135`)
+if (pngCount !== 170) failures.push(`Master archive has ${pngCount} PNGs instead of 170`)
 if (temporaryCount) failures.push(`${temporaryCount} temporary processing files remain`)
 if (publicPngCount) failures.push(`${publicPngCount} PNG masters remain in public/ and would inflate the production build`)
 
