@@ -1,5 +1,13 @@
 # Changelog local
 
+## 2026-08-12 — recuperação de versão e estabilidade do Arquivo
+
+- Corrigida a falha recorrente causada por páginas antigas que tentavam carregar módulos removidos após uma nova publicação.
+- As rotas carregadas sob demanda agora reconhecem erros de versão e fazem uma única atualização automática com revalidação.
+- Adicionada política de cache do Cloudflare Pages: documentos nunca ficam obsoletos e módulos com hash permanecem imutáveis.
+- O fallback foi separado por natureza: rotas públicas continuam abrindo a aplicação, enquanto recursos inexistentes sob `/assets/` retornam 404 verdadeiro e nunca são confundidos com módulos JavaScript.
+- A tela de falha ganhou atualização segura, retorno ao início e código diagnóstico para erros reais de conteúdo.
+
 ## 2026-08-12 — registros primários em volumes
 
 - Substituído o parágrafo isolado de abertura por um registro em volumes, com estrutura específica para personagens, territórios, sociedades, guerras e eras, objetos, crenças, criaturas e documentos.

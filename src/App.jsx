@@ -1,22 +1,23 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import Layout from './components/Layout'
 import Skeleton from './components/Skeleton'
+import { lazyWithRecovery } from './utils/lazyWithRecovery'
 
-const HomePage = lazy(() => import('./pages/HomePage'))
-const CollectionPage = lazy(() => import('./pages/CollectionPage'))
-const EntityDetailPage = lazy(() => import('./pages/EntityDetailPage'))
-const ChronologyPage = lazy(() => import('./pages/ChronologyPage'))
-const AtlasPage = lazy(() => import('./pages/AtlasPage'))
-const GalleryPage = lazy(() => import('./pages/GalleryPage'))
-const AboutPage = lazy(() => import('./pages/AboutPage'))
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
-const GenealogiesPage = lazy(() => import('./pages/GenealogiesPage'))
-const GenealogyDetailPage = lazy(() => import('./pages/GenealogyDetailPage'))
-const DynastiesPage = lazy(() => import('./pages/DynastiesPage'))
-const SuccessionsPage = lazy(() => import('./pages/SuccessionsPage'))
-const RelatedGenealogyPage = lazy(() => import('./pages/RelatedGenealogyPage'))
-const SearchPage = lazy(() => import('./pages/SearchPage'))
+const HomePage = lazyWithRecovery(() => import('./pages/HomePage'))
+const CollectionPage = lazyWithRecovery(() => import('./pages/CollectionPage'))
+const EntityDetailPage = lazyWithRecovery(() => import('./pages/EntityDetailPage'))
+const ChronologyPage = lazyWithRecovery(() => import('./pages/ChronologyPage'))
+const AtlasPage = lazyWithRecovery(() => import('./pages/AtlasPage'))
+const GalleryPage = lazyWithRecovery(() => import('./pages/GalleryPage'))
+const AboutPage = lazyWithRecovery(() => import('./pages/AboutPage'))
+const NotFoundPage = lazyWithRecovery(() => import('./pages/NotFoundPage'))
+const GenealogiesPage = lazyWithRecovery(() => import('./pages/GenealogiesPage'))
+const GenealogyDetailPage = lazyWithRecovery(() => import('./pages/GenealogyDetailPage'))
+const DynastiesPage = lazyWithRecovery(() => import('./pages/DynastiesPage'))
+const SuccessionsPage = lazyWithRecovery(() => import('./pages/SuccessionsPage'))
+const RelatedGenealogyPage = lazyWithRecovery(() => import('./pages/RelatedGenealogyPage'))
+const SearchPage = lazyWithRecovery(() => import('./pages/SearchPage'))
 
 const catalogRoutes = [
   ['historia', 'historia'], ['reinos', 'reinos'], ['cidades', 'cidades'], ['casas', 'casas'],
