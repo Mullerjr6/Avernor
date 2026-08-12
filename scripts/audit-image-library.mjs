@@ -80,8 +80,8 @@ const pngCount = masterAssets.filter((file) => file.endsWith('.png')).length
 const webpCount = allAssets.filter((file) => file.endsWith('.webp')).length
 const temporaryCount = [...allAssets, ...masterAssets].filter((file) => file.endsWith('.processing')).length
 
-if (Object.keys(imageManifest).length !== 81) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 81`)
-if (pngCount !== 116) failures.push(`Master archive has ${pngCount} PNGs instead of 116`)
+if (Object.keys(imageManifest).length !== 121) failures.push(`Manifest has ${Object.keys(imageManifest).length} entries instead of 121`)
+if (pngCount !== 156) failures.push(`Master archive has ${pngCount} PNGs instead of 156`)
 if (temporaryCount) failures.push(`${temporaryCount} temporary processing files remain`)
 if (publicPngCount) failures.push(`${publicPngCount} PNG masters remain in public/ and would inflate the production build`)
 

@@ -182,3 +182,12 @@
 - Criado o validador de profundidade editorial e ampliados os validadores de genealogia e conteúdo.
 - A busca global foi separada do pacote inicial por carregamento assíncrono.
 - Nenhum commit, push ou publicação realizado.
+# 2026-08-12 — Atlas sem imagens repetidas
+
+- auditados os 66 pontos públicos contra o raster oficial e os registros canônicos;
+- substituídas associações regionais inadequadas por 40 pranchas individuais inéditas;
+- preenchidos os 17 pontos que não possuíam registro visual;
+- separados visualmente Ravenhold/Terras Sombrias, Vul’Gar/Zharak, Sylvaris e os setores de Kar-Dûm;
+- preservadas as pranchas regionais antigas como documentação de conjunto, sem apresentá-las como retrato individual;
+- ampliado o manifesto para 121 registros, 156 mestres PNG preservados e 272 derivados WebP;
+- o validador do Atlas agora exige imagem em todos os pontos e bloqueia reutilização do mesmo arquivo entre lugares distintos.

@@ -179,6 +179,7 @@ const requiredPointFields = [
   'danger', 'referenceDate', 'truthStatus',
 ]
 const allowedPrecision = new Set(['confirmed', 'regional', 'approximate'])
+const imageOwners = new Map()
 
 for (const point of canonicalAtlasPoints) {
   for (const field of requiredPointFields) requireValue(point[field], `ponto ${point.id ?? '(sem id)'}.${field}`)
@@ -231,7 +232,12 @@ for (const point of canonicalAtlasPoints) {
     }
   }
   findRestrictedKeys(point, ['points', point.id])
-  if (point.image) await validateAsset(point.image, `ponto ${point.id}.image`)
+  await validateAsset(point.image, `ponto ${point.id}.image`)
+  if (point.image) {
+    const existingOwner = imageOwners.get(point.image)
+    if (existingOwner) fail(`Pontos ${existingOwner} e ${point.id}: uma imagem individual não pode representar dois lugares diferentes (${point.image}).`)
+    imageOwners.set(point.image, point.id)
+  }
 }
 
 const routeEndpointIds = new Set()

@@ -102,7 +102,7 @@ Coordenadas são apresentadas como `x, y` e servem ao alinhamento do overlay 3:2
 | Vul’Gar | Cidade de Gron; Fortaleza Kring; Acampamento dos Clãs |
 | Zharak | Porto da Serpente; Oásis Perdido; Cidade da Areia |
 
-Todos possuem verbete em `/locais/:slug`, imagem regional responsiva e ligação direta para o marcador. “A Fortaleza Esquecida” e a grafia “Salão dos Forgemantes” permanecem contestadas; não foram normalizadas por conjectura. Nenhuma nova rota ou distância foi criada somente a partir da proximidade visual entre símbolos.
+Todos possuem verbete em `/locais/:slug`, imagem individual responsiva e ligação direta para o marcador. As pranchas foram diferenciadas pelo relevo, pela natureza do símbolo e pelos limites públicos do verbete: uma vista não pode servir simultaneamente a dois lugares distintos. “A Fortaleza Esquecida” e a grafia “Salão dos Forgemantes” permanecem contestadas; não foram normalizadas por conjectura. Nenhuma nova rota ou distância foi criada somente a partir da proximidade visual entre símbolos.
 
 ## Inclusão e revisão
 

@@ -22,6 +22,8 @@ Registros sem representação individual podem receber uma prancha `thematic` ou
 
 Os masters dessas coleções ficam em `artwork-masters/assets/images/archive-plates/` e `artwork-masters/assets/images/atlas-plates/`. O vínculo entre registro e prancha é centralizado por `recordImageAliases` em `src/content/imageManifest.js`. `scripts/validate-content.mjs` impede registros públicos sem as duas variantes responsivas e impede pranchas compartilhadas sem descrição visual.
 
+No Atlas interativo, cada ponto público possui agora uma imagem individual. As antigas pranchas regionais permanecem preservadas como documentação de conjunto, mas não podem substituir a vista própria de fortaleza, passagem, rio, cidade, ruína ou marco local. `scripts/validate-atlas.mjs` recusa pontos sem imagem e também recusa o mesmo arquivo ligado a dois lugares diferentes.
+
 ## Artes individuais de lore
 
 Locais, lendas e documentos novos com composição própria usam `lore-locations/`, `lore-legends/` e `lore-books/`. Paisagens e cenas documentais são mestres 16:9 de 1672 × 941; capas são mestres 2:3 de 1024 × 1536. O pipeline publica 720 × 405 e 1600 × 900 para paisagens, ou 640 × 960 e 960 × 1440 para capas.

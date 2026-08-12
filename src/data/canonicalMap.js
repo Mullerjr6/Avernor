@@ -165,6 +165,21 @@ const publicAssociationsByPointId = Object.freeze({
   },
 })
 
+const individualAtlasPlateIds = new Set([
+  'geleiras-de-winterfeld', 'passagem-da-geada', 'montanhas-cinzentas', 'pico-da-vigia', 'fortaleza-esquecida',
+  'campo-belo', 'muralha-de-pedra', 'campo-de-treinamento', 'rio-torrente', 'fortaleza-solar',
+  'necropole-de-valthor', 'lethariel', 'palacio-da-seiva-clara', 'caminho-das-arvores-ausentes',
+  'clarifonte', 'enaril', 'narin-falas', 'vale-das-estrelas', 'valoria', 'sete-pontes',
+  'ravenhold', 'senado-de-estandartes', 'estrada-de-cinza', 'kar-dum', 'ponte-das-nove-bigornas',
+  'tuneis-vazios', 'portao-de-karak', 'salao-dos-forgemantes', 'minas-de-ferro', 'eldemar',
+  'docas-fundas', 'ruinas-rivs', 'vul-gar', 'espelho-de-sal', 'cidade-de-gron',
+  'fortaleza-kring', 'acampamento-dos-clas', 'porto-da-serpente', 'oasis-perdido', 'cidade-da-areia',
+])
+
+function individualAtlasImage(id) {
+  return individualAtlasPlateIds.has(id) ? `/assets/images/atlas-plates/${id}-page.webp` : ''
+}
+
 function atlasPoint(value) {
   const region = regionsById[value.regionId]
   const kingdomId = value.kingdomId ?? region.kingdomId
@@ -179,7 +194,8 @@ function atlasPoint(value) {
     status: 'Registrado',
     population: 'Não se aplica ou não registrada nesta escala.',
     danger: 'Variável; consultar o registro local.',
-    image: '',
+    image: individualAtlasImage(value.id),
+    imageAlt: `Vista documental de ${value.name}, produzida a partir da posição e do relevo preservados no Atlas oficial.`,
     history: 'Posição consolidada a partir dos registros públicos do Arquivo de Avernor.',
     ...value,
     relatedCharacters: [...new Set([...(associations.relatedCharacters ?? []), ...(value.relatedCharacters ?? [])])],
@@ -235,7 +251,7 @@ const cartographicAtlasPoints = [
   history: 'Testemunho cartográfico preservado; nenhum acontecimento foi atribuído sem fonte adicional.',
   sourceStatus: 'Testemunho cartográfico do raster oficial',
   href: `/locais/${id}`,
-  image: `/assets/images/atlas-plates/${plate}-page.webp`,
+  image: individualAtlasImage(id) || `/assets/images/atlas-plates/${plate}-page.webp`,
   relatedRecords: [`/locais/${id}`],
 }))
 
@@ -250,7 +266,7 @@ export const canonicalAtlasPoints = [
   atlasPoint({ id: 'ultimo-registro-mhazir', name: 'Último registro de Mhazir', label: 'Mhazir', type: 'criatura', layer: 'criaturas', regionId: 'montanhas-cinzentas', x: 70, y: 17, summary: 'Último setor público associado a Mhazir nas Montanhas Cinzentas.', description: 'A posição é aproximada e não afirma presença atual; o dragão permanece desaparecido.', coordinatePrecision: 'approximate', truthStatus: 'witnessed', status: 'Desaparecido', danger: 'Desconhecido', href: '/criaturas/mhazir', image: '/assets/images/bestiary/mhazir-page.webp' }),
 
   atlasPoint({ id: 'floresta-antiga', name: 'Floresta Antiga', label: 'Floresta Antiga', type: 'floresta', layer: 'geografia', regionId: 'sylvaris', x: 25, y: 41, summary: 'Grande floresta ocidental de bosques manejados, áreas sagradas e zonas nunca ocupadas.', description: 'Caminhos mudam por manejo, pontes recolhidas e crescimento rápido; o mapa público não revela rotas de refúgio.', status: 'Protegida', danger: 'Variável sem guia autorizado', href: '/locais/floresta-antiga', image: '/assets/images/locations/jornada-floresta-antiga-banner.webp', importance: 'continental' }),
-  atlasPoint({ id: 'lethariel', name: 'Lethariel', label: 'Lethariel', type: 'capital', layer: 'assentamentos', regionId: 'sylvaris', x: 25, y: 58, summary: 'Capital de Sylvaris entre margens, raízes e plataformas vivas.', description: 'Este overlay corrige o rótulo Aeloria gravado no raster-base; a fonte textual canônica estabelece Lethariel.', population: 'Cerca de 22 mil habitantes', status: 'Habitada', danger: 'Baixo com acesso autorizado', href: '/cidades/lethariel', image: '/assets/images/locations/jornada-floresta-antiga-banner.webp', importance: 'continental', relatedCharacters: ['Rainha Aelwen', 'Elara'] }),
+  atlasPoint({ id: 'lethariel', name: 'Lethariel', label: 'Lethariel', type: 'capital', layer: 'assentamentos', regionId: 'sylvaris', x: 25, y: 58, summary: 'Capital de Sylvaris entre margens, raízes e plataformas vivas.', description: 'Este overlay corrige o rótulo Aeloria gravado no raster-base; a fonte textual canônica estabelece Lethariel.', population: 'Cerca de 22 mil habitantes', status: 'Habitada', danger: 'Baixo com acesso autorizado', href: '/cidades/lethariel', image: '/assets/images/atlas-plates/lethariel-page.webp', importance: 'continental', relatedCharacters: ['Rainha Aelwen', 'Elara'] }),
   atlasPoint({ id: 'palacio-da-seiva-clara', name: 'Palácio da Seiva Clara', label: 'Palácio da Seiva Clara', type: 'local', layer: 'assentamentos', regionId: 'sylvaris', x: 26.7, y: 61, summary: 'Sede régia e arquivo político de Sylvaris.', description: 'O palácio abriga decisões da coroa e registros públicos dos Círculos; câmaras reservadas não aparecem no Atlas.', population: 'Parte de Lethariel', status: 'Em uso', danger: 'Acesso controlado', href: '/cidades/lethariel', relatedCharacters: ['Rainha Aelwen', 'Elara'] }),
   atlasPoint({ id: 'porto-verde', name: 'Porto Verde', label: 'Porto Verde', type: 'porto', layer: 'assentamentos', regionId: 'sylvaris', x: 14, y: 59, summary: 'Entreposto de margem onde estrangeiros negociam sem entrar nos bosques internos.', description: 'Armazéns sobre estacas, entrega de armas e fichas numeradas protegem o comércio e a soberania florestal.', population: 'Cerca de 7 mil habitantes', status: 'Habitado', danger: 'Baixo; regras de acesso estritas', href: '/cidades/porto-verde', image: '/assets/images/cities/porto-verde-page.webp', importance: 'continental' }),
   atlasPoint({ id: 'caminho-das-arvores-ausentes', name: 'Caminho das Árvores Ausentes', label: 'Árvores Ausentes', type: 'fratura', layer: 'fraturas', regionId: 'sylvaris', x: 21, y: 47, summary: 'Setor público de uma passagem intermitente cuja vegetação não corresponde à flora catalogada.', description: 'O marcador delimita apenas o setor de vigilância. A entrada exata varia e não é publicada como rota utilizável.', coordinatePrecision: 'regional', truthStatus: 'witnessed', status: 'Intermitente', danger: 'Alto', href: '/portais/caminho-das-arvores-ausentes' }),

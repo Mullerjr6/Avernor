@@ -8,7 +8,18 @@ const imageGroups = {
   houses: ['arden', 'bellatrix', 'kayler', 'nimbus', 'rivs'],
   religions: ['caminho-das-raizes', 'culto-da-brasa-comum', 'juramento-do-horizonte', 'nove-ecos'],
   books: ['a-carta-e-a-tempestade', 'atlas-das-sete-rotas', 'caderno-de-namidia', 'cronicas-perdidas-de-sylvaris', 'o-ultimo-bruxo', 'tratado-das-linhagens'],
-  'atlas-plates': ['winterfeld-geada', 'montanhas-vigias', 'sylvaris-assentamentos', 'valoria-pontes', 'ravenhold-fronteira', 'kar-dum-profundezas', 'eldemar-corsarios', 'oriente-clas-zharak', 'ilhas-do-nevoeiro'],
+  'atlas-plates': [
+    'winterfeld-geada', 'montanhas-vigias', 'sylvaris-assentamentos', 'valoria-pontes', 'ravenhold-fronteira',
+    'kar-dum-profundezas', 'eldemar-corsarios', 'oriente-clas-zharak', 'ilhas-do-nevoeiro',
+    'geleiras-de-winterfeld', 'passagem-da-geada', 'montanhas-cinzentas', 'pico-da-vigia', 'fortaleza-esquecida',
+    'campo-belo', 'muralha-de-pedra', 'campo-de-treinamento', 'rio-torrente', 'fortaleza-solar',
+    'necropole-de-valthor', 'lethariel', 'palacio-da-seiva-clara', 'caminho-das-arvores-ausentes',
+    'clarifonte', 'enaril', 'narin-falas', 'vale-das-estrelas', 'valoria', 'sete-pontes',
+    'ravenhold', 'senado-de-estandartes', 'estrada-de-cinza', 'kar-dum', 'ponte-das-nove-bigornas',
+    'tuneis-vazios', 'portao-de-karak', 'salao-dos-forgemantes', 'minas-de-ferro', 'eldemar',
+    'docas-fundas', 'ruinas-rivs', 'vul-gar', 'espelho-de-sal', 'cidade-de-gron',
+    'fortaleza-kring', 'acampamento-dos-clas', 'porto-da-serpente', 'oasis-perdido', 'cidade-da-areia',
+  ],
   'archive-plates': ['povos-de-avernor', 'mitos-e-tradicoes', 'veu-e-retornados', 'celestiais-e-lancas', 'faccoes-e-sucessoes'],
   'lore-locations': ['farol-das-sete-mares', 'mosteiro-da-brasa-tardia', 'arquivo-de-pedra', 'jardim-das-pontes-silenciosas', 'mercado-dos-tres-ventos', 'torre-da-chuva-negra'],
   'lore-legends': ['barca-sem-remador', 'sino-sob-a-geleira', 'nona-porta'],
@@ -70,8 +81,10 @@ export const recordImageAliases = Object.fromEntries(
 )
 
 export function imagesFor(id) {
+  // An individual plate is always more authoritative than a legacy thematic alias.
+  if (imageManifest[id]) return { ...imageManifest[id], imageScope: 'individual' }
   const assetId = recordImageAliases[id]
-  if (!assetId) return imageManifest[id] ? { ...imageManifest[id], imageScope: 'individual' } : {}
+  if (!assetId) return {}
   const scope = assetId.endsWith('-sucessoes') || assetId === 'povos-de-avernor' || assetId === 'mitos-e-tradicoes'
     || assetId === 'veu-e-retornados' || assetId === 'celestiais-e-lancas'
     ? 'thematic'

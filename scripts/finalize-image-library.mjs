@@ -34,6 +34,17 @@ const generatedPortrait = {
 
 const generatedBooks = ['a-carta-e-a-tempestade', 'atlas-das-sete-rotas', 'caderno-de-namidia', 'cronicas-perdidas-de-sylvaris', 'o-ultimo-bruxo', 'tratado-das-linhagens']
 
+const individualAtlasPlates = [
+  'geleiras-de-winterfeld', 'passagem-da-geada', 'montanhas-cinzentas', 'pico-da-vigia', 'fortaleza-esquecida',
+  'campo-belo', 'muralha-de-pedra', 'campo-de-treinamento', 'rio-torrente', 'fortaleza-solar',
+  'necropole-de-valthor', 'lethariel', 'palacio-da-seiva-clara', 'caminho-das-arvores-ausentes',
+  'clarifonte', 'enaril', 'narin-falas', 'vale-das-estrelas', 'valoria', 'sete-pontes',
+  'ravenhold', 'senado-de-estandartes', 'estrada-de-cinza', 'kar-dum', 'ponte-das-nove-bigornas',
+  'tuneis-vazios', 'portao-de-karak', 'salao-dos-forgemantes', 'minas-de-ferro', 'eldemar',
+  'docas-fundas', 'ruinas-rivs', 'vul-gar', 'espelho-de-sal', 'cidade-de-gron',
+  'fortaleza-kring', 'acampamento-dos-clas', 'porto-da-serpente', 'oasis-perdido', 'cidade-da-areia',
+]
+
 const legacyCharacters = [
   'elara',
   'guerreira-orc',
@@ -90,6 +101,11 @@ for (const [directory, names] of Object.entries(generatedPortrait)) {
 for (const name of generatedBooks) {
   const file = path.join(imageRoot, 'books', `${name}.png`)
   await writeProcessed(file, file, { width: 2048, height: 3072, fit: 'fill' })
+}
+
+for (const name of individualAtlasPlates) {
+  const file = path.join(imageRoot, 'atlas-plates', `${name}.png`)
+  await writeProcessed(file, file, { width: 1672, height: 941, fit: 'fill' })
 }
 
 for (const name of legacyCharacters) {

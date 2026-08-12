@@ -60,7 +60,7 @@ function AtlasPointPanel({ point, onLocate }) {
       <p className="sr-only" role="status">{point.name} selecionado no Atlas.</p>
       {point.image && (
         <figure>
-          <ImageWithFallback src={point.image} alt={`Registro visual relacionado a ${point.name}`} fallback={point.type === 'criatura' ? 'creature' : 'location'} />
+          <ImageWithFallback src={point.image} alt={point.imageAlt ?? `Registro visual relacionado a ${point.name}`} fallback={point.type === 'criatura' ? 'creature' : 'location'} />
           <figcaption>{precisionLabels[point.coordinatePrecision]}</figcaption>
         </figure>
       )}
