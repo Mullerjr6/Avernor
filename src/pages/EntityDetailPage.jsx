@@ -4,6 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs'
 import EncyclopediaDossier, { FieldValue } from '../components/EncyclopediaDossier'
 import ImageWithFallback from '../components/ImageWithFallback'
 import OrnamentalDivider from '../components/OrnamentalDivider'
+import PrimaryRecord from '../components/PrimaryRecord'
 import RecordTableOfContents from '../components/RecordTableOfContents'
 import RecordGallery from '../components/RecordGallery'
 import SEO from '../components/SEO'
@@ -95,10 +96,7 @@ export default function EntityDetailPage({ catalogKey }) {
         </aside>
 
         <div className="detail-content">
-          <section id="registro">
-            <span className="section-number">I · Registro primário</span><h2>Registro</h2>
-            <p className="dropcap">{item.description}</p>
-          </section>
+          <PrimaryRecord item={item} catalogKey={catalogKey} />
           <ArchiveProvenance item={item} />
           {item.appearance && <section id="aparencia"><span className="section-number">II</span><h2>Aparência documentada</h2><p>{item.appearance}</p></section>}
           <EncyclopediaDossier item={item} />

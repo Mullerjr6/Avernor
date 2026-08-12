@@ -32,7 +32,7 @@ function mappedLocation({ region, id, name, category, summary, description, geog
     sourceReliability: 'Carta oficial preservada; leitura aproximada de símbolo, relevo e rótulo.',
     sourceStatus: 'Baseado no raster oficial do Atlas',
     truthStatus,
-    updatedAt: '2026-07-29',
+    updatedAt: '2026-08-12',
     relations: [{ label: 'Localizar no Atlas', to: `/atlas?ponto=${id}` }],
   })
 }

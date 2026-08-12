@@ -1,6 +1,6 @@
 import { imagesFor } from './imageManifest.js'
 
-export const contentDate = '2026-07-29'
+export const contentDate = '2026-08-12'
 
 export function record(entry) {
   const images = imagesFor(entry.id)

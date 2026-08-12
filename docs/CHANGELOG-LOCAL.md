@@ -1,5 +1,16 @@
 # Changelog local
 
+## 2026-08-12 — registros primários em volumes
+
+- Substituído o parágrafo isolado de abertura por um registro em volumes, com estrutura específica para personagens, territórios, sociedades, guerras e eras, objetos, crenças, criaturas e documentos.
+- Os 201 verbetes únicos dos 27 catálogos agora apresentam no mínimo 5 volumes e 15 entradas temáticas antes das fichas especializadas; personagens mais documentados ultrapassam 35 entradas.
+- Acrescentados comentários arquivísticos sobre identidade, escopo, presente, relações, força documental e lacunas, sempre derivados dos campos canônicos existentes.
+- Locais sustentados apenas pelo Atlas passaram a explicar paisagem, circulação, autoridade e escala humana sem inventar população, governo ou acontecimento ausente.
+- Dinastias, sucessões e as 19 genealogias receberam leitura documental expandida em suas páginas próprias.
+- Criado um teste de profundidade que rejeita regressões abaixo do novo mínimo editorial.
+- Atualizada a apresentação responsiva dos registros para leitura longa em desktop e celular.
+- Lint, validações de genealogia, Atlas, conteúdo, profundidade editorial, privacidade, imagens e build executados sem erro.
+
 ## 2026-07-29 — acabamento visual e doze novos dossiês ilustrados
 
 - Adicionados 6 locais de uso cotidiano e institucional: Farol das Sete Marés, Mosteiro da Brasa Tardia, Arquivo de Pedra, Jardim das Pontes Silenciosas, Mercado dos Três Ventos e Torre da Chuva Negra.

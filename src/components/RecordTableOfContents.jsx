@@ -2,7 +2,7 @@ import { toAnchor } from '../utils/text'
 
 export default function RecordTableOfContents({ item, listSections, hasAtlasEntry = false }) {
   const links = [
-    ['registro', 'Registro primário'],
+    ['registro', 'Registro em volumes'],
     ['fontes-e-lacunas', 'Autoridade e fontes'],
     item.appearance && ['aparencia', 'Aparência documentada'],
     item.biography?.length > 0 && ['biografia-e-percurso', item.biographyTitle ?? 'Biografia e percurso'],

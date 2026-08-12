@@ -7,6 +7,8 @@ import {
   necromancy, peoples, portals, prophecies, relics, religions, returned, successions, wars, worlds,
   genealogyPeople,
 } from '../src/content/index.js'
+import { catalogs } from '../src/data/catalogs.js'
+import { recordDepth } from '../src/content/editorial/recordVolumes.js'
 
 const errors = []
 const warnings = []
@@ -117,6 +119,20 @@ for (const [label, collection] of allCollections) {
   }
 }
 for (const [sentence, usages] of repeatedSentences) if (usages.length >= 3) errors.push(`frase repetida em ${usages.length} registros: ${sentence.slice(0, 90)}…`)
+
+// O registro de detalhe deve oferecer leitura substancial antes das fichas especializadas.
+// Catálogos duplicados, como Bestiário/Criaturas, são auditados apenas uma vez por id.
+const auditedRecordIds = new Set()
+for (const [catalogKey, catalog] of Object.entries(catalogs)) {
+  if (catalogKey === 'bestiario') continue
+  for (const item of catalog.items) {
+    if (auditedRecordIds.has(item.id)) continue
+    auditedRecordIds.add(item.id)
+    const depth = recordDepth(item, catalogKey)
+    if (depth.volumes < 5) errors.push(`${catalog.path}/${item.slug}: registro primário requer ao menos 5 volumes (${depth.volumes})`)
+    if (depth.entries < 15) errors.push(`${catalog.path}/${item.slug}: registro primário requer ao menos 15 entradas temáticas (${depth.entries})`)
+  }
+}
 
 async function sourceFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true })
