@@ -9,6 +9,7 @@ import './styles/refinement.css'
 import './styles/expansion.css'
 import './styles/archive.css'
 import './styles/polish.css'
+import './styles/character-chat.css'
 
 window.addEventListener('vite:preloadError', (event) => {
   event.preventDefault()

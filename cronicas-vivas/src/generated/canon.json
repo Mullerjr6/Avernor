@@ -339,6 +339,266 @@
       "thumbnail": "/assets/images/characters/rainha-sylvaris-card.webp"
     },
     {
+      "collection": "characters",
+      "id": "normus-kayler",
+      "slug": "normus-kayler",
+      "name": "Normus Kayler",
+      "subtitle": "O Bruxo mais poderoso de Avernor",
+      "summary": "Bruxo da Casa Kayler, mestre das tempestades, Cavaleiro de Honra de Sylvaris e pai de Sirius.",
+      "description": "Normus foi a força arcana mais poderosa registrada em Avernor. Não era um guerreiro humano que aprendera feitiços, mas um bruxo hereditário cuja disciplina transformava tempestades em defesa precisa. Recusou coroas e serviu comunidades ameaçadas. A Rainha de Sylvaris foi sua grande amiga e aliada — nunca amante. Entre ambos existiu um pacto secreto relacionado aos descendentes de suas casas.",
+      "category": "Figura histórica",
+      "status": "Morto — lendário",
+      "origin": "Casa Kayler",
+      "location": "Último registro: Floresta Antiga",
+      "period": "Era das Coroas / Caça às Bruxas",
+      "race": "Humano — linhagem bruxa",
+      "lineage": "Kayler",
+      "appearance": "Normus era alto e robusto, aparentava cerca de quarenta anos, tinha cabelos longos, brancos e grisalhos presos durante o combate, olhos violetas intensos e marcas de descarga nos braços, ombros e tórax. Usava uma armadura de campanha reparada em Kar-Dûm, dotada de canais metálicos para conduzir energia. Não utilizava coroa, brasão real ou símbolos de vassalagem. Retratos élficos o mostram sereno; gravuras humanas, ameaçador; registros anões, concentrado sobre mecanismos e mapas.",
+      "personality": "Paciente sob ameaça imediata e impaciente diante de injustiças administrativas. Normus tratava poder como dívida e desconfiava da admiração que dispensava as pessoas de contestá-lo.",
+      "speech": "Falava lentamente em conselho e rapidamente no campo, sempre nomeando o custo material de uma estratégia.",
+      "objectives": [
+        "Impedir que coroas convertessem bruxos em soberanos ou armas",
+        "Preservar Sirius como pessoa livre",
+        "Manter abertas rotas civis durante as guerras"
+      ],
+      "desires": [
+        "Deixar ao filho escolhas reais",
+        "Ver as três Casas protegidas por lei, não por favor"
+      ],
+      "fears": [
+        "Que o próprio prestígio anulasse o Juramento Arcano",
+        "Que Sirius herdasse apenas inimigos e não escolhas"
+      ],
+      "flaws": [
+        "Assumiu responsabilidades que deveriam ter sido distribuídas",
+        "Escondeu verdades de aliados para protegê-los, reduzindo sua capacidade de consentir"
+      ],
+      "qualities": [
+        "Precisão arcana",
+        "Coragem sem busca por domínio",
+        "Capacidade de cooperar com culturas diferentes"
+      ],
+      "values": [
+        "Responsabilidade",
+        "Autonomia dos povos",
+        "Proteção de rotas civis"
+      ],
+      "moralLimits": [
+        "Nunca governar em razão do sangue",
+        "Nunca usar tempestade sobre população sem rota de fuga"
+      ],
+      "beliefs": [
+        "“Nenhum sangue tocado pelo Primeiro Céu deverá sentar-se acima dos povos.”",
+        "A Rainha de Sylvaris era amiga e aliada"
+      ],
+      "equipment": [
+        "Fulgarion",
+        "Armadura de campanha reparada em Kar-Dûm",
+        "Medalhão da Folha Partida"
+      ],
+      "abilities": [
+        "Domínio arcano superior",
+        "Condução e dispersão de tempestades",
+        "Barreiras elétricas",
+        "Leitura de campos mágicos"
+      ],
+      "limitations": [
+        "A escala de seus feitos exigia recuperação prolongada",
+        "Recusava magia que sacrificasse inocentes",
+        "O vínculo com tempestades não anulava leis naturais"
+      ],
+      "relations": [
+        {
+          "label": "Sirius Kayler — filho",
+          "to": "/personagens/sirius-kayler"
+        },
+        {
+          "label": "Namídia Bellatrix — companheira",
+          "to": "/personagens/namidia-bellatrix"
+        },
+        {
+          "label": "Rainha Aelwen — amiga e aliada",
+          "to": "/personagens/rainha-aelwen"
+        },
+        {
+          "label": "Casa Kayler",
+          "to": "/casas/kayler"
+        },
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        },
+        {
+          "label": "Fulgarion",
+          "to": "/artefatos/espada-da-trovoada"
+        },
+        {
+          "label": "Caça às Bruxas",
+          "to": "/historia/caca-bruxas"
+        }
+      ],
+      "events": [
+        "Defesa de Sylvaris",
+        "Nomeação como Cavaleiro de Honra",
+        "Pacto dos Descendentes",
+        "Fuga para a Floresta Antiga"
+      ],
+      "curiosities": [
+        "Foi o único não elfo a receber o título de Cavaleiro de Honra de Sylvaris.",
+        "Deixou a Sirius espada, carta, ouro, medalhão élfico e pertences de viagem."
+      ],
+      "quotes": [
+        "Poder sem limite não existe. Existe apenas alguém que decidiu fazer outro pagar o custo."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/characters/normus-kayler-v2-page.webp",
+      "thumbnail": "/assets/images/characters/normus-kayler-v2-card.webp"
+    },
+    {
+      "collection": "characters",
+      "id": "namidia-bellatrix",
+      "slug": "namidia-bellatrix",
+      "name": "Namídia Bellatrix",
+      "subtitle": "Princesa da fortaleza rebelde",
+      "summary": "Líder das Montanhas Cinzentas que acolheu Normus, tornou-se sua companheira e morreu protegendo o filho Sirius.",
+      "description": "Namídia cresceu administrando estoques de cerco, rotas de fuga e alianças entre fortalezas que desconfiavam umas das outras. O título de princesa dos Bellatrix significava responsabilidade, não luxo. Ela se apaixonou por Normus ao perceber que o bruxo mais poderoso do continente ainda pedia permissão antes de agir em território rebelde. Fugiu com ele e morreu mantendo os perseguidores longe de Sirius.",
+      "category": "Figura histórica",
+      "status": "Morta — lendária",
+      "origin": "Fortaleza do Véu",
+      "location": "Montanhas Cinzentas",
+      "period": "Caça às Bruxas",
+      "race": "Humana",
+      "lineage": "Bellatrix",
+      "appearance": "Namídia era uma mulher parda de postura firme, cabelos negros presos para trabalho e olhos castanhos atentos que acompanhavam portas, mensageiros e mudanças de humor. Uma lesão antiga limitava o ombro direito. Vestia lã escura, couro reforçado e a faixa vermelha dos vigias, evitando joias e símbolos de ostentação. Sua autoridade era reconhecida pela segurança com que organizava pessoas e recursos, não por cerimônia.",
+      "personality": "Prática, afetuosa sem sentimentalismo público e intolerante com autoridade que não assume consequências. Namídia preferia perguntas logísticas a discursos heroicos.",
+      "speech": "Direta, marcada por exemplos concretos de estoque, distância e tempo.",
+      "objectives": [
+        "Manter a Fortaleza do Véu aberta a perseguidos",
+        "Unir fortalezas sem criar outra coroa",
+        "Garantir que Sirius sobrevivesse sem se tornar propriedade política"
+      ],
+      "desires": [
+        "Uma rede de abrigo que sobrevivesse a qualquer líder",
+        "Criar Sirius longe da obrigação de vingar os pais"
+      ],
+      "fears": [
+        "Que a resistência reproduzisse a tirania combatida",
+        "Que cifras e segredos apagassem as pessoas que deveriam proteger"
+      ],
+      "flaws": [
+        "Aceitava riscos pessoais extremos para não transferi-los a subordinados",
+        "Podia transformar responsabilidade em recusa de ajuda"
+      ],
+      "qualities": [
+        "Coragem civil",
+        "Memória de nomes e necessidades",
+        "Capacidade de formar coalizões"
+      ],
+      "values": [
+        "Hospitalidade juramentada",
+        "Prestação de contas",
+        "Liberdade política"
+      ],
+      "moralLimits": [
+        "Não devolver refugiados",
+        "Não esconder perdas de quem sustentou a defesa"
+      ],
+      "beliefs": [
+        "A Chama sem Coroa",
+        "Juramento ao povo supera juramento ao trono"
+      ],
+      "equipment": [
+        "Caderno cifrado",
+        "Fivelas de mensageiro",
+        "Chaves de depósitos descentralizados"
+      ],
+      "abilities": [
+        "Estratégia de cerco",
+        "Negociação entre fortalezas",
+        "Combate defensivo",
+        "Criptografia Bellatrix"
+      ],
+      "limitations": [
+        "Não possuía magia verdadeira",
+        "Sofria com uma lesão antiga no ombro",
+        "Seu título dependia da confiança dos vigias"
+      ],
+      "relations": [
+        {
+          "label": "Normus Kayler — companheiro",
+          "to": "/personagens/normus-kayler"
+        },
+        {
+          "label": "Sirius Kayler — filho",
+          "to": "/personagens/sirius-kayler"
+        },
+        {
+          "label": "Casa Bellatrix",
+          "to": "/casas/bellatrix"
+        }
+      ],
+      "events": [
+        "Acolhimento de Normus",
+        "Fuga para a Floresta Antiga",
+        "Sacrifício pela sobrevivência de Sirius"
+      ],
+      "curiosities": [
+        "Suas cifras usavam variações de inventários de grãos para ocultar nomes."
+      ],
+      "quotes": [
+        "Abrigo não é o lugar onde o medo termina. É onde ninguém precisa enfrentá-lo sozinho."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/characters/namidia-bellatrix-v2-page.webp",
+      "thumbnail": "/assets/images/characters/namidia-bellatrix-v2-card.webp"
+    },
+    {
+      "collection": "kingdoms",
+      "id": "sylvaris",
+      "slug": "sylvaris",
+      "name": "Sylvaris",
+      "subtitle": "O coração vivo da Floresta Antiga",
+      "summary": "Reino élfico protegido por árvores milenares, sentinelas e caminhos que se transformam sob orientação dos guardiões.",
+      "description": "Sylvaris não separa cidade e floresta: pontes crescem entre troncos, a água define bairros e construções novas exigem o consentimento de círculos de guardiões. A Rainha governa com um conselho de memórias, formado por representantes de ofícios e bosques. A amizade com Normus garantiu refúgio aos Kayler e originou um pacto secreto sobre seus descendentes.",
+      "category": "Reino élfico",
+      "status": "Soberano",
+      "origin": "Avernor",
+      "location": "Oeste e sudoeste",
+      "relations": [
+        {
+          "label": "Elara",
+          "to": "/personagens/elara"
+        },
+        {
+          "label": "Rainha Aelwen",
+          "to": "/personagens/rainha-aelwen"
+        },
+        {
+          "label": "Lethariel",
+          "to": "/cidades/lethariel"
+        }
+      ],
+      "events": [
+        "Defesa de Sylvaris",
+        "Pacto dos Descendentes"
+      ],
+      "curiosities": [
+        "Cortar uma árvore viva sem autorização é tratado como agressão política."
+      ],
+      "quotes": [
+        "A floresta não fecha caminhos; ela decide quem está preparado para atravessá-los."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/kingdoms/kingdom-sylvaris-page.webp",
+      "thumbnail": "/assets/images/kingdoms/kingdom-sylvaris-card.webp"
+    },
+    {
       "collection": "locations",
       "id": "floresta-antiga",
       "slug": "floresta-antiga",
@@ -495,6 +755,98 @@
       "spoilerLevel": "public",
       "image": "/assets/images/artifacts/medalhao-da-folha-partida-page.webp",
       "thumbnail": "/assets/images/artifacts/medalhao-da-folha-partida-card.webp"
+    },
+    {
+      "collection": "relics",
+      "id": "fulgarion",
+      "slug": "fulgarion",
+      "name": "Fulgarion",
+      "subtitle": "A Espada dos Sete Trovões",
+      "summary": "Espada de Normus e Sirius, condutora do legado Kayler e uma das Cinco Relíquias.",
+      "description": "Fulgarion é condutora da tempestade Kayler e herança material de Normus para Sirius. A lâmina não cria magia nem concede sangue arcano. Forja, reparos e sete canais são verificáveis; manifestações foram registradas com custos crescentes. Função original, efeito integral da sétima manifestação e limite final não constam do registro público.",
+      "category": "Relíquia do Véu Partido",
+      "status": "Com Sirius",
+      "origin": "Normus Kayler",
+      "period": "Era das Coroas",
+      "appearance": "Lâmina de sete canais condutores, reparada mais vezes do que ornamentada.",
+      "abilities": [
+        "Despertar",
+        "Passo Celeste",
+        "Corrente Partida",
+        "Céu Descendente",
+        "Tempestade Interior",
+        "Julgamento Violeta",
+        "Porta da Tempestade — efeito integral não publicado"
+      ],
+      "limitations": [
+        "Sobrecarga nervosa",
+        "Dependência do dom Kayler",
+        "Limite final não registrado publicamente"
+      ],
+      "relations": [
+        {
+          "label": "Sirius Kayler",
+          "to": "/personagens/sirius-kayler"
+        },
+        {
+          "label": "Espada da Trovoada",
+          "to": "/artefatos/espada-da-trovoada"
+        }
+      ],
+      "events": [
+        "Guerra dos Tronos",
+        "Caça às Bruxas",
+        "Retorno de Sirius"
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/archive-plates/celestiais-e-lancas-page.webp",
+      "thumbnail": "/assets/images/archive-plates/celestiais-e-lancas-card.webp"
+    },
+    {
+      "collection": "relics",
+      "id": "aelysar",
+      "slug": "aelysar",
+      "name": "Aelysar",
+      "subtitle": "O Arco da Primeira Raiz",
+      "summary": "Arco destinado a Elara quando assumir o trono de Sylvaris, com seis flechas ligadas a responsabilidades da coroa.",
+      "description": "Aelysar permanece sob custódia dos Círculos e será entregue a Elara somente após coroação legítima. Não escolhe soberano sozinho nem cria magia de sangue. Atas sucessórias e cadeia pública de custódia confirmam seis flechas ligadas a deveres. Função integral do Último Ramo e possibilidade de destruição não são publicadas.",
+      "category": "Relíquia do Véu Partido",
+      "status": "Guardada até a sucessão",
+      "origin": "Sylvaris",
+      "period": "Era das Coroas",
+      "appearance": "Arco dourado-esverdeado cujo desenho acompanha seis encaixes de flecha. Não exibe corda quando guardado.",
+      "abilities": [
+        "Flecha da Raiz",
+        "Lua Verde",
+        "Memória",
+        "Caminho",
+        "Copa Silenciosa",
+        "Último Ramo"
+      ],
+      "limitations": [
+        "Não concede magia de sangue",
+        "Flecha só retorna quando a obrigação correspondente é cumprida"
+      ],
+      "relations": [
+        {
+          "label": "Elara",
+          "to": "/personagens/elara"
+        },
+        {
+          "label": "Sucessão de Sylvaris",
+          "to": "/sucessoes/sylvaris"
+        }
+      ],
+      "events": [
+        "Ritos sucessórios de Sylvaris"
+      ],
+      "truthStatus": "redacted",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/archive-plates/celestiais-e-lancas-page.webp",
+      "thumbnail": "/assets/images/archive-plates/celestiais-e-lancas-card.webp"
     }
   ]
 }

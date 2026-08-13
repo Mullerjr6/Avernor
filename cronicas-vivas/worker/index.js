@@ -1,4 +1,5 @@
 import canon from '../src/generated/canon.json'
+import { handleCharacterChat } from './characterChat.js'
 
 const allowedKnowledge = new Set([
   'elara', 'rainha-aelwen', 'sirius-kayler', 'floresta-antiga', 'caminho-das-arvores-ausentes', 'lethariel',
@@ -50,6 +51,7 @@ export default {
     const cors = corsHeaders(request, env)
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors })
     const url = new URL(request.url)
+    if (request.method === 'POST' && url.pathname === '/api/character-chat') return handleCharacterChat(request, env, cors)
     if (request.method !== 'POST' || url.pathname !== '/api/narrative') {
       return Response.json({ error: 'Rota não encontrada.' }, { status: 404, headers: cors })
     }

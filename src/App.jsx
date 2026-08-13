@@ -18,6 +18,7 @@ const DynastiesPage = lazyWithRecovery(() => import('./pages/DynastiesPage'))
 const SuccessionsPage = lazyWithRecovery(() => import('./pages/SuccessionsPage'))
 const RelatedGenealogyPage = lazyWithRecovery(() => import('./pages/RelatedGenealogyPage'))
 const SearchPage = lazyWithRecovery(() => import('./pages/SearchPage'))
+const CharacterChatPage = lazyWithRecovery(() => import('./pages/CharacterChatPage'))
 
 const catalogRoutes = [
   ['historia', 'historia'], ['reinos', 'reinos'], ['cidades', 'cidades'], ['casas', 'casas'],
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/sucessoes/:slug" element={<SuccessionsPage />} />
           <Route path="/reinos/:slug/sucessao" element={<SuccessionsPage realmMode />} />
           <Route path="/personagens/:slug/genealogia" element={<RelatedGenealogyPage subject="character" />} />
+          <Route path="/personagens/:slug/conversar" element={<CharacterChatPage />} />
           <Route path="/casas/:slug/linhagem" element={<RelatedGenealogyPage subject="house" />} />
           {catalogRoutes.map(([path, catalogKey]) => (
             <Route key={path}>

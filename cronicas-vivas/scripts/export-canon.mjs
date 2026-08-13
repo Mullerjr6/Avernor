@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { artifacts, characters, cities, locations, portals } from '../../src/content/index.js'
+import { artifacts, characters, cities, kingdoms, locations, portals, relics } from '../../src/content/index.js'
 import { contentDate } from '../../src/content/schema.js'
 
 const directory = path.dirname(fileURLToPath(import.meta.url))
@@ -12,11 +12,16 @@ const requestedRecords = [
   ['characters', characters, 'sirius-kayler'],
   ['characters', characters, 'elara'],
   ['characters', characters, 'rainha-aelwen'],
+  ['characters', characters, 'normus-kayler'],
+  ['characters', characters, 'namidia-bellatrix'],
+  ['kingdoms', kingdoms, 'sylvaris'],
   ['locations', locations, 'floresta-antiga'],
   ['portals', portals, 'caminho-das-arvores-ausentes'],
   ['cities', cities, 'lethariel'],
   ['artifacts', artifacts, 'carta-de-normus'],
   ['artifacts', artifacts, 'medalhao-da-folha-partida'],
+  ['relics', relics, 'fulgarion'],
+  ['relics', relics, 'aelysar'],
 ]
 
 const fields = [

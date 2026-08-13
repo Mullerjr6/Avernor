@@ -14,6 +14,7 @@ import { catalogs } from '../data/catalogs'
 import { canonicalAtlasPoints } from '../data/canonicalMap'
 import { visualFor } from '../data/visuals'
 import { toAnchor } from '../utils/text'
+import { isCharacterChatEnabled } from '../ai/characters/characterProfiles.js'
 
 const factLabels = {
   status: 'Status', period: 'Período', era: 'Era', origin: 'Origem', location: 'Localização', kingdom: 'Reino',
@@ -42,6 +43,7 @@ export default function EntityDetailPage({ catalogKey }) {
   const previousItem = catalog.items[itemIndex - 1]
   const nextItem = catalog.items[itemIndex + 1]
   const recordRoute = `${catalog.path}/${item.slug}`
+  const canTalk = catalogKey === 'personagens' && isCharacterChatEnabled(item.id)
   const atlasEntries = canonicalAtlasPoints.filter((point) => point.href === recordRoute || point.relatedRecords?.includes(recordRoute))
   const listSections = [
     ['members', 'Membros conhecidos'], ['belligerents', 'Participantes'],
@@ -79,7 +81,11 @@ export default function EntityDetailPage({ catalogKey }) {
             <OrnamentalDivider />
             <p className="detail-summary">{item.summary}</p>
             {heroFacts.length > 0 && <dl className="detail-hero-facts">{heroFacts.map(([key, label]) => <div key={key}><dt>{label}</dt><dd>{item[key]}</dd></div>)}</dl>}
-            <div className="detail-actions"><ShareButton title={`${item.name} — Crônicas de Avernor`} /><Link className="button button-ghost" to={catalog.path}>Voltar ao arquivo</Link></div>
+            <div className="detail-actions">
+              {canTalk && <Link className="button button-primary" to={`/personagens/${item.slug}/conversar`}>Conversar com {item.name}</Link>}
+              <ShareButton title={`${item.name} — Crônicas de Avernor`} />
+              <Link className="button button-ghost" to={catalog.path}>Voltar ao arquivo</Link>
+            </div>
           </div>
         </div>
       </header>
