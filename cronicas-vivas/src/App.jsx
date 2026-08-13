@@ -5,6 +5,7 @@ import TitleScreen from './components/TitleScreen.jsx'
 import { requestNarrativeReply } from './api/narrativeClient.js'
 import { backgrounds, portraits } from './data/visuals.js'
 import { chapter } from './engine/chapterZero.js'
+import { interpretPlayerDialogue } from './engine/dialogueInterpreter.js'
 import {
   SAVE_KEY, addFreeReply, choicesForScene, choose, loadState, persistState, progressFor, resetState,
 } from './engine/gameEngine.js'
@@ -20,6 +21,7 @@ export default function App() {
   const portrait = scene.portrait ? portraits[scene.portrait] : null
   const replies = Array.isArray(game.freeReplies[scene.id]) ? game.freeReplies[scene.id] : []
   const availableChoices = choicesForScene(game, scene)
+  const canFreeTalk = game.flags.metElara && !scene.ending && scene.passage.some(({ speaker }) => speaker === 'ELARA')
   const progress = progressFor(game)
 
   useEffect(() => {
@@ -55,9 +57,10 @@ export default function App() {
   async function sendFreeText(text) {
     setBusy(true)
     try {
-      const narrativeReply = await requestNarrativeReply({ text, state: game, scene })
+      const interpretation = interpretPlayerDialogue(text, game, scene)
+      const narrativeReply = await requestNarrativeReply({ text, state: game, scene, interpretation })
       setHasSave(true)
-      setGame((current) => addFreeReply(current, { ...narrativeReply, playerText: text }))
+      setGame((current) => addFreeReply(current, { ...narrativeReply, playerText: text }, interpretation))
     } finally {
       setBusy(false)
     }
@@ -106,6 +109,8 @@ export default function App() {
           scene={scene}
           replies={replies}
           choices={availableChoices}
+          consequence={game.pendingConsequence}
+          canFreeTalk={canFreeTalk}
           busy={busy}
           onChoice={makeChoice}
           onFreeText={sendFreeText}
@@ -128,6 +133,7 @@ export default function App() {
             inventory={game.inventory}
             relationships={game.relationships}
             flags={game.flags}
+            dialogueInsights={game.dialogueInsights}
             open
             onClose={() => setCodexOpen(false)}
           />

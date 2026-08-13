@@ -1,90 +1,132 @@
 import { canonById } from '../data/knowledge.js'
+import { intentLabel } from './dialogueInterpreter.js'
 
-const normalized = (text) => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('pt-BR')
+const responses = {
+  pact: ({ state }) => state.flags.medallionShown
+    ? 'A outra metade do medalhão está com Aelwen. Eu vi apenas o contorno no estojo dos Círculos; nunca li a inscrição. Sei que ela e Normus fizeram um pacto ligado aos descendentes das duas casas, mas não conheço as cláusulas completas — e não vou fingir que conheço para lhe oferecer uma resposta mais confortável. Se houver ali uma ordem sobre nossas vidas, encontrará duas pessoas capazes de recusá-la. Se houver proteção, ainda precisaremos perguntar quem pagou por ela e quem recebeu autoridade para decidir em nosso nome. O objeto pode provar que a promessa existiu. Não pode provar que devemos obedecê-la.'
+    : 'Sei que Normus e Aelwen fizeram uma promessa ligada aos descendentes de suas casas. Essa é a extensão do fato que posso afirmar. Minha tia chama o restante de prudência; eu o chamo de uma decisão mantida longe das pessoas que terão de viver com ela. Isso não significa que Aelwen desejasse nos ferir. Significa apenas que boas intenções também podem retirar escolhas quando permanecem incontestadas por tempo suficiente. Não aceitarei transformar suspeita em certeza, mas tampouco aceitarei que um documento antigo me diga quem devo amar, servir ou me tornar. Quando lermos o pacto, quero que você esteja ao meu lado como parte interessada — não diante de mim como alguém acusado por ter sobrevivido.',
+  aelwen: () => 'Aelwen é minha tia, minha rainha e a pessoa que me ensinou que nenhuma coroa deve ser confundida com a vontade de um povo. Também é alguém capaz de guardar um segredo por tanto tempo que começa a tratá-lo como parte da própria responsabilidade. Ela amava Normus como amigo e aliado; nisso os registros e a forma como pronuncia o nome dele concordam. O que guardou depois da morte dele permanece reservado. Posso conduzi-lo até ela e impedir que o tratem como propriedade do pacto. Não posso prometer que as respostas serão completas, nem que gostaremos do que ouviremos. Se ela tentar usar o silêncio como autoridade, perguntarei ao seu lado — ainda que isso me coloque contra a mulher que me criou.',
+  raven: ({ state }) => state.flags.ravenProtocolShared
+    ? 'Agora sei o que fazer se a forma começar a afastá-lo de si mesmo: pronunciar seu nome inteiro, colocar o medalhão onde possa vê-lo e jamais tentar prendê-lo. Não tratarei isso como curiosidade de bestiário. É uma confiança prática que você colocou em minhas mãos. Ainda tenho perguntas. Seus sentidos permanecem humanos? A fome da ave se mistura à sua? O tempo parece diferente no ar? Mas não preciso de todas as respostas de uma vez. O que importa é que seus olhos continuaram violetas na clareira e que, mesmo dentro de outro corpo, você escolheu vir quando ouviu meu grito. Foi assim que reconheci uma pessoa, não uma criatura.'
+    : 'Seus olhos continuaram violetas na forma de corvo. Foi assim que soube que não era uma ilusão comum. Os bestiários élficos chamam isso de Metamorfose do Eco, mas quase todos foram escritos por observadores que confundiam medo, perseguição e ciência. Não quero aprender sobre você repetindo o erro deles. Quero saber o que muda em seus sentidos, quanto tempo pode permanecer assim e qual preço o retorno cobra. Não para possuir um ponto fraco, Sirius. Para que, se um dia o corvo olhar para mim e a parte humana estiver distante, eu saiba ajudá-lo sem transformar cuidado em captura. Se ainda não consegue responder, diga isso. Um limite honesto é mais útil que uma demonstração de poder.',
+  capture: ({ state }) => state.flags.sharedFear
+    ? 'Eu já lhe disse que temi virar uma frase conveniente no discurso de outra pessoa. Há outra parte que não contei. Quando o ferro meteórico bloqueou a adaga, tentei saltar mesmo sabendo do risco. Durante um instante, não senti as mãos nem reconheci a clareira. Pensei que morreria por ter confundido coragem com recusa de ajuda. Depois ouvi asas. Ainda sinto raiva por ter sido capturada, vergonha por ter calculado mal e gratidão porque você veio. Esses sentimentos não se anulam. Estou tentando permitir que coexistam sem transformar você no responsável por curar aquilo que os mercenários fizeram.'
+    : 'Deixei uma pista falsa para encontrar quem removia meus marcadores. Esperava um observador. Encontrei três mercenários preparados com ferro meteórico e conhecimento dos limites da minha adaga. Quando percebi que o salto falharia, já estava cercada. Gritei depois que me atingiram — não como sinal planejado, apenas porque o corpo fez o que minha disciplina tentava impedir. Tive medo de morrer sem que ninguém soubesse por quê. Você ouviu. Ainda estou aprendendo a conviver com a gratidão por ter sido salva e com a raiva de ter precisado disso. Se eu parecer transformar tudo em análise, é porque dar nome às partes impede que aquela clareira continue decidindo quem sou.',
+  orcs: ({ state }) => state.flags.orcBloodshed
+    ? 'Aquele guerreiro pode ter se chamado Arvak. “Pode” é importante: encontramos o nome numa tira de couro, não uma testemunha que o confirmasse. Os outros eram mercenários sem marcas de clã, não representantes de todos os orcs. Ele participou da minha captura e teria usado a lâmina. Também morreu por uma escolha feita para me salvar. Se contarmos apenas a primeira parte, fabricamos absolvição; se contarmos apenas a segunda, fabricamos condenação. Quero que os Círculos registrem ambas. Não para puni-lo por ter vindo, mas porque poder sem memória do próprio custo se torna exatamente aquilo que você teme herdar.'
+    : 'Eles rasparam as marcas de clã e aceitaram um contrato sem nome. Isso os torna responsáveis pelo que fizeram; não torna Vul’Gar responsável por eles. O líder conhecia costumes de dívida usados por companhias de estrada. Se foi poupado, essa escolha pode retornar como aviso, aliança momentânea ou nova ameaça. Ainda não sabemos. Misericórdia não é inocência concedida ao agressor. É a decisão de não fechar todas as possibilidades com um corpo. Talvez nos arrependamos. Ainda assim, prefiro responder por um risco que escolhemos conscientemente a fingir que a morte teria sido uma solução sem consequências.',
+  conspiracy: ({ state }) => state.flags.maskedIntermediaryKnown
+    ? 'O intermediário usava máscara de madeira, altura humana, voz alterada e luvas com cheiro de remédio élfico. Isso é testemunho do mercenário ferido, não fato confirmado. Sabia que o homem-corvo viria e que eu o levaria à rainha. Pode ser alguém da corte, alguém com acesso a um informante ou alguém plantando exatamente essa suspeita para dividir Sylvaris. O detalhe que mais me incomoda não é a máscara. É a previsão. Se esperavam sua forma antes de eu conhecer você, então nosso encontro pode ter sido observado ou provocado. Mas o grito foi meu, e sua decisão de segui-lo também. Um plano pode preparar circunstâncias; não possui automaticamente as escolhas feitas dentro delas.'
+    : 'O contratante continua desconhecido. A cera, as moedas e a escrita foram escolhidas para apontar a vários reinos ao mesmo tempo. Sabemos apenas que conhecia meus marcadores, a limitação da adaga e uma passagem de Sylvaris. Qualquer nome além disso seria rumor. Não entregarei um inocente à nossa necessidade de ter um culpado. O que podemos fazer é preservar o fragmento, separar fato de inferência e observar quem tenta destruir o registro. Às vezes, a reação a uma prova revela mais que a prova. Sei que essa paciência parece pouco diante de quem tentou me levar. Mas escolher um inimigo conveniente seria permitir que o mandante escrevesse a próxima parte por nós.',
+  dagger: () => 'A Adaga do Passo Velado dobra uma distância curta até um ponto que eu veja ou tenha marcado. Não atravessa ferro meteórico, não corrige um pouso ruim e retira calor do meu corpo. Três saltos rápidos podem me deixar inconsciente. O que quase ninguém sabe é que o frio não começa nas mãos; começa atrás dos olhos, como se o mundo se afastasse um passo antes de mim. Foi o que senti na clareira. Os mercenários conheciam o limite exato e espalharam o metal onde eu escolheria pousar. Essa informação estava em registros fechados de treinamento. Quando chegarmos a Sylvaris, não quero apenas encontrar quem leu o arquivo. Quero descobrir por que nosso sistema permitiu que um segredo sobre minha segurança se tornasse uma arma sem que ninguém percebesse.',
+  storm: ({ state }) => state.flags.sharedWeakness
+    ? 'Você já me contou que a tempestade cobra de seus nervos. Vi o tremor e agora sei que não era apenas cansaço. Isso muda a maneira como lutaria ao seu lado: não observarei somente o inimigo, observarei quando seus dedos deixarem de responder e quando a força necessária para continuar passar a ser maior que o controle disponível. Em troca, você precisa reconhecer o momento em que a adaga retirar meu último calor seguro. Não quero que nenhum de nós use sacrifício silencioso para impressionar o outro. Poder que admite a própria conta continua perigoso, mas pode ser compartilhado com responsabilidade. Poder que finge não ter custo sempre encontra outra pessoa para pagar.'
+    : 'Fulgarion conduz sua magia; não a cria. Reconheci os sete canais pelas descrições de arquivo, mas os textos falam da arma como se o corpo que a segura fosse apenas suporte. Na clareira, vi sua mão tremer depois da descarga. Esse é o tipo de verdade que registros heroicos costumam retirar porque torna a lenda menos limpa. Se espera que eu lute ao seu lado, preciso saber quando o raio deixa de ser ferramenta e começa a atravessar seus nervos. Não peço controle sobre sua magia. Peço a informação necessária para não exigir de você uma última descarga quando a próxima já seria demais.',
+  namidia: () => 'Os arquivos de Sylvaris falam pouco demais sobre Namídia Bellatrix. Dizem que organizou rotas, cifras e depósitos enquanto outros receberam canções por batalhas. Aelwen pronuncia o nome dela com culpa, não apenas luto. Não sei o motivo e me recuso a inventar um. Sei que sua mãe desejava viver e criar você. Reduzi-la ao sacrifício final seria roubá-la uma segunda vez, como se toda a vida anterior existisse apenas para produzir a sua sobrevivência. Quando chegarmos ao arquivo, quero procurar registros logísticos, não só crônicas de guerra. Talvez a pessoa que você procura esteja mais inteira nas listas de alimento, nas rotas abertas e nos nomes preservados do que nas histórias sobre como morreu.',
+  normus: () => 'Normus aparece nos arquivos élficos como tempestade, cavaleiro e aliado de Aelwen. Quase nunca como pai. Isso me incomoda porque permite que cada leitor transforme a carta deixada a você em extensão de uma lenda pública. Pelo pouco que ouvi, ele tentou preservar sua liberdade e, ao mesmo tempo, decidiu quais verdades você suportaria conhecer. As duas intenções podem ter nascido do amor e ainda assim entrar em conflito. Não precisa julgá-lo inteiro antes de ler tudo. Também não precisa perdoá-lo para reconhecer o que tentou proteger. Talvez a pergunta mais honesta não seja se Normus foi um bom homem, mas quais escolhas dele ainda merecem continuar através de você — e quais devem terminar aqui.',
+  elaraFamily: () => 'Meu pai, Caelir, morreu quando eu ainda aprendia a distinguir dever de obediência. Tenho duas irmãs mais velhas: Lyssara e Maeriel. Os Círculos me escolheram como herdeira apesar delas. Nós nos amamos, e essa verdade não impede que a sucessão nos fira. Lyssara teme que o pacto tenha decidido a coroa antes da votação; Maeriel teme que os guardas sejam usados contra qualquer resultado inconveniente. Eu temo que todos estejamos começando a conversar como facções antes de lembrar que crescemos na mesma casa. Se o medalhão explicar parte da minha escolha, precisarei enfrentar minhas irmãs com a verdade. O que não aceitarei é usar você como prova de que mereço governar. Sua existência não é argumento eleitoral.',
+  trust: ({ state }) => {
+    const bond = state.relationships.elara ?? 0
+    if (bond >= 5) return 'Confio no que vi repetidamente: você veio ao ouvir meu grito, permitiu que eu participasse das decisões e, quando poderia ter usado o resgate como corrente, recusou a dívida. Isso não significa que conheço todos os seus silêncios. Também não deve significar que você aceita sem exame meus vínculos com a coroa. O que temos é melhor que fé cega: uma sequência de escolhas que pode ser lembrada, discutida e corrigida. Se eu disser que confio em você, Sirius, não estou prometendo concordar sempre. Estou dizendo que acredito que uma discordância não fará você deixar de me tratar como pessoa — e que tentarei oferecer o mesmo.'
+    if (bond < 0) return 'Você salvou minha vida, mas confiança não nasce automaticamente de uma dívida. Há partes do nome que esconde, decisões que tomou sozinho e perguntas que transforma em defesa. Posso caminhar ao seu lado enquanto observo. Se deseja mais que isso, não me peça fé nem gratidão. Dê-me escolhas verificáveis: diga o que sabe, admita o que não sabe e permita que eu discorde sem usar poder ou silêncio para encerrar a conversa. A tensão entre nós não precisa ser permanente. Mas fingir que ela não existe seria apenas outra mentira bem-intencionada.'
+    return 'Ainda estamos medindo um ao outro. Eu lhe disse quem sou e o que não sei. Você mostrou poder e, em alguns momentos, mostrou limite. Confiança não será uma declaração feita nesta estrada; será o que fizermos quando a próxima vantagem permitir que um decida pelo outro. Se eu estiver ferida, você perguntará antes de ajudar? Se você perder o controle da forma de corvo, aceitarei orientar sem capturar? Se o pacto nos colocar em lados diferentes, continuaremos capazes de conversar? As respostas práticas importam mais que qualquer promessa bonita que possamos fazer agora.'
+  },
+  relationship: () => 'Nenhum pacto decide meus sentimentos. Nenhuma profecia transforma duas pessoas em dívida uma da outra. Tenho curiosidade sobre você, respeito algumas escolhas e continuo irritada com outras. Também percebo quando a estrada fica silenciosa de um modo diferente porque estamos próximos — não preciso negar isso para preservar minha liberdade. Mas não chamarei curiosidade de amor nem gratidão de destino. Se isto se tornar amizade, desejo, rivalidade ou apenas uma conversa que mudou nossas vidas, será porque continuamos escolhendo e permitindo que o outro escolha. Quero conhecê-lo sem que nossos mortos recebam crédito por cada gesto que ainda não fizemos.',
+  sylvaris: () => 'Sylvaris não separa reino e floresta. Os Círculos representam memória, ofícios, margens e passagens; Aelwen governa com eles, não acima deles. Lethariel cresce entre raízes, plataformas vivas e canais de água. Parece serena vista de longe, mas há conflitos sob essa serenidade: isolacionistas, guardiões que desejam abrir rotas e famílias que temem o que sua chegada fará com o pacto. O medalhão não lhe concede acesso automático, e eu não o entregarei à rainha como prisioneiro. Posso conduzi-lo até uma escolha informada. Depois disso, se quiser partir, ajudarei a manter o portão aberto — mesmo que pessoalmente deseje que fique tempo suficiente para continuarmos esta conversa.',
+  age: () => 'Quinhentos anos não cabem na aparência que você carrega. Às vezes esqueço a distância até você mencionar uma cidade que viu antes de minhas árvores mais jovens nascerem. Em outros momentos, parece mais novo que eu: não porque seja ingênuo, mas porque lhe negaram experiências comuns e depois chamaram essa ausência de proteção. Não vou tratá-lo como sábio infalível por ter sobrevivido, nem como alguém quebrado que precisa ser recuperado pela primeira pessoa que se aproximar. Quero compreender o que os séculos ensinaram e o que apenas fizeram você evitar. Solidão prolongada pode parecer conhecimento quando, na verdade, é uma pergunta que ninguém esteve perto para fazer.',
+  choice: () => 'Dizer que valorizamos liberdade é fácil enquanto a escolha do outro coincide com aquilo que desejamos. O teste virá quando você quiser partir e eu acreditar que deveria ficar; quando eu escolher a coroa e você enxergar nela apenas uma prisão; quando a verdade do pacto oferecer proteção ao preço de uma obrigação. Quero que estabeleçamos isto antes: cuidar não concede autoridade. Salvar não cria posse. Amar — se algum dia chegarmos a essa palavra — também não. Podemos tentar convencer, discutir e até nos afastar. O que não podemos fazer é chamar coerção de destino apenas porque temos medo do que o outro escolherá sem nós.',
+}
 
-const topics = [
-  {
-    words: ['aelwen corvo', 'tia corvo', 'rainha corvo'],
-    match: (question) => question.includes('corvo') && ['aelwen', 'tia', 'rainha'].some((word) => question.includes(word)),
-    reply: () => 'Elara estreita os olhos, procurando na memória algo que não esteja contaminado por suposição. “Não sei se Aelwen conhecia especificamente sua forma de corvo. Ela sabia que Normus dominava práticas Kayler que nunca entraram nos arquivos públicos, mas nunca falou das suas formas.” Elara faz uma pausa. “Se minha tia previu que um corvo me encontraria, ocultou isso de mim. Se não previu, então o contratante da clareira talvez soubesse mais sobre você do que a própria rainha. As duas possibilidades me preocupam, e nenhuma está confirmada.”',
-  },
-  {
-    words: ['pacto', 'promessa', 'normus', 'descendentes'],
-    reply: ({ state }) => state.flags.medallionShown
-      ? '“A outra metade do medalhão está com Aelwen. Sei que ela e Normus fizeram um pacto ligado a nós, mas não conheço as cláusulas completas. E não vou fingir que conheço.” Elara observa o metal antes de continuar. “Se houver ali uma ordem sobre nossas vidas, ela encontrará duas recusas. Se houver uma proteção, ainda teremos o direito de examinar o preço.”'
-      : '“Sei que Normus e Aelwen fizeram uma promessa ligada aos descendentes de suas casas. Não conheço as palavras completas.” Elara sustenta o olhar de Sirius. “Minha tia chama o silêncio de prudência. Eu o chamo de uma decisão tomada sem nós. Não aceitarei transformar suspeita em certeza, mas também não aceitarei obedecer ao que ainda não pude ler.”',
-  },
-  {
-    words: ['aelwen', 'rainha', 'sua tia', 'tua tia'],
-    reply: () => '“Aelwen é minha tia, minha rainha e a pessoa que me ensinou a desconfiar de poder sem limites. Isso não significa que concordo com seus segredos.” Elara aperta os lábios por um instante. “Ela amava Normus como amigo e aliado; nisso os registros são claros. O que guardou depois da morte dele permanece reservado. Posso conduzi-lo até ela. Não posso prometer que gostaremos do que ouviremos.”',
-  },
-  {
-    words: ['orcs', 'orc', 'mercenario', 'arvak', 'presas quebradas'],
-    reply: ({ state }) => state.flags.orcBloodshed
-      ? '“Aquele guerreiro pode ter se chamado Arvak. Os outros eram mercenários sem marcas de clã, não representantes de todos os orcs.” Elara olha para as próprias mãos. “Ele participou de minha captura e teria usado a lâmina. Também morreu por uma escolha nossa. Se contarmos apenas a primeira parte, fabricamos absolvição. Se contarmos apenas a segunda, fabricamos condenação. Precisamos carregar ambas.”'
-      : '“Eles rasparam as marcas de clã e aceitaram um contrato sem nome. Isso os torna responsáveis pelo que fizeram, não torna Vul’Gar responsável por eles.” Elara recolhe um fio de prata partido. “O líder sabia costumes de dívida de estrada. Se o poupamos, essa escolha pode retornar como aviso ou nova ameaça. Ainda não sabemos qual. Misericórdia abre uma possibilidade; não oferece garantia.”',
-  },
-  {
-    words: ['captura', 'prenderam', 'grito', 'indefesa', 'medo'],
-    reply: () => 'Elara demora antes de responder. “Eu deixei uma pista falsa para encontrar quem removia meus marcadores. Achei que observariam de longe. Quando o ferro meteórico impediu o salto da adaga, percebi que alguém conhecia um registro de treino que deveria estar fechado.” Ela inspira devagar. “Gritei quando me atingiram. Tive medo de morrer sem que ninguém soubesse por quê. Você ouviu. Ainda estou aprendendo o que fazer com a gratidão e a raiva de ter precisado ser salva.”',
-  },
-  {
-    words: ['corvo', 'transforma', 'metamorfose', 'penas'],
-    reply: () => '“Seus olhos continuaram violetas na forma de corvo. Foi assim que soube que não era uma ilusão comum.” Elara inclina a cabeça, imitando sem perceber a curiosidade da ave. “Os bestiários élficos descrevem metamorfose do Eco, mas quase todos são fragmentários e misturam testemunho com perseguição. Não sei quanto tempo consegue permanecer assim, o que acontece com sua mente ou qual preço paga. Prefiro que você me conte a permitir que um arquivo decida por você.”',
-  },
-  {
-    words: ['adaga', 'passo velado', 'teleporte', 'salto'],
-    reply: () => '“A Adaga do Passo Velado dobra uma distância curta até um ponto que eu veja ou tenha marcado. Não atravessa ferro meteórico, não corrige um pouso ruim e retira calor do meu corpo.” Elara aquece os dedos contra a bainha. “Três saltos rápidos podem me deixar inconsciente. Os mercenários sabiam disso. Essa é a parte que importa: alguém fora da oficina ou da corte teve acesso aos limites exatos.”',
-  },
-  {
-    words: ['fulgarion', 'espada', 'raio', 'tempestade', 'magia'],
-    reply: ({ state }) => state.flags.sharedWeakness
-      ? '“Você já me disse que a tempestade cobra de seus nervos. Vi o tremor em sua mão.” Elara não olha para Fulgarion, mas para Sirius. “Poder que apresenta uma conta ainda pode ser perigoso; poder que finge não ter custo é pior. Se lutarmos juntos outra vez, preciso saber quando seus dedos deixam de responder. Você precisará saber quando a adaga tiver levado meu último calor seguro.”'
-      : '“Fulgarion conduz sua magia; não a cria. Reconheci os canais da lâmina pelas descrições de arquivo.” Elara observa a bainha marcada por reparos. “O que o registro não diz é quanto cada descarga lhe custa. Vi sua mão tremer depois da clareira. Se espera que eu lute ao seu lado, essa limitação não pode permanecer segredo até o momento em que falhar.”',
-  },
-  {
-    words: ['namidia', 'sua mae', 'minha mae', 'mae'],
-    reply: () => '“Os arquivos de Sylvaris falam pouco demais sobre Namídia Bellatrix. Dizem que organizou rotas, cifras e depósitos enquanto outros recebiam canções por batalhas.” A voz de Elara perde parte da dureza. “Aelwen pronuncia o nome dela com culpa, não apenas luto. Não sei o motivo. Sei que sua mãe desejava viver e criar você; reduzi-la ao sacrifício final seria roubá-la uma segunda vez.”',
-  },
-  {
-    words: ['seu pai', 'teu pai', 'caelir', 'familia', 'irmas'],
-    reply: () => '“Meu pai, Caelir, morreu quando eu ainda aprendia a distinguir dever de obediência. Tenho duas irmãs mais velhas, Lyssara e Maeriel. Os Círculos me escolheram como herdeira apesar delas.” Elara toca o fio de prata no pulso. “Nós nos amamos. Isso não impede que a sucessão nos fira, especialmente quando conselheiros tentam transformar diferenças em facções. Ser família não nos livra da política; apenas torna cada consequência mais pessoal.”',
-  },
-  {
-    words: ['confiar', 'confianca', 'mentira', 'verdade', 'segredo'],
-    reply: ({ state }) => {
-      const bond = state.relationships.elara ?? 0
-      if (bond >= 3) return '“Confio no que vi: você veio ao ouvir meu grito, aceitou dividir decisões e não tentou usar o resgate como corrente.” Elara deixa a frase respirar. “Não confio ainda em todos os seus silêncios, assim como você não deveria confiar em todos os meus vínculos com a coroa. Isso não diminui o que construímos. Torna a confiança uma prática, não um prêmio.”'
-      if (bond < 0) return '“Você salvou minha vida, mas confiança não nasce automaticamente de uma dívida.” Elara fala sem hostilidade. “Há partes do seu nome que esconde, decisões que tomou sozinho e perguntas que evita. Posso caminhar ao seu lado enquanto observo. Se deseja mais que isso, não me peça fé. Dê-me escolhas verificáveis.”'
-      return '“Ainda estamos medindo um ao outro.” Elara guarda a adaga devagar. “Eu lhe disse quem sou e o que não sei. Você mostrou poder e, em alguns momentos, limite. Confiança não será uma declaração feita nesta estrada. Será o que fizermos quando a próxima vantagem permitir que um decida pelo outro.”'
-    },
-  },
-  {
-    words: ['lethariel', 'sylvaris', 'reino elfico', 'cidade', 'fronteira'],
-    reply: () => '“Sylvaris não separa reino e floresta. Os Círculos governam memória, ofícios e passagens; Aelwen governa com eles, não acima deles. Lethariel cresce entre raízes, margens e plataformas vivas.” Elara aponta para onde o caminho parece desaparecer. “Você não receberá acesso automático por carregar um medalhão. Também não será entregue à rainha como prisioneiro por minha ordem. Eu o conduzirei até uma escolha informada. É o máximo que posso prometer com honestidade.”',
-  },
-  {
-    words: ['contrato', 'mandante', 'mascara', 'sete raizes', 'quem pagou'],
-    reply: ({ state }) => state.flags.maskedIntermediaryKnown
-      ? '“O intermediário usava máscara de madeira, altura humana, voz alterada e luvas com cheiro de remédio élfico. Isso é testemunho do mercenário ferido, não fato confirmado.” Elara enumera cada detalhe como se o registrasse. “Sabia que o corvo viria e que eu o levaria à rainha. Pode ser alguém da corte, alguém com acesso a um informante ou alguém plantando exatamente essa suspeita.”'
-      : '“O contratante continua desconhecido. A cera, as moedas e a escrita foram escolhidas para apontar a vários reinos ao mesmo tempo.” Elara franze a testa. “Sabemos apenas que conhecia meus marcadores, a limitação da adaga e a passagem. Qualquer nome além disso seria rumor. Não entregarei um inocente à nossa necessidade de ter um culpado.”',
-  },
-  {
-    words: ['gosta', 'sentimento', 'nos dois', 'destino', 'casamento', 'romance'],
-    reply: () => 'Elara sustenta o olhar de Sirius por mais tempo do que pretendia. “Nenhum pacto decide meus sentimentos. Nenhuma profecia transforma duas pessoas em dívida uma da outra.” Ela então permite um sorriso breve. “Tenho curiosidade sobre você. Respeito algumas escolhas e ainda estou irritada com outras. Se isso se tornar amizade, amor, rivalidade ou apenas uma estrada compartilhada, será porque continuamos escolhendo — não porque nossos mortos escreveram antes.”',
-  },
+const secondaryBridges = {
+  pact: 'E isso se liga ao pacto porque qualquer segredo herdado será julgado pelo espaço que deixa para nossa escolha.',
+  aelwen: 'Quanto a Aelwen, não confundirei amor familiar com certeza de que ela agiu corretamente.',
+  raven: 'Sua forma de corvo também importa aqui: alguém parece conhecer limites que nunca deveriam ter saído dos registros privados.',
+  capture: 'A clareira tornou essa pergunta menos abstrata; depois de perder escolha sobre o próprio corpo, Elara media com mais rigor toda autoridade oferecida como proteção.',
+  trust: 'No fim, a questão retorna à confiança: não ao que prometemos agora, mas ao que faremos com a próxima vantagem.',
+  relationship: 'E, se existe algo nascendo entre eles, só sobreviveria se nenhum dos dois o usasse para responder pelo outro.',
+  conspiracy: 'O contratante desconhecido permanecia na borda da conversa, prova de que alguém tentava transformar intimidade e informação em armas.',
+}
+
+const combinedResponses = {
+  'aelwen+raven': 'Não sei se Aelwen conhecia especificamente sua forma de corvo. Ela sabia que Normus dominava práticas Kayler que nunca entraram nos arquivos públicos, mas jamais falou das formas que você poderia herdar. Se minha tia previu que um corvo me encontraria, ocultou isso de mim. Se não previu, então o contratante da clareira talvez soubesse mais sobre você do que a própria rainha. As duas possibilidades me preocupam, e nenhuma está confirmada. Quando estivermos diante dela, não aceitarei uma resposta construída apenas sobre o que decidiu esconder para nos proteger. Perguntarei quando soube, de quem recebeu a informação e por que me enviou sem essa parte. Você terá o direito de ouvir a resposta inteira.',
+  'choice+relationship': 'Posso amar alguém por escolha e ainda descobrir que o sentimento nasceu em circunstâncias preparadas por outras pessoas. O que tornaria esse amor livre não seria uma origem perfeitamente limpa; seria nossa capacidade contínua de dizer sim, não, ainda não ou nunca. O pacto pode ter colocado nossos nomes na mesma página, mas não produziu o instante em que você seguiu meu grito sem saber quem eu era. Também não decide o que sinto agora. Existe curiosidade, respeito e uma proximidade que ainda me assusta nomear. Se algum dia isso se tornar amor, quero reconhecer cada passo que foi nosso — inclusive os momentos em que poderíamos ter nos afastado e escolhemos continuar a conversa.',
+  'pact+relationship': 'O pacto pode explicar por que nossas famílias esperavam que nos encontrássemos; não explica o que acontece entre nós depois do encontro. Nenhum documento antigo transforma gratidão em amor ou proximidade em dever. Tenho curiosidade sobre você, respeito escolhas que fez e ainda guardo reservas sobre outras. Se um sentimento crescer, ele precisará sobreviver à leitura do pacto, à possibilidade de discordarmos e ao direito de qualquer um de nós partir. Só então saberei que pertence a nós, não aos mortos que colocaram nossos nomes na mesma promessa.',
+}
+
+const reactions = {
+  apology: 'Elara não respondeu de imediato. O pedido de desculpas pareceu surpreendê-la mais que uma justificativa teria feito. Seus dedos afrouxaram junto à bainha, embora o cuidado no olhar mostrasse que ela não confundia arrependimento com reparação concluída.',
+  gratitude: 'A gratidão deixou Elara desconfortável por um instante; não por rejeitá-la, mas porque ainda temia que o resgate transformasse toda troca entre eles numa contabilidade de dívidas. Ela respirou antes de aceitar as palavras sem diminuí-las.',
+  vulnerability: 'A voz de Sirius mudou quase imperceptivelmente. Elara percebeu a diferença e conteve a primeira pergunta que lhe ocorreu. Aproximar-se naquele momento exigia não invadir o espaço que ele abrira por vontade própria.',
+  care: 'Elara acompanhou o rosto de Sirius como se procurasse a obrigação escondida sob o cuidado. Não a encontrou. Parte da tensão abandonou seus ombros, substituída por uma cautela menos defensiva e mais íntima.',
+  respect: 'A afirmação atingiu Elara num lugar que títulos e promessas raramente alcançavam. Ser reconhecida como autora da própria decisão importava mais do que ser tranquilizada. Ela permitiu que essa diferença aparecesse no olhar.',
+  threat: 'O ar entre ambos endureceu. Elara não recuou, mas a mão encontrou a adaga e sua postura voltou a medir rotas de fuga. O resgate continuava verdadeiro; a ameaça também. Uma boa ação passada não concedia a Sirius imunidade sobre o que escolhia dizer agora.',
+  accusation: 'A acusação fez Elara erguer o queixo. Por trás da irritação havia algo mais vulnerável: o receio de que Sirius já a tivesse reduzido à coroa e aos segredos de Aelwen. Ela decidiu responder sem pedir que ele confiasse antes de ouvir.',
+  question: 'Elara recebeu a pergunta com atenção verdadeira. Em vez de responder depressa, revisitou o que sabia, separando lembrança, inferência e fato. Sirius percebeu que as pausas dela não eram evasão automática; às vezes eram o trabalho de não inventar.',
+  personal: 'Havia uma diferença entre discutir arquivos e ouvir Sirius falar de si. Elara percebeu quando a frase deixou de ser argumento e se tornou exposição pessoal. Sua expressão perdeu parte da disciplina cortesã.',
+  neutral: 'Elara inclinou levemente a cabeça. As palavras de Sirius não correspondiam a nenhuma fórmula de conselho, ameaça ou agradecimento. Ela precisou escutá-las como parte de uma conversa ainda sem regras prontas.',
+}
+
+const questionReactions = [
+  'Elara recebeu a pergunta com atenção verdadeira. Em vez de responder depressa, revisitou o que sabia, separando lembrança, inferência e fato. Sirius percebeu que as pausas dela não eram evasão automática; às vezes eram o trabalho de não inventar.',
+  'A pergunta fez Elara voltar os olhos para o ponto exato da conversa em que a dúvida nascera. Ela inspirou devagar, recusando a facilidade de responder algo apenas provável. Quando tornou a encarar Sirius, sua expressão já revelava que distinguiria o que sabia daquilo que também precisava descobrir.',
+  'Elara demorou um instante. A hesitação não parecia medo de Sirius, mas receio de repetir um segredo alheio como se fosse conhecimento próprio. Ele viu a jovem organizar a resposta por dentro antes de confiar-lhe a primeira palavra.',
 ]
 
-export function localReply({ text, state, scene }) {
-  const question = normalized(text)
-  const match = topics.find(({ words, match: customMatch }) => customMatch?.(question) || words.some((word) => question.includes(word)))
-  if (match) return { speaker: 'ELARA', dialogue: match.reply({ state, scene }), emotion: 'earnest', source: 'local-canon' }
+function contextualDialogue(dialogue, state, interpretation, text) {
+  const recentTurns = state.dialogueMemory?.slice(-3) ?? []
+  const normalized = String(text ?? '').toLocaleLowerCase('pt-BR')
+  const continuesAelwenRaven = interpretation.intent === 'aelwen'
+    && recentTurns.some(({ intent, secondaryIntent }) => [intent, secondaryIntent].includes('raven'))
+    && /ela|tia|aelwen|sabia|antes|mand/.test(normalized)
 
+  if (continuesAelwenRaven) {
+    return `Não posso afirmar que Aelwen soubesse antes de me enviar à floresta. Se soubesse, não me contou; se suspeitasse, também não deixou aviso algum sobre um homem capaz de assumir a forma de corvo. Essa ausência é um fato. O motivo permanece desconhecido. Minha tia pode ter tentado proteger você, pode ter tentado me proteger ou pode simplesmente não ter previsto nosso encontro — qualquer resposta além dessas possibilidades seria invenção. O que sei é que fui enviada para investigar marcadores violados, não para procurar Sirius Kayler. Quando falarmos com ela, repetirei sua pergunta sem permitir que seja dissolvida em prudência: “A senhora sabia antes de me mandar?” E pedirei que responda primeiro sim ou não, antes de explicar por quê.`
+  }
+
+  return dialogue
+}
+
+function contextAfterthought(state, scene, interpretation) {
+  if (interpretation.tone === 'threat' || interpretation.tone === 'accusation') {
+    return 'Sirius percebeu que a resposta dela não encerrava a tensão. O modo como falasse depois importaria mais que qualquer tentativa de vencer aquela troca.'
+  }
+  if (interpretation.tone === 'vulnerability' || interpretation.tone === 'apology') {
+    return 'O silêncio que veio depois não pareceu vazio. Sirius sentiu o desconforto de ter sido compreendido e, junto dele, uma vontade ainda incerta de não recuar imediatamente para trás das próprias defesas.'
+  }
+  if (scene.stage === 'forestRide') return 'Nimbo continuou avançando sob as folhas, obrigando os dois a ajustar o corpo ao mesmo ritmo. A conversa permaneceu entre eles não como interrupção da viagem, mas como parte do caminho.'
+  if (scene.stage === 'camp') return 'O fogo baixo estalou entre as frases. Sem inimigos imediatos, cada palavra parecia mais perigosa justamente porque podia ser lembrada depois.'
+  return 'A resposta alterou algo pequeno na maneira como se observavam. Nenhum deles possuía ainda uma conclusão, mas a próxima escolha já não seria feita pelas mesmas duas pessoas que haviam entrado naquela conversa.'
+}
+
+export function localReply({ text, state, scene, interpretation }) {
+  const intent = interpretation.intent
+  const replyForIntent = responses[intent]
   const place = canonById[state.flags.reachedSylvaris ? 'lethariel' : 'floresta-antiga']
+  const combinedKey = [interpretation.intent, interpretation.secondaryIntent].filter(Boolean).sort().join('+')
+  let dialogue = combinedResponses[combinedKey] ?? (replyForIntent
+    ? replyForIntent({ state, scene, interpretation })
+    : `Não quero lhe oferecer uma resposta fabricada apenas para impedir que a conversa pare. Posso dizer o que compreendi: você está falando sobre ${interpretation.understoodLabel}, e isso parece importar por algo além de simples curiosidade. Se me disser qual parte toca você diretamente, responderei com o que testemunhei e separarei o que é registro, suspeita ou desconhecido. O fato de estarmos em ${place.name} não exige que toda frase resolva um mistério. Às vezes compreender por que uma pergunta foi feita já muda o caminho até a resposta.`)
+
+  if (!combinedResponses[combinedKey] && interpretation.secondaryIntent && secondaryBridges[interpretation.secondaryIntent]) {
+    dialogue += ` ${secondaryBridges[interpretation.secondaryIntent]}`
+  }
+  dialogue = contextualDialogue(dialogue, state, interpretation, text)
+
+  const reactionKey = interpretation.tone !== 'neutral'
+    ? interpretation.tone
+    : interpretation.isQuestion ? 'question' : 'neutral'
+  const narration = reactionKey === 'question'
+    ? questionReactions[(state.dialogueMemory?.length ?? 0) % questionReactions.length]
+    : reactions[reactionKey] ?? reactions.neutral
+
   return {
     speaker: 'ELARA',
-    dialogue: `Elara considera a pergunta antes de responder. “Não tenho uma resposta segura sobre isso. O que sei vem do que testemunhamos em ${place.name} e dos registros aos quais tive acesso. Posso oferecer uma suspeita, se você a quiser como suspeita; não vou transformá-la em verdade apenas para preencher o silêncio.” Ela volta os olhos para Sirius. “Pergunte de outro modo, ou diga o que você acredita. Uma conversa não precisa fingir certeza para continuar.”`,
-    emotion: 'uncertain',
+    narration,
+    dialogue,
+    afterthought: contextAfterthought(state, scene, interpretation),
+    emotion: interpretation.tone === 'threat' || interpretation.tone === 'accusation' ? 'guarded' : interpretation.tone === 'vulnerability' ? 'quiet' : 'earnest',
+    understoodIntent: intent,
+    understoodLabel: interpretation.understoodLabel || intentLabel(intent),
     source: 'local-canon',
   }
 }

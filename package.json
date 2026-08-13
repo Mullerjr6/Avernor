@@ -20,7 +20,7 @@
     "vivas:dev": "npm run vivas:sync && vite --config cronicas-vivas/vite.config.js",
     "vivas:build": "npm run vivas:sync && vite build --config cronicas-vivas/vite.config.js",
     "vivas:preview": "vite preview --config cronicas-vivas/vite.config.js",
-    "vivas:validate": "npm run vivas:sync && node cronicas-vivas/scripts/validate-chapter.mjs",
+    "vivas:validate": "npm run vivas:sync && node cronicas-vivas/scripts/validate-chapter.mjs && node cronicas-vivas/scripts/validate-dialogue.mjs",
     "validate": "npm run validate:genealogies && npm run validate:atlas && npm run validate:content && npm run validate:editorial && npm run validate:privacy && npm run audit:images",
     "test": "npm run validate",
     "sitemap": "node scripts/generate-sitemap.mjs"

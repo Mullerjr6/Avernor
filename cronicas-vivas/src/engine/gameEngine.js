@@ -1,4 +1,5 @@
 import { chapter, firstSceneId } from './chapterZero.js'
+import { consequenceForChoice } from './choiceConsequences.js'
 
 export const SAVE_KEY = 'avernor-cronicas-vivas-save-v2'
 export const ALLOWED_INVENTORY = new Set(['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'])
@@ -15,6 +16,10 @@ export function createInitialState() {
     relationships: { elara: 0, aelwen: 0 },
     discovered: [...new Set(['sirius-kayler', 'floresta-antiga', ...(firstScene.discover ?? [])])],
     freeReplies: {},
+    dialogueMemory: [],
+    dialogueInsights: [],
+    dialogueEffectKeys: [],
+    pendingConsequence: null,
     visited: [firstSceneId],
     turns: 0,
     startedAt: new Date().toISOString(),
@@ -63,15 +68,54 @@ export function choose(state, choiceId) {
   if (!choice) return state
   let next = applyEffects(state, choice.effects)
   next = { ...next, flags: { ...next.flags, ...(choice.flags ?? {}) } }
-  next = { ...next, history: [...next.history, { sceneId: scene.id, choiceId, label: choice.label }] }
+  next = {
+    ...next,
+    pendingConsequence: {
+      fromSceneId: scene.id,
+      choiceId,
+      choiceLabel: choice.label,
+      narration: consequenceForChoice(scene, choice),
+    },
+    history: [...next.history, { sceneId: scene.id, choiceId, label: choice.label }],
+  }
   return enterScene(next, chapter.scenes[choice.target])
 }
 
-export function addFreeReply(state, reply) {
+export function addFreeReply(state, reply, interpretation) {
   const sceneReplies = Array.isArray(state.freeReplies[state.sceneId]) ? state.freeReplies[state.sceneId] : []
+  const effectKey = `${state.sceneId}:${interpretation.tone}:${interpretation.intent}`
+  const canApplyEffect = interpretation.relationshipDelta !== 0 && !state.dialogueEffectKeys.includes(effectKey)
+  const relationshipDelta = canApplyEffect ? interpretation.relationshipDelta : 0
+  const memoryEntry = {
+    sceneId: state.sceneId,
+    playerText: reply.playerText,
+    response: reply.dialogue,
+    narration: reply.narration,
+    intent: interpretation.intent,
+    secondaryIntent: interpretation.secondaryIntent,
+    tone: interpretation.tone,
+    understoodLabel: interpretation.understoodLabel,
+  }
   return {
     ...state,
     freeReplies: { ...state.freeReplies, [state.sceneId]: [...sceneReplies, reply].slice(-8) },
+    dialogueMemory: [...(state.dialogueMemory ?? []), memoryEntry].slice(-30),
+    dialogueInsights: interpretation.memory
+      ? unique([...(state.dialogueInsights ?? []), interpretation.memory]).slice(-20)
+      : (state.dialogueInsights ?? []),
+    dialogueEffectKeys: canApplyEffect
+      ? [...(state.dialogueEffectKeys ?? []), effectKey]
+      : (state.dialogueEffectKeys ?? []),
+    relationships: {
+      ...state.relationships,
+      elara: (state.relationships.elara ?? 0) + relationshipDelta,
+    },
+    flags: {
+      ...state.flags,
+      freeDialogueOccurred: true,
+      ...(interpretation.tone === 'vulnerability' ? { freeDialogueVulnerability: true } : {}),
+      ...(interpretation.tone === 'threat' ? { freeDialogueThreat: true } : {}),
+    },
     turns: state.turns + 1,
     updatedAt: new Date().toISOString(),
   }
@@ -87,6 +131,10 @@ export function loadState() {
         discovered: unique((saved.discovered ?? []).filter((id) => typeof id === 'string')),
         visited: unique((saved.visited ?? [saved.sceneId]).filter((id) => chapter.scenes[id])),
         freeReplies: saved.freeReplies ?? {},
+        dialogueMemory: saved.dialogueMemory ?? [],
+        dialogueInsights: saved.dialogueInsights ?? [],
+        dialogueEffectKeys: saved.dialogueEffectKeys ?? [],
+        pendingConsequence: saved.pendingConsequence ?? null,
       }
     }
   } catch {

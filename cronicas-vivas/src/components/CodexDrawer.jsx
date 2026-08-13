@@ -1,6 +1,6 @@
 import { canonById } from '../data/knowledge.js'
 
-export default function CodexDrawer({ discovered, inventory, relationships, flags, open, onClose }) {
+export default function CodexDrawer({ discovered, inventory, relationships, flags, dialogueInsights = [], open, onClose }) {
   const records = discovered.map((id) => canonById[id]).filter(Boolean)
   const memories = journeyMemories(flags)
   return (
@@ -40,6 +40,14 @@ export default function CodexDrawer({ discovered, inventory, relationships, flag
         <section>
           <h3>Memórias da jornada</h3>
           <ul className="journey-memories">{memories.map((memory) => <li key={memory}>{memory}</li>)}</ul>
+        </section>
+      )}
+
+      {dialogueInsights.length > 0 && (
+        <section>
+          <h3>Palavras que permaneceram</h3>
+          <p className="drawer-intro">Confissões, gestos e tensões reconhecidos durante as conversas livres.</p>
+          <ul className="dialogue-memories">{dialogueInsights.map((memory) => <li key={memory}>{memory}</li>)}</ul>
         </section>
       )}
     </aside>

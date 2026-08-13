@@ -1,4 +1,4 @@
-import canon from '../generated/canon.json'
+import canon from '../generated/canon.json' with { type: 'json' }
 
 export const canonById = Object.fromEntries(canon.records.map((record) => [record.id, record]))
 

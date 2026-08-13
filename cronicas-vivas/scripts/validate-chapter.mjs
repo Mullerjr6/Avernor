@@ -1,5 +1,6 @@
 import { chapter } from '../src/engine/chapterZero.js'
 import { ALLOWED_INVENTORY, choicesForScene, choose, createInitialState } from '../src/engine/gameEngine.js'
+import { consequenceForChoice } from '../src/engine/choiceConsequences.js'
 import canon from '../src/generated/canon.json' with { type: 'json' }
 
 const errors = []
@@ -9,6 +10,8 @@ const reachable = new Set()
 const stateReachable = new Set()
 const reachableEndings = new Set()
 const requirementFlags = new Set()
+let consequenceCount = 0
+const distinctConsequences = new Set()
 
 for (const scene of Object.values(chapter.scenes)) {
   for (const choice of scene.choices) {
@@ -75,6 +78,11 @@ for (const scene of Object.values(chapter.scenes)) {
   const choiceIds = scene.choices.map(({ id }) => id)
   if (new Set(choiceIds).size !== choiceIds.length) errors.push(`${scene.id}: escolhas duplicadas`)
   for (const choice of scene.choices) {
+    const consequence = consequenceForChoice(scene, choice)
+    const consequenceWords = consequence.trim().split(/\s+/).length
+    consequenceCount += 1
+    distinctConsequences.add(consequence)
+    if (consequenceWords < 45) errors.push(`${scene.id}/${choice.id}: consequência rasa com ${consequenceWords} palavras`)
     if (!sceneIds.has(choice.target)) errors.push(`${scene.id}/${choice.id}: alvo inexistente ${choice.target}`)
     for (const effect of choice.effects ?? []) {
       if (effect.type !== 'relationship_delta') errors.push(`${scene.id}/${choice.id}: efeito não autorizado ${effect.type}`)
@@ -99,5 +107,5 @@ if (errors.length) {
   errors.forEach((error) => console.error(`- ${error}`))
   process.exitCode = 1
 } else {
-  console.log(`Capítulo válido: ${sceneIds.size} cenas, ${reachableEndings.size} desfechos, ${stateSignatures.size} estados e rotas de ${narrativeDepth.minScenes}–${narrativeDepth.maxScenes} cenas (${narrativeDepth.minWords}–${narrativeDepth.maxWords} palavras fixas).`)
+  console.log(`Capítulo válido: ${sceneIds.size} cenas, ${reachableEndings.size} desfechos, ${stateSignatures.size} estados, ${consequenceCount} consequências (${distinctConsequences.size} textos distintos) e rotas de ${narrativeDepth.minScenes}–${narrativeDepth.maxScenes} cenas (${narrativeDepth.minWords}–${narrativeDepth.maxWords} palavras fixas).`)
 }
