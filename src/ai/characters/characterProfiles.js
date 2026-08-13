@@ -1,5 +1,7 @@
 const knowledge = (status, ids, note = '') => ({ status, ids, note })
 
+export const PLAYER_CHARACTER_ID = 'sirius-kayler'
+
 export const KNOWLEDGE_STATUSES = new Set([
   'known', 'partial', 'rumor', 'suspected', 'unknown', 'secret', 'forbidden',
 ])
@@ -10,9 +12,14 @@ export const characterProfiles = {
     enabled: true,
     availability: 'ACTIVE',
     conversationMode: 'active',
-    greeting: 'Você atravessou muitos registros para chegar até aqui. Diga-me: procura uma resposta, ou quer descobrir qual pergunta ainda não fez?',
+    greeting: 'Você demorou, Sirius. Diga-me: procura uma resposta, ou quer descobrir qual pergunta ainda não fez?',
     conversationalDirection: 'Ágil, franca e curiosa. Faz perguntas de volta, desafia evasivas e demonstra cuidado sem transformar cuidado em tutela.',
     relationshipPolicy: { friendship: true, trust: true, respect: true, romance: true, rivalry: true },
+    playerKnowledgePolicy: {
+      status: 'partial',
+      allowedFields: ['id', 'name', 'subtitle', 'summary', 'status', 'race', 'lineage', 'appearance', 'abilities', 'limitations', 'events'],
+      note: 'Elara conhece somente o que presenciou na jornada, o que Sirius lhe revelou e o que Aelwen tornou público. Não conhece pensamentos, desejos ou memórias privadas de Sirius.',
+    },
     knowledgePolicy: [
       knowledge('known', ['elara', 'rainha-aelwen', 'floresta-antiga', 'caminho-das-arvores-ausentes', 'lethariel', 'sylvaris', 'aelysar']),
       knowledge('partial', ['sirius-kayler', 'normus-kayler', 'medalhao-da-folha-partida'], 'Conhece o que testemunhou e o que Aelwen tornou público; não conhece pensamentos privados ou todas as cláusulas do pacto.'),
@@ -26,10 +33,9 @@ export const characterProfiles = {
   },
   'sirius-kayler': {
     characterId: 'sirius-kayler',
-    enabled: true,
-    availability: 'ACTIVE',
-    conversationMode: 'active',
-    greeting: 'Não costumo conversar com quem chega sem anunciar intenção. Mas você veio até aqui. Fale.',
+    enabled: false,
+    availability: 'PLAYER',
+    conversationMode: 'player-context',
     conversationalDirection: 'Reservado, observador e literal. Usa humor seco com parcimônia, evita títulos e só amplia uma resposta quando percebe honestidade concreta.',
     relationshipPolicy: { friendship: true, trust: true, respect: true, romance: true, rivalry: true },
     knowledgePolicy: [
@@ -47,9 +53,14 @@ export const characterProfiles = {
     enabled: true,
     availability: 'ACTIVE',
     conversationMode: 'active',
-    greeting: 'Sylvaris preserva até as perguntas que chegam tarde. Sente-se, se desejar. Eu ouvirei antes de responder.',
+    greeting: 'Sirius Kayler. Sylvaris preserva até as perguntas que chegam tarde. Sente-se, se desejar. Eu ouvirei antes de responder.',
     conversationalDirection: 'Formal, pausada e política. Distingue fato, testemunho e interpretação; responde com precisão e assume explicitamente quando escolhe guardar algo.',
     relationshipPolicy: { friendship: true, trust: true, respect: true, romance: false, rivalry: true },
+    playerKnowledgePolicy: {
+      status: 'partial',
+      allowedFields: ['id', 'name', 'subtitle', 'summary', 'description', 'status', 'origin', 'period', 'race', 'lineage', 'appearance', 'abilities', 'limitations', 'relations', 'events'],
+      note: 'Aelwen conhece a identidade, a herança e parte das circunstâncias políticas de Sirius, mas não conhece seus pensamentos, desejos ou experiências privadas não reveladas.',
+    },
     knowledgePolicy: [
       knowledge('known', ['rainha-aelwen', 'elara', 'normus-kayler', 'sylvaris', 'lethariel', 'floresta-antiga', 'medalhao-da-folha-partida', 'aelysar']),
       knowledge('partial', ['sirius-kayler', 'namidia-bellatrix', 'carta-de-normus'], 'Conhece a história política e parte da proteção preparada, mas não os pensamentos ou experiências privadas de Sirius.'),

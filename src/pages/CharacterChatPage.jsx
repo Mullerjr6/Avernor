@@ -88,7 +88,7 @@ export default function CharacterChatPage() {
     <div className="character-chat-page" style={{ '--character-accent': character.accent }}>
       <SEO
         title={`Conversar com ${character.name}`}
-        description={`Conversa interativa e não canônica com ${character.name}, baseada nos registros públicos de Avernor.`}
+        description={`Conversa interpretativa de Sirius Kayler com ${character.name}, baseada nos registros públicos de Avernor.`}
         image={character.image || character.thumbnail}
       />
       <div className="character-chat-backdrop" aria-hidden="true" style={{ backgroundImage: `url(${character.image || character.thumbnail})` }} />
@@ -121,7 +121,7 @@ export default function CharacterChatPage() {
 
           <div className="character-chat-notice">
             <strong>Conversa não canônica</strong>
-            <p>O personagem respeita o cânone público, mas esta audiência e suas memórias não alteram a história oficial.</p>
+            <p>Você interpreta Sirius Kayler; a IA controla apenas {character.name}. Esta audiência e suas memórias não alteram a história oficial.</p>
           </div>
           <button className="character-chat-reset" type="button" onClick={handleReset}>Recomeçar esta conversa</button>
         </aside>

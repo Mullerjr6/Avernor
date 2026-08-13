@@ -22,7 +22,7 @@ export default function ChatComposer({ disabled, onSend }) {
 
   return (
     <form className="character-chat-composer" onSubmit={submit}>
-      <label htmlFor="character-message">Escreva com suas próprias palavras</label>
+      <label htmlFor="character-message">Escreva a fala ou ação de Sirius</label>
       <div className="character-chat-input-frame">
         <textarea
           id="character-message"
@@ -32,7 +32,7 @@ export default function ChatComposer({ disabled, onSend }) {
           disabled={disabled}
           onChange={(event) => setValue(event.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Pergunte, responda ou confie uma lembrança ao personagem…"
+          placeholder="O que Sirius diz ou faz?"
         />
         <div className="character-chat-composer-footer">
           <small>{value.length}/{MESSAGE_LIMIT} · Enter envia · Shift + Enter quebra a linha</small>

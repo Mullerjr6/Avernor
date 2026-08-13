@@ -24,7 +24,7 @@ export default function CharacterChat({ character, conversation, busy, error, on
         {conversation.messages.length === 0 && (
           <div className="character-chat-empty">
             <span aria-hidden="true">✦</span>
-            <p>O personagem aguarda sua primeira palavra.</p>
+            <p>{character.name} aguarda a primeira palavra de Sirius.</p>
           </div>
         )}
         {conversation.messages.map((message) => <ChatMessage key={message.id} message={message} characterName={character.name} />)}

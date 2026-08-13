@@ -1,23 +1,28 @@
 # Personagens Vivos
 
-Personagens Vivos é o chat textual interpretativo da enciclopédia. O MVP habilita somente Elara, Sirius Kayler e Rainha Aelwen. O usuário fala como ele próprio; não assume o papel de Sirius usado por Crônicas Vivas.
+Personagens Vivos é o chat textual interpretativo da enciclopédia. Em todas as conversas, o jogador interpreta Sirius Kayler e a IA controla exclusivamente o personagem selecionado. O MVP habilita Elara e Rainha Aelwen como interlocutoras; Sirius permanece no sistema como identidade canônica fixa do jogador e não pode conversar consigo mesmo.
 
 ## Limites do MVP
 
 - O cânone vem exclusivamente dos registros públicos exportados de `src/content/`.
 - `docs/autor/` não é importado, indexado nem enviado ao modelo.
 - Perfis de IA complementam o cânone com política de conhecimento e comportamento; não repetem a ficha editorial.
-- Memórias, histórico e relacionamento são salvos por personagem em `localStorage` e nunca alteram o cânone.
+- Memórias, histórico e relacionamento representam cada vínculo personagem ↔ Sirius, são salvos isoladamente por personagem em `localStorage` e nunca alteram o cânone.
 - Não há embeddings, banco vetorial, imagem, voz ou vídeo.
 - Sem endpoint configurado, um respondente local restrito ao cânone mantém o fluxo funcional. Em produção, o Worker usa a API da OpenAI.
 
 ## Arquitetura
 
-O navegador usa `CharacterEngine` para registrar turnos, extrair memórias e aplicar alterações relacionais limitadas. A UI depende do adapter `chatRepository`, permitindo trocar `localStorage` por persistência remota sem reescrever os componentes.
+O navegador usa `CharacterEngine` para registrar falas e ações declaradas pelo jogador para Sirius, extrair memórias e aplicar alterações relacionais limitadas. A UI depende do adapter `chatRepository`, permitindo trocar `localStorage` por persistência remota sem reescrever os componentes.
 
-O Worker atende `POST /api/character-chat`. Ele ignora qualquer tentativa do cliente de fornecer cânone, seleciona no servidor até seis registros permitidos, limita tamanhos, separa contexto canônico de conteúdo não confiável e solicita resposta estruturada. A sugestão relacional do modelo é limitada novamente pelo motor antes de voltar ao navegador. A chave `OPENAI_API_KEY` existe somente como secret do Worker.
+O Worker atende `POST /api/character-chat`. A identidade do jogador é imposta no servidor como Sirius Kayler; nenhum campo enviado pelo cliente pode substituí-la. O servidor ignora tentativas do cliente de fornecer cânone, monta um recorte de Sirius limitado pela política de conhecimento do interlocutor, seleciona até seis outros registros permitidos, limita tamanhos e separa contexto canônico de conteúdo não confiável. A resposta estruturada permite somente fala e ação do personagem selecionado, e uma proteção adicional rejeita tentativas de controlar Sirius. A sugestão relacional do modelo é limitada novamente pelo motor antes de voltar ao navegador. A chave `OPENAI_API_KEY` existe somente como secret do Worker.
 
-O endpoint antigo `POST /api/narrative` permanece independente e conserva o papel de Sirius em Crônicas Vivas.
+Os dois modos preservam papéis diferentes:
+
+- **Crônicas Vivas:** Sirius participa de uma narrativa estruturada, com cenas, escolhas e consequências do motor do jogo.
+- **Personagens Vivos:** Sirius conversa livremente com um personagem do universo; a IA nunca escreve pensamentos, falas, sentimentos, decisões ou ações por ele.
+
+O endpoint antigo `POST /api/narrative` permanece independente.
 
 ## Configuração
 
@@ -50,4 +55,4 @@ npm run lint
 npm run build
 ```
 
-O validador específico cobre identidades distintas, recusa de material reservado, falsos fatos canônicos, proteção do pacto, isolamento da memória e limites relacionais.
+O validador específico cobre as duas interlocutoras, Sirius como identidade fixa não conversável, recusa de troca de identidade, ausência de controle sobre Sirius, material reservado, falsos fatos canônicos, proteção do pacto, isolamento da memória e limites relacionais.

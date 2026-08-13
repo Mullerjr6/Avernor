@@ -1,6 +1,6 @@
-const STORAGE_VERSION = 1
+const STORAGE_VERSION = 2
 const USER_KEY = 'avernor-personagens-vivos-user-v1'
-const conversationKey = (userId, characterId) => `avernor-personagens-vivos-v1:${userId}:${characterId}`
+const conversationKey = (userId, characterId) => `avernor-personagens-vivos-v2:${userId}:${characterId}`
 
 function generatedId(prefix) {
   const random = Math.random().toString(36).slice(2, 10)

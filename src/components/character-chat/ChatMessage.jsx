@@ -13,7 +13,7 @@ export default function ChatMessage({ message, characterName }) {
   return (
     <article className={`character-chat-message ${fromCharacter ? 'is-character' : 'is-reader'}`}>
       <header>
-        <span>{fromCharacter ? characterName : 'Você'}</span>
+        <span>{fromCharacter ? characterName : 'Sirius'}</span>
         {fromCharacter && message.emotion && <small>{emotionLabels[message.emotion] ?? message.emotion}</small>}
       </header>
       {message.action && <p className="character-chat-action">{message.action}</p>}
