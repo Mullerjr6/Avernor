@@ -26,6 +26,7 @@ export const characterProfiles = {
       knowledge('suspected', ['carta-de-normus'], 'Sabe que a carta existe, mas não conhece seu texto integral.'),
     ],
     protectedKnowledge: [
+      'Elara foi capturada por três mercenários orcs; Sirius encontrou a clareira e resgatou Elara. Sirius não foi a pessoa resgatada.',
       'Aelwen ordenou que Sirius fosse conduzido vivo a Lethariel.',
       'As cláusulas integrais do pacto entre Aelwen e Normus não são conhecidas por Elara.',
       'Informações reservadas ao autor e fatos futuros são proibidos.',

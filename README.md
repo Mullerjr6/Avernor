@@ -27,7 +27,7 @@ npm run optimize:images
 
 ## Crônicas Vivas
 
-O primeiro capítulo jogável da visual novel fica em `cronicas-vivas/`, separado da enciclopédia e alimentado por uma exportação canônica de `src/content/`. Execute `npm run vivas:dev` para jogar com o narrador local; use `npm run vivas:validate` e `npm run vivas:build` para validar e compilar. A integração opcional com a OpenAI acontece exclusivamente por um Cloudflare Worker, sem expor chaves no navegador.
+O primeiro capítulo jogável da visual novel fica em `cronicas-vivas/`, separado da enciclopédia e alimentado por uma exportação canônica de `src/content/`. Execute `npm run vivas:dev` para jogar com o narrador local; use `npm run vivas:validate` e `npm run vivas:build` para validar e compilar. As respostas remotas usam Cloudflare Workers AI pelo binding `env.AI`, sem expor credenciais no navegador.
 
 ## Rotas principais
 

@@ -3,6 +3,7 @@ node_modules/
 output/playwright/
 *.processing
 cronicas-vivas/dist/
+**/.wrangler/
 cronicas-vivas/.env
 cronicas-vivas/.dev.vars
 .env.local

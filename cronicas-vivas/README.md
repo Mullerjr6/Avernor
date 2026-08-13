@@ -14,19 +14,19 @@ npm run vivas:dev
 
 O Capítulo Zero funciona integralmente com o narrador canônico local e salva o progresso no navegador. Depois de encontrar Elara, a caixa **Conversa livre** aceita perguntas e falas escritas pelo jogador. O interpretador local reconhece assuntos canônicos, tom emocional, perguntas de continuação e referências à conversa anterior; as respostas incluem narração, reação corporal, pensamentos de Elara e um fecho que devolve a conversa ao enredo. Falas relevantes também permanecem na memória do Códice.
 
-## Ativar respostas livres com OpenAI
+## Ativar respostas livres com Cloudflare Workers AI
 
-1. Copie `cronicas-vivas/.dev.vars.example` para `cronicas-vivas/.dev.vars` e adicione a chave.
-2. Execute o Worker a partir da raiz:
+1. Autentique o Wrangler na conta Cloudflare que executará o binding Workers AI.
+2. Execute o Worker a partir da raiz; nenhuma chave de modelo é necessária:
 
 ```bash
-npx wrangler dev --config cronicas-vivas/wrangler.jsonc
+npx wrangler@latest dev --config cronicas-vivas/wrangler.jsonc --port 8789
 ```
 
 3. Copie `cronicas-vivas/.env.example` para `cronicas-vivas/.env`.
 4. Execute `npm run vivas:dev`.
 
-A chave permanece somente no Worker. Se o endpoint estiver indisponível, a interface retorna automaticamente ao narrador local. Com o Worker ativo, a IA recebe a cena atual, a consequência da última escolha, o histórico recente e apenas os registros canônicos liberados. Ela pode compreender formulações mais abertas, mas não tem autoridade para modificar inventário, relações ou cânone.
+O Worker usa o binding `env.AI` e, por padrão, o modelo `@cf/qwen/qwen3-30b-a3b-fp8`. Se o endpoint ou o Workers AI estiver indisponível, a interface retorna automaticamente ao narrador local. Com o Worker ativo, a IA recebe a cena atual, a consequência da última escolha, o histórico recente e apenas os registros canônicos liberados. Ela pode compreender formulações mais abertas, mas não tem autoridade para modificar inventário, relações ou cânone.
 
 ## Qualidade
 

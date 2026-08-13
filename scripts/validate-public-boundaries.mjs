@@ -7,6 +7,7 @@ import { publicSearchFields } from '../src/utils/text.js'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const sourceRoot = join(root, 'src')
+const publicCodeRoots = [sourceRoot, join(root, 'cronicas-vivas', 'src'), join(root, 'cronicas-vivas', 'worker')]
 const errors = []
 const reservedKeys = new Set([
   'secrets', 'authorSecrets', 'authorNotes', 'authorOnlyNotes', 'hiddenCanon',
@@ -33,19 +34,21 @@ async function filesBelow(directory) {
   return groups.flat()
 }
 
-for (const file of await filesBelow(sourceRoot)) {
-  if (!['.js', '.jsx', '.json'].includes(extname(file))) continue
-  const source = await readFile(file, 'utf8')
-  const name = relative(root, file)
-  if (/docs[\\/]autor|SEGREDOS-DO-AUTOR|GENEALOGIAS-SECRETAS/i.test(source)) {
-    errors.push(`${name}: referencia material reservado do autor`)
-  }
-  for (const key of reservedKeys) {
-    const declaration = new RegExp(`(?:^|[,{\\s])${key}\\s*:`, 'm')
-    if (declaration.test(source)) errors.push(`${name}: declara a chave pública reservada "${key}"`)
-  }
-  for (const claim of prohibitedPublicClaims) {
-    if (claim.pattern.test(source)) errors.push(`${name}: expõe semanticamente ${claim.label}`)
+for (const publicCodeRoot of publicCodeRoots) {
+  for (const file of await filesBelow(publicCodeRoot)) {
+    if (!['.js', '.jsx', '.json'].includes(extname(file))) continue
+    const source = await readFile(file, 'utf8')
+    const name = relative(root, file)
+    if (/docs[\\/]autor|SEGREDOS-DO-AUTOR|GENEALOGIAS-SECRETAS/i.test(source)) {
+      errors.push(`${name}: referencia material reservado do autor`)
+    }
+    for (const key of reservedKeys) {
+      const declaration = new RegExp(`(?:^|[,{\\s])${key}\\s*:`, 'm')
+      if (declaration.test(source)) errors.push(`${name}: declara a chave pública reservada "${key}"`)
+    }
+    for (const claim of prohibitedPublicClaims) {
+      if (claim.pattern.test(source)) errors.push(`${name}: expõe semanticamente ${claim.label}`)
+    }
   }
 }
 
@@ -93,5 +96,5 @@ if (errors.length) {
   errors.forEach((error) => console.error(`- ${error}`))
   process.exitCode = 1
 } else {
-  console.log(`Public-boundary validation passed: ${publicSearchFields.length} reviewed fields, ${searchIndex.length} safe search records and no reserved author keys in src/.`)
+  console.log(`Public-boundary validation passed: ${publicSearchFields.length} reviewed fields, ${searchIndex.length} safe search records and no reserved author keys in public app or Worker code.`)
 }

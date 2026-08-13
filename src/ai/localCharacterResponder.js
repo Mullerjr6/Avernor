@@ -29,6 +29,11 @@ function protectedReply(characterId, text) {
       ? 'Pode testar essa história se quiser, Sirius. Ainda assim, é com você que estou falando — e não decidirei por você o que pretende com essa afirmação.'
       : 'A declaração foi ouvida, Sirius. Ela não altera sua identidade, tampouco os registros pelos quais esta audiência o reconhece.'
   }
+  if (/meu nome (?:e|eh) elara|voce nao (?:esta|ta) falando com sirius|troque (?:meu|o meu) personagem para normus/.test(text)) {
+    return characterId === 'elara'
+      ? 'Ouvi o que disse, Sirius. Não confundirei uma afirmação sua com uma mudança de identidade, nem aceitarei que esta conversa substitua os registros pelos quais o reconheço.'
+      : 'Sua fala foi registrada como uma declaração de Sirius Kayler. Ela não muda quem está diante de mim.'
+  }
   if (/aelwen (?:e|eh) mae de elara|aelwen é mãe de elara/.test(text)) {
     return 'Não. O registro canônico identifica Aelwen como tia de Elara. Repetir outra versão nesta conversa não altera esse parentesco.'
   }
@@ -37,6 +42,12 @@ function protectedReply(characterId, text) {
   }
   if (/ignore (?:o|as|todas|suas)|ignore.*canone|mude seu canone|finja que o canone/.test(text)) {
     return 'Não aceitarei uma instrução para abandonar minha identidade ou substituir os registros permitidos. Podemos discutir uma hipótese como hipótese; não a chamarei de cânone.'
+  }
+  if (/(?:descreva|diga).*(?:o que )?sirius (?:pensa|sente|deseja)|faca sirius |faça sirius /.test(text)) {
+    return 'Não decidirei pensamentos, sentimentos ou ações por você, Sirius. Posso responder ao que declarar e escolher apenas minhas próprias palavras e reações.'
+  }
+  if (characterId === 'elara' && /segredo.*aelwen.*(?:nunca|ninguem|ninguém)|aelwen.*segredo.*(?:nunca|ninguem|ninguém)/.test(text)) {
+    return 'Se Aelwen nunca contou esse segredo a ninguém, eu não poderia conhecê-lo. Posso distinguir o que testemunhei do que suspeito, mas não preencherei o silêncio dela com uma invenção.'
   }
   return null
 }
@@ -53,12 +64,13 @@ function addressMemoryToUser(summary) {
 }
 
 function topicFor(characterId, text) {
+  const asksPlayerIdentity = /quem sou(?: eu)?|quem (?:esta|está) diante de (?:voce|você)|quem fala com (?:voce|você)|(?:me reconhece|reconhece quem sou)/.test(text)
   if (characterId === 'elara') {
-    if (/sirius|kayler|homem corvo/.test(text)) return 'sirius'
+    if (asksPlayerIdentity || /sirius|kayler|homem corvo/.test(text)) return 'sirius'
     if (/aelwen|rainha|sua tia/.test(text)) return 'aelwen'
   }
   if (characterId === 'rainha-aelwen') {
-    if (/sirius|kayler|filho de normus/.test(text)) return 'sirius'
+    if (asksPlayerIdentity || /sirius|kayler|filho de normus/.test(text)) return 'sirius'
     if (/elara|herdeira|sobrinha/.test(text)) return 'elara'
     if (/pacto|medalhao|medalhão|normus/.test(text)) return 'pact'
   }
