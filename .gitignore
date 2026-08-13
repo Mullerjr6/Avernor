@@ -5,3 +5,4 @@ output/playwright/
 cronicas-vivas/dist/
 cronicas-vivas/.env
 cronicas-vivas/.dev.vars
+.env.local
