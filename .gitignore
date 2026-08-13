@@ -1,3 +1,6 @@
 node_modules/
 .playwright-cli/
 *.processing
+cronicas-vivas/dist/
+cronicas-vivas/.env
+cronicas-vivas/.dev.vars

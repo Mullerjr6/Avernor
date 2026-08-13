@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "contentDate": "2026-08-12",
+  "source": "Enciclopédia oficial de Avernor",
+  "chapter": "capitulo-zero-o-grito-na-floresta",
+  "records": [
+    {
+      "collection": "characters",
+      "id": "sirius-kayler",
+      "slug": "sirius-kayler",
+      "name": "Sirius Kayler",
+      "subtitle": "O último bruxo conhecido",
+      "summary": "Filho de Normus Kayler e Namídia Bellatrix, herdeiro de uma linhagem perseguida e de um pacto secreto com Sylvaris.",
+      "description": "Sirius nasceu escondido na Floresta Antiga durante os últimos anos da Caça às Bruxas. Herdou a magia de tempestade dos Kayler, mas cresceu sem conhecer a extensão do preço pago por seus pais. Apesar da idade extraordinária, conserva aparência jovem. O domínio de seus poderes depende de controle emocional: descargas intensas ferem nervos, atraem atenção e podem incendiar o ambiente que tenta proteger.",
+      "category": "Protagonista",
+      "status": "Vivo",
+      "origin": "Floresta Antiga",
+      "location": "Em jornada",
+      "period": "Era atual — 1204 d.C.",
+      "race": "Humano — linhagem bruxa",
+      "lineage": "Kayler",
+      "appearance": "Sirius é alto, de físico atlético e musculatura construída por séculos de sobrevivência, treinamento e deslocamento por regiões hostis. Possui pele morena, cabelos longos e brancos normalmente trançados, olhos violetas que se intensificam quando a mana se acumula, cicatrizes no rosto e no corpo e um bigode escuro. Sua aparência jovem contrasta com a quietude de alguém que observou gerações inteiras nascerem e desaparecerem. Em repouso, parece vigilante; sob tempestade, a eletricidade percorre discretamente seus cabelos, cicatrizes e placas de armadura.",
+      "personality": "Sirius observa antes de falar e raramente oferece confiança sem prova concreta. O isolamento o tornou autossuficiente, mas não indiferente: reage com rapidez quando alguém vulnerável é tratado como recurso político. Seu humor é seco e aparece sobretudo quando o medo ameaça dominar um grupo.",
+      "speech": "Fala em frases curtas, evita títulos e faz perguntas literais. Quando irritado, abandona metáforas e descreve diretamente o preço de uma decisão.",
+      "objectives": [
+        "Descobrir o que Normus ocultou sem entregar sua autonomia às coroas",
+        "Proteger possíveis sobreviventes Nimbus e Rivs",
+        "Compreender o pacto com Sylvaris antes de aceitá-lo ou recusá-lo"
+      ],
+      "desires": [
+        "Encontrar pertencimento sem perder autonomia",
+        "Conhecer os pais para além das versões heroicas",
+        "Descobrir se a palavra “último” descreve um fato ou apenas a falta de registros"
+      ],
+      "fears": [
+        "Tornar-se uma arma de Estado",
+        "Ferir inocentes durante uma sobrecarga",
+        "Descobrir que sua sobrevivência custou mais vidas do que consegue suportar"
+      ],
+      "flaws": [
+        "Isolamento prolongado tornou confiança e negociação difíceis",
+        "Confunde autocontrole com silêncio emocional",
+        "Pode responder à manipulação tentando resolver tudo sozinho"
+      ],
+      "qualities": [
+        "Lealdade perseverante depois que confia",
+        "Capacidade de suportar desconforto sem transferi-lo aos outros",
+        "Recusa em medir o valor de uma pessoa por sangue ou título"
+      ],
+      "values": [
+        "Consentimento",
+        "Proteção de civis",
+        "Verdade acompanhada de responsabilidade"
+      ],
+      "moralLimits": [
+        "Não aceitará uma coroa baseada em poder arcano",
+        "Não usará uma população como isca",
+        "Não entregará uma criança marcada por magia a qualquer Estado"
+      ],
+      "beliefs": [
+        "Poder não concede direito de governo",
+        "Memória sem escolha pode tornar-se outra prisão"
+      ],
+      "equipment": [
+        "Fulgarion, a espada herdada de Normus",
+        "Carta cifrada",
+        "Medalhão do pacto de Sylvaris",
+        "Armadura original de influência oriental; depois, manto negro com capuz"
+      ],
+      "abilities": [
+        "Magia hereditária de tempestade",
+        "Condução de raios pela espada",
+        "Metamorfose do Eco em corvo de olhos violetas",
+        "Combate de curta distância",
+        "Resistência arcana acima do comum"
+      ],
+      "limitations": [
+        "Sobrecarga provoca tremores e perda de sensibilidade",
+        "Não cria tempestades sem umidade atmosférica",
+        "Fulgarion e equipamentos pesados não acompanham a forma de corvo",
+        "É reconhecível pelos olhos violetas em ambas as formas"
+      ],
+      "relations": [
+        {
+          "label": "Normus Kayler — pai",
+          "to": "/personagens/normus-kayler"
+        },
+        {
+          "label": "Namídia Bellatrix — mãe",
+          "to": "/personagens/namidia-bellatrix"
+        },
+        {
+          "label": "Elara — aliada ligada ao pacto",
+          "to": "/personagens/elara"
+        },
+        {
+          "label": "Genealogia Kayler",
+          "to": "/personagens/sirius-kayler/genealogia"
+        },
+        {
+          "label": "Casa Kayler",
+          "to": "/casas/kayler"
+        },
+        {
+          "label": "Fulgarion",
+          "to": "/reliquias/fulgarion"
+        },
+        {
+          "label": "Caça às Bruxas",
+          "to": "/historia/caca-bruxas"
+        }
+      ],
+      "events": [
+        "Nascimento secreto na Floresta Antiga",
+        "Recebimento da herança de Normus",
+        "Resgate de Elara na clareira dos três mercenários orcs"
+      ],
+      "curiosities": [
+        "Carrega uma carta de Normus que ainda não revelou a terceiros.",
+        "Evita usar magia perto de crianças por medo de perder o controle."
+      ],
+      "quotes": [
+        "Sobreviver não torna ninguém inteiro. Apenas oferece tempo para escolher o que fazer com as partes."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/characters/sirius-kayler-page.webp",
+      "thumbnail": "/assets/images/characters/sirius-kayler-card.webp"
+    },
+    {
+      "collection": "characters",
+      "id": "elara",
+      "slug": "elara",
+      "name": "Elara",
+      "subtitle": "A herdeira do caminho oculto",
+      "summary": "Jovem princesa élfica, guerreira, sobrinha da Rainha de Sylvaris e portadora de uma adaga rúnica de teletransporte.",
+      "description": "Elara foi educada para governar um reino que considera memória e ecologia partes da mesma lei. Sua baixa estatura nunca limitou sua presença no campo. A adaga rúnica abre saltos breves entre pontos que ela consiga ver ou tenha marcado previamente; cada uso drena calor corporal e pode deixá-la desorientada. O pacto feito por sua tia e Normus liga seu futuro ao de Sirius, mas não determina seus sentimentos nem suas escolhas.",
+      "category": "Herdeira",
+      "status": "Viva",
+      "origin": "Lethariel",
+      "location": "Floresta Antiga",
+      "period": "Era atual",
+      "kingdom": "Sylvaris",
+      "race": "Elfa",
+      "appearance": "Elara é baixa, ágil e treinada para deslocamento em copas, raízes e passagens estreitas. Possui cabelos loiros geralmente presos em tranças de viagem e olhos dourados que refletem a luz das folhas. Sua aparência jovem contrasta com uma postura disciplinada, construída por anos observando conselhos e patrulhas. Fora da corte, evita símbolos de herdeira e prefere roupas leves de malha vegetal, manto verde e luvas para proteger as mãos do frio provocado pela adaga rúnica.",
+      "personality": "Atenta, rápida em formar opinião e relutante em obedecer a motivos não explicados. Elara combina compaixão com impaciência e prefere testar uma regra no terreno antes de defendê-la em conselho.",
+      "speech": "Precisa, com perguntas rápidas; usa formalidade na corte e a abandona quando percebe evasão.",
+      "objectives": [
+        "Ser reconhecida por escolhas, não apenas pelo pacto herdado",
+        "Preparar-se para governar sem tratar a floresta como recurso da coroa",
+        "Descobrir por que a tia protege um herdeiro Kayler que ela ainda não conhece no início da saga"
+      ],
+      "desires": [
+        "Governar sem ser governada pelo pacto",
+        "Preservar vínculo verdadeiro com as irmãs",
+        "Conhecer o mundo além das versões filtradas pela corte"
+      ],
+      "fears": [
+        "Que Aelysar e o trono substituam sua liberdade por função",
+        "Que a adaga falhe com outra pessoa em trânsito"
+      ],
+      "flaws": [
+        "Teimosia diante de autoridade que não explicou seus motivos",
+        "Age antes de pedir apoio quando acredita que o conselho demorará"
+      ],
+      "qualities": [
+        "Coragem",
+        "Leitura de ambiente",
+        "Capacidade de admitir erro depois de confrontá-lo"
+      ],
+      "values": [
+        "Escolha consciente",
+        "Reciprocidade com a floresta",
+        "Responsabilidade de quem herda poder"
+      ],
+      "moralLimits": [
+        "Não aceitará Aelysar antes da coroação legítima",
+        "Não entregará alguém ao conselho apenas por origem"
+      ],
+      "beliefs": [
+        "A floresta participa das decisões",
+        "Juramentos herdados só valem quando escolhidos"
+      ],
+      "equipment": [
+        "Adaga do Passo Velado",
+        "Marcadores de prata para rotas seguras",
+        "Aelysar será entregue apenas no trono"
+      ],
+      "abilities": [
+        "Combate com adaga",
+        "Teletransporte rúnico de curto alcance",
+        "Rastreamento florestal",
+        "Diplomacia de Sylvaris"
+      ],
+      "limitations": [
+        "Saltos exigem concentração, esforço físico e visão ou marca prévia",
+        "O destino precisa oferecer uma área segura de chegada",
+        "A adaga não corrige um ponto de pouso perigoso",
+        "Uso repetido causa hipotermia e vertigem",
+        "Não atravessa barreiras de ferro meteórico"
+      ],
+      "relations": [
+        {
+          "label": "Rainha Aelwen — tia",
+          "to": "/personagens/rainha-aelwen"
+        },
+        {
+          "label": "Sirius Kayler — aliado ligado pelo pacto",
+          "to": "/personagens/sirius-kayler"
+        },
+        {
+          "label": "Genealogia real",
+          "to": "/personagens/elara/genealogia"
+        },
+        {
+          "label": "Sucessão de Sylvaris",
+          "to": "/sucessoes/sylvaris"
+        },
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        },
+        {
+          "label": "Aelysar",
+          "to": "/reliquias/aelysar"
+        }
+      ],
+      "events": [
+        "Juramento da Herdeira",
+        "Primeiro salto além de Sylvaris",
+        "Encontro com Sirius"
+      ],
+      "curiosities": [
+        "Marca rotas seguras com fios de prata quase invisíveis."
+      ],
+      "quotes": [
+        "Um juramento herdado ainda precisa ser escolhido por quem o carrega."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/characters/elara-page.webp",
+      "thumbnail": "/assets/images/characters/elara-card.webp"
+    },
+    {
+      "collection": "characters",
+      "id": "rainha-aelwen",
+      "slug": "rainha-aelwen",
+      "name": "Rainha Aelwen",
+      "subtitle": "Guardadora da Memória de Sylvaris",
+      "summary": "Soberana élfica, tia de Elara, grande amiga de Normus e guardiã do pacto secreto firmado com ele.",
+      "description": "Aelwen governa por escuta e demora calculada, métodos que estrangeiros confundem com hesitação. Durante a Caça às Bruxas, abriu caminhos de Sylvaris para refugiados e aceitou o risco de proteger o filho de Normus. A amizade entre os dois nasceu no campo de batalha e permaneceu inteiramente fraterna e política.",
+      "category": "Soberana",
+      "status": "Viva",
+      "origin": "Lethariel",
+      "location": "Sylvaris",
+      "period": "Era das Coroas / Era atual",
+      "kingdom": "Sylvaris",
+      "race": "Elfa",
+      "appearance": "Aelwen possui cabelos claros presos com fibras vivas, olhos verde-dourados e postura régia marcada mais por quietude do que por ostentação. Suas vestes de fibras verdes, marfim e ouro são cultivadas sem o corte de árvores vivas. Retratos antigos a mostram com arco e armadura de sentinela; os atuais destacam mãos marcadas por escrita, jardinagem ritual e séculos de governo.",
+      "personality": "Deliberada, cortês e capaz de sustentar silêncio sob pressão. Sua prudência protegeu vidas, mas também concentrou segredos.",
+      "speech": "Formal e pausada; distingue cuidadosamente fato, testemunho e interpretação.",
+      "objectives": [
+        "Preparar Elara para escolher a sucessão conscientemente",
+        "Cumprir o pacto com Normus sem governar Sirius",
+        "Evitar que o segredo divida os Círculos da Memória"
+      ],
+      "desires": [
+        "Entregar a Elara um reino capaz de discordar da própria coroa",
+        "Cumprir o pacto sem possuir o futuro de Sirius"
+      ],
+      "fears": [
+        "Que a proteção se transforme em tutela",
+        "Que revelar o pacto cedo demais provoque outra perseguição"
+      ],
+      "flaws": [
+        "A demora calculada pode negar informação a quem precisa decidir",
+        "Carrega sozinha parte excessiva do pacto"
+      ],
+      "qualities": [
+        "Memória política",
+        "Diplomacia",
+        "Firmeza sem culto à autoridade"
+      ],
+      "values": [
+        "Reciprocidade",
+        "Memória pública",
+        "Limitação do poder"
+      ],
+      "moralLimits": [
+        "Não transformar amizade em reivindicação de sangue",
+        "Não usar o pacto para obrigar Sirius ou Elara"
+      ],
+      "beliefs": [
+        "Amizade e lealdade não implicam romance",
+        "Uma coroa é função limitada pela memória coletiva"
+      ],
+      "abilities": [
+        "Diplomacia",
+        "Memória ritual élfica",
+        "Comando das sentinelas",
+        "Arqueira cerimonial"
+      ],
+      "limitations": [
+        "Sua autoridade é limitada pelos Círculos da Memória",
+        "O pacto com Normus divide seu conselho"
+      ],
+      "relations": [
+        {
+          "label": "Elara — sobrinha e herdeira",
+          "to": "/personagens/elara"
+        },
+        {
+          "label": "Normus Kayler — amigo e aliado",
+          "to": "/personagens/normus-kayler"
+        },
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        },
+        {
+          "label": "Sucessão de Sylvaris",
+          "to": "/sucessoes/sylvaris"
+        }
+      ],
+      "events": [
+        "Defesa de Sylvaris",
+        "Pacto dos Descendentes",
+        "Abrigo de Sirius"
+      ],
+      "quotes": [
+        "Guardar um segredo é também responder pelo que ele impede o mundo de escolher."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/characters/rainha-sylvaris-page.webp",
+      "thumbnail": "/assets/images/characters/rainha-sylvaris-card.webp"
+    },
+    {
+      "collection": "locations",
+      "id": "floresta-antiga",
+      "slug": "floresta-antiga",
+      "name": "Floresta Antiga",
+      "subtitle": "Onde caminhos guardam memória",
+      "summary": "Grande floresta do oeste, lar de Sylvaris e refúgio de Sirius durante a perseguição.",
+      "description": "A floresta reúne zonas manejadas, áreas sagradas e regiões nunca ocupadas. Trilhas mudam porque pontes são recolhidas, vegetação cresce rápido e guardiões desviam invasores — não porque o território ignore as leis naturais.",
+      "category": "Floresta",
+      "status": "Protegida",
+      "origin": "Avernor",
+      "location": "Oeste de Avernor",
+      "kingdom": "Sylvaris",
+      "relations": [
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        }
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/locations/jornada-floresta-antiga-banner.webp",
+      "thumbnail": "/assets/images/locations/jornada-floresta-antiga-card.webp"
+    },
+    {
+      "collection": "portals",
+      "id": "caminho-das-arvores-ausentes",
+      "slug": "caminho-das-arvores-ausentes",
+      "name": "Caminho das Árvores Ausentes",
+      "subtitle": "Uma trilha que não pertence à estação",
+      "summary": "Passagem de Sylvaris cuja vegetação muda para espécies nunca catalogadas em Avernor.",
+      "description": "O Caminho das Árvores Ausentes surge em Sylvaris após certas tempestades violetas e contém espécies sem correspondência conhecida em Avernor. Folhas recolhidas mantêm anatomia coerente e depois perdem pigmento; sentinelas registram diferenças de estação e distância a cada aparição. Não se sabe se conduz a Elyra, a outro tempo da floresta ou a espaço sem mundo estável. O acesso não é convocável.",
+      "category": "Fratura registrada",
+      "status": "Intermitente",
+      "origin": "Avernor",
+      "location": "Floresta Antiga",
+      "relations": [
+        {
+          "label": "Elyra",
+          "to": "/outros-mundos/elyra"
+        },
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        }
+      ],
+      "truthStatus": "disputed",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/atlas-plates/caminho-das-arvores-ausentes-page.webp",
+      "thumbnail": "/assets/images/atlas-plates/caminho-das-arvores-ausentes-card.webp"
+    },
+    {
+      "collection": "cities",
+      "id": "lethariel",
+      "slug": "lethariel",
+      "name": "Lethariel",
+      "subtitle": "A cidade entre raízes e estrelas",
+      "summary": "Capital de Sylvaris, distribuída entre margens, plataformas vivas e salões escavados sem ferir as árvores.",
+      "description": "Lethariel não possui muralha convencional. Trilhas mudam, pontes são recolhidas e sentinelas leem alterações no comportamento de aves e fungos. O Palácio da Seiva Clara guarda o pacto firmado entre Normus e a Rainha.",
+      "category": "Capital",
+      "status": "Habitada",
+      "origin": "Avernor",
+      "location": "Floresta Antiga",
+      "kingdom": "Sylvaris",
+      "relations": [
+        {
+          "label": "Sylvaris",
+          "to": "/reinos/sylvaris"
+        },
+        {
+          "label": "Elara",
+          "to": "/personagens/elara"
+        }
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/atlas-plates/lethariel-page.webp",
+      "thumbnail": "/assets/images/atlas-plates/lethariel-card.webp"
+    },
+    {
+      "collection": "artifacts",
+      "id": "carta-de-normus",
+      "slug": "carta-de-normus",
+      "name": "Carta de Normus",
+      "subtitle": "Palavras para um filho sem lembranças",
+      "summary": "Documento selado entregue a Sirius com ouro, espada, medalhão e pertences do pai.",
+      "description": "A carta explica parte da perseguição e pede que Sirius não confunda vingança com memória. Trechos finais usam uma cifra Bellatrix, possivelmente para proteger a localização de sobreviventes. O Arquivo registra sua existência, mas não publica o texto integral por escolha de Sirius.",
+      "category": "Documento pessoal",
+      "status": "Parcialmente decifrado",
+      "origin": "Normus Kayler",
+      "location": "Com Sirius",
+      "period": "Caça às Bruxas",
+      "appearance": "Folhas dobradas e reparadas, com texto comum interrompido por inventários aparentemente banais que ocultam a cifra Bellatrix.",
+      "limitations": [
+        "Cifra incompleta",
+        "A leitura depende de referências do caderno de Namídia"
+      ],
+      "relations": [
+        {
+          "label": "Normus Kayler",
+          "to": "/personagens/normus-kayler"
+        },
+        {
+          "label": "Namídia Bellatrix",
+          "to": "/personagens/namidia-bellatrix"
+        }
+      ],
+      "events": [
+        "Preparação do baú",
+        "Leitura em 1204"
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/artifacts/carta-de-normus-page.webp",
+      "thumbnail": "/assets/images/artifacts/carta-de-normus-card.webp"
+    },
+    {
+      "collection": "artifacts",
+      "id": "medalhao-da-folha-partida",
+      "slug": "medalhao-da-folha-partida",
+      "name": "Medalhão da Folha Partida",
+      "subtitle": "Sinal do pacto entre Kayler e Sylvaris",
+      "summary": "Medalhão élfico deixado por Normus entre os pertences de Sirius.",
+      "description": "Duas metades de prata vegetal formam uma folha atravessada por um raio. O objeto não concede magia; serve como prova reconhecida pelos guardiões de Sylvaris. Uma das inscrições permanece cifrada e depende da metade conservada pela Rainha.",
+      "category": "Insígnia diplomática",
+      "status": "Preservado",
+      "origin": "Sylvaris",
+      "location": "Com Sirius",
+      "period": "Caça às Bruxas",
+      "appearance": "Folha de prata dividida por um raio. Uma borda se encaixa apenas na metade conservada por Sylvaris; isoladas, ambas parecem incompletas.",
+      "limitations": [
+        "Não concede acesso automático a Sylvaris",
+        "Não obriga descendentes"
+      ],
+      "relations": [
+        {
+          "label": "Pacto dos Descendentes",
+          "to": "/lendas/pacto-dos-descendentes"
+        },
+        {
+          "label": "Sirius Kayler",
+          "to": "/personagens/sirius-kayler"
+        }
+      ],
+      "events": [
+        "Pacto dos Descendentes",
+        "Herança de Sirius"
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/artifacts/medalhao-da-folha-partida-page.webp",
+      "thumbnail": "/assets/images/artifacts/medalhao-da-folha-partida-card.webp"
+    }
+  ]
+}

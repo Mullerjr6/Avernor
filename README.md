@@ -25,6 +25,10 @@ Para recriar as variantes WebP responsivas sem alterar os PNGs originais:
 npm run optimize:images
 ```
 
+## Crônicas Vivas
+
+O primeiro capítulo jogável da visual novel fica em `cronicas-vivas/`, separado da enciclopédia e alimentado por uma exportação canônica de `src/content/`. Execute `npm run vivas:dev` para jogar com o narrador local; use `npm run vivas:validate` e `npm run vivas:build` para validar e compilar. A integração opcional com a OpenAI acontece exclusivamente por um Cloudflare Worker, sem expor chaves no navegador.
+
 ## Rotas principais
 
 Além das rotas editoriais originais, a aplicação inclui `/genealogias`, `/dinastias`, `/sucessoes`, `/povos`, `/mitologia`, `/religioes`, `/cosmologia`, `/portais`, `/outros-mundos`, `/retornados`, `/profecias`, `/fim-dos-tempos`, `/necromancia`, `/reliquias`, `/nar-khalion`, `/celestiais`, `/lancas` e `/faccoes`. Coleções possuem detalhes em `/:slug`; genealogias também se relacionam a `/personagens/:slug/genealogia` e `/casas/:slug/linhagem`, enquanto reinos com sucessão documentada oferecem `/reinos/:slug/sucessao`.

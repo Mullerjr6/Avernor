@@ -1,0 +1,38 @@
+# Crônicas Vivas
+
+Primeiro capítulo jogável da visual novel interativa de Avernor. A aplicação é separada da enciclopédia, mas seu pacote canônico é gerado diretamente de `src/content/`.
+
+## Capítulo Zero — O Grito na Floresta
+
+Sirius parte a cavalo para Sylvaris, ouve o grito de Elara e assume a forma de corvo para encontrá-la presa por três mercenários orcs. O capítulo possui 55 cenas, conversas livres persistentes e cinco desfechos. Cada percurso atravessa entre 25 e 32 cenas, além das conversas opcionais. Furtividade, negociação, misericórdia, violência, confiança e sigilo alteram o caminho até a fronteira élfica e a forma como Sirius será recebido.
+
+## Executar sem IA remota
+
+```bash
+npm run vivas:dev
+```
+
+O Capítulo Zero funciona integralmente com o narrador canônico local e salva o progresso no navegador.
+
+## Ativar respostas livres com OpenAI
+
+1. Copie `cronicas-vivas/.dev.vars.example` para `cronicas-vivas/.dev.vars` e adicione a chave.
+2. Execute o Worker a partir da raiz:
+
+```bash
+npx wrangler dev --config cronicas-vivas/wrangler.jsonc
+```
+
+3. Copie `cronicas-vivas/.env.example` para `cronicas-vivas/.env`.
+4. Execute `npm run vivas:dev`.
+
+A chave permanece somente no Worker. Se o endpoint estiver indisponível, a interface retorna automaticamente ao narrador local.
+
+## Qualidade
+
+```bash
+npm run vivas:validate
+npm run vivas:build
+```
+
+O validador recusa cenas inalcançáveis, escolhas quebradas, descobertas sem registro canônico e efeitos de estado fora da lista permitida.

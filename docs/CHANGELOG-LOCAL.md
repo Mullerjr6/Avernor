@@ -1,5 +1,24 @@
 # Changelog local
 
+## 2026-08-13 — Crônicas Vivas: O Grito na Floresta
+
+- O Capítulo Zero foi reescrito para começar com Sirius a cavalo rumo a Sylvaris, o grito de Elara e a transformação confirmada em corvo.
+- A introdução curta foi substituída por 55 cenas de conto interativo, cinco desfechos e escolhas condicionais com consequências persistentes; cada percurso contém de 25 a 32 cenas.
+- O diálogo livre agora mantém histórico por cena e ganhou respostas locais mais profundas sobre pacto, família, magia, medo, política e os mercenários.
+- O Códice passou a registrar memórias das decisões, além de inventário, vínculos e registros descobertos.
+- A enciclopédia oficial passou a registrar a forma de corvo de Sirius e as circunstâncias canônicas do encontro com Elara.
+
+## 2026-08-13 — Crônicas Vivas: Capítulo Zero
+
+- Criada uma aplicação de visual novel independente da enciclopédia, com o capítulo jogável “O Caminho Oculto”.
+- Implementados 12 estados narrativos conectados, escolhas ramificadas, encontro com Elara, chegada a Lethariel e encerramento com Aelwen.
+- Adicionados save automático local, inventário canônico, relações, descobertas e Códice de Sirius.
+- Criado exportador que deriva o pacote narrativo diretamente dos registros oficiais da enciclopédia.
+- Implementados diálogo livre com narrador canônico local e Worker opcional para OpenAI Responses API com saída JSON estruturada.
+- A IA não possui autoridade para alterar flags, itens, vínculos ou consequências; toda mutação passa pelo motor determinístico.
+- Adicionado validador contra cenas inalcançáveis, escolhas quebradas, itens não autorizados e descobertas sem registro canônico.
+- Interface cinematográfica validada em desktop e 390 × 844 px, com persistência após recarregamento e zero erros no console.
+
 ## 2026-08-12 — identidade visual própria dos territórios
 
 - Criadas 14 paisagens inéditas: sete panoramas políticos para os reinos e territórios e sete pranchas para outros mundos, Nar-Khalion e seu registro deliberadamente oculto.
