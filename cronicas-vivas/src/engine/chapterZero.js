@@ -67,11 +67,17 @@ export const scenes = {
       { id: 'motivo-testado', signal: 'termos_expostos', description: 'Os termos, o medo ou a motivação prática dos mercenários são pressionados.' },
       { id: 'fissura-entre-captores', signal: 'discordia_entre_mercenarios', description: 'A negociação explora a falta de confiança entre os três indivíduos.' },
       { id: 'liberdade-conquistada', signal: 'elara_libertada_por_dialogo', description: 'Elara obtém a abertura necessária por retirada, rendição, engano ou acordo sem autoria inventada para Sirius.' },
+      { id: 'palavra-rompida', signal: 'negociacao_rompida_por_ataque', description: 'Uma ação ofensiva declarada por Sirius encerra a negociação e transfere imediatamente a cena para o confronto.' },
     ],
-    transition: { target: 'clareira-depois-do-grito', signal: 'elara_libertada_por_dialogo', narration: 'O nó deixou de cumprir sua função antes que a conversa perdesse a última utilidade. Elara alcançou a Adaga do Passo Velado; prata rúnica acendeu sob a chuva. Os mercenários recuaram pela trilha oriental, levando consigo versões diferentes do que acabara de acontecer — e nenhum nome verificável do mandante.' },
+    transition: {
+      branches: [
+        { signal: 'elara_libertada_por_dialogo', target: 'clareira-depois-do-grito', narration: 'O nó deixou de cumprir sua função antes que a conversa perdesse a última utilidade. Elara alcançou a Adaga do Passo Velado; prata rúnica acendeu sob a chuva. Os mercenários recuaram pela trilha oriental, levando consigo versões diferentes do que acabara de acontecer — e nenhum nome verificável do mandante.' },
+        { signal: 'negociacao_rompida_por_ataque', target: 'combate-na-clareira', minTurns: 1, narration: 'A palavra perdeu autoridade no instante em que Sirius escolheu a ofensiva. Os termos ficaram inacabados sob a chuva; os três mercenários abandonaram o cálculo da retirada e reagiram ao ataque, enquanto Elara procurava não se tornar escudo de nenhum dos lados.' },
+      ],
+    },
     discoverBySignal: { termos_expostos: ['orcs'], elara_libertada_por_dialogo: ['elara', 'adaga-do-passo-velado'] },
-    flagsBySignal: { termos_expostos: { mercenaryTermsExposed: true }, discordia_entre_mercenarios: { mercenaryDiscordFound: true }, elara_libertada_por_dialogo: { rescueComplete: true, ravenFormWitnessed: true, rescuePath: 'dialogue', mastermindUnknown: true } },
-    constraints: ['O mercenário não conhece a identidade comprovada do mandante.', 'Negociação não significa obediência automática.', 'Elara participa da própria libertação quando surge oportunidade.', 'Sirius não é obrigado a prometer, pagar ou perdoar.', 'Nenhum acordo pode estabelecer culpa coletiva contra orcs.'],
+    flagsBySignal: { termos_expostos: { mercenaryTermsExposed: true }, discordia_entre_mercenarios: { mercenaryDiscordFound: true }, elara_libertada_por_dialogo: { rescueComplete: true, ravenFormWitnessed: true, rescuePath: 'dialogue', mastermindUnknown: true }, negociacao_rompida_por_ataque: { clearingApproach: 'combat', negotiationBrokenByAttack: true } },
+    constraints: ['O mercenário não conhece a identidade comprovada do mandante.', 'Negociação não significa obediência automática.', 'Uma ação ofensiva declarada pelo jogador encerra imediatamente esta negociação e abre o combate.', 'Elara participa da própria libertação quando surge oportunidade.', 'Sirius não é obrigado a prometer, pagar ou perdoar.', 'Nenhum acordo pode estabelecer culpa coletiva contra orcs.'],
   }),
 
   'combate-na-clareira': scene({

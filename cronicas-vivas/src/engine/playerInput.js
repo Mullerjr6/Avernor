@@ -46,5 +46,5 @@ export function declaresCombatAction(value) {
     .replace(/[\u0300-\u036f]/gu, '')
     .toLocaleLowerCase('pt-BR')
 
-  return /\b(ataco|atacar|avanco|avancar|golpeio|golpear|derrubo|derrubar|conjuro|conjurar|disparo|disparar|descarrego|descarregar|salto contra|saltar contra|parto para cima|partir para cima|uso (?:um |o )?raio|usar (?:um |o )?raio|lanco (?:um |o )?raio|lancar (?:um |o )?raio)\b/u.test(normalized)
+  return /\b(ataco|atacar|avanco|avancar|golpeio|golpear|derrubo|derrubar|conjuro|conjurar|disparo|disparar|descarrego|descarregar|salto contra|saltar contra|parto para cima|partir para cima|lanco (?:um |uma |o |a )?(?:raio|feitico|magia|encantamento|descarga|maldicao)|lanca (?:um |uma |o |a )?(?:raio|feitico|magia|encantamento|descarga|maldicao)|lancar (?:um |uma |o |a )?(?:raio|feitico|magia|encantamento|descarga|maldicao)|arremesso (?:uma |a )?(?:arma|pedra|lamina)|arremessa (?:uma |a )?(?:arma|pedra|lamina)|arremessar (?:uma |a )?(?:arma|pedra|lamina))\b/u.test(normalized)
 }

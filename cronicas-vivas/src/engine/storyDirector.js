@@ -192,9 +192,10 @@ function applySignalEffects(state, scene, signals) {
 }
 
 function resolvedTransition(scene, sceneTurns, signals) {
-  if (!scene.transition || sceneTurns < scene.minTurns) return null
+  if (!scene.transition) return null
   const branch = scene.transition.branches?.find(({ signal }) => signals.includes(signal))
-  if (branch?.target && branch.target !== scene.id) return branch
+  if (branch?.target && branch.target !== scene.id && sceneTurns >= (branch.minTurns ?? scene.minTurns)) return branch
+  if (sceneTurns < scene.minTurns) return null
   if (scene.transition.target && scene.transition.target !== scene.id && signals.includes(scene.transition.signal)) return scene.transition
   return null
 }

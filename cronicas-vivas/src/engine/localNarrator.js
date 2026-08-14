@@ -263,7 +263,8 @@ export function localReply({ text, state, scene }) {
   const beat = scene.beats[Math.min(index, scene.beats.length - 1)]
   const question = isQuestionLike(text)
   const intent = scene.id === 'clareira-depois-do-grito' ? openingIntent(text) : ''
-  const combatDeclared = scene.id === 'confronto-na-clareira' && declaresAttack(text)
+  const combatDeclared = ['confronto-na-clareira', 'negociacao-na-clareira'].includes(scene.id) && declaresAttack(text)
+  const negotiationBroken = scene.id === 'negociacao-na-clareira' && combatDeclared
   const declaredAction = parsePlayerInput(text).actions.join(' ')
   const lightningDeclared = /\b(raio|relampago|eletric|trovao)\b/u.test(normalize(declaredAction || text))
   const narration = combatDeclared
@@ -289,16 +290,18 @@ export function localReply({ text, state, scene }) {
     narration,
     dialogue,
     afterNarration,
-    sceneEffects: [{ type: index === 2 ? 'presence' : 'ambience', value: index === 2 ? 'A cena se aproxima de uma transição orgânica.' : 'O ambiente acompanha a tensão sem decidir por Sirius.' }],
-    relationshipSuggestions: scene.participants.map((characterId) => ({ characterId, delta: { affinity: 0, trust: question ? 1 : 0, respect: 1, romance: 0, tension: 0 } })),
+    sceneEffects: [{ type: negotiationBroken ? 'tension' : index === 2 ? 'presence' : 'ambience', value: negotiationBroken ? 'A ação ofensiva encerrou os termos e converteu a clareira em combate.' : index === 2 ? 'A cena se aproxima de uma transição orgânica.' : 'O ambiente acompanha a tensão sem decidir por Sirius.' }],
+    relationshipSuggestions: scene.participants.map((characterId) => ({ characterId, delta: negotiationBroken ? { affinity: 0, trust: -1, respect: 0, romance: 0, tension: 2 } : { affinity: 0, trust: question ? 1 : 0, respect: 1, romance: 0, tension: 0 } })),
     memorySuggestions: scene.participants.map((characterId) => ({
       characterId,
-      type: 'conversation',
-      summary: `${names[characterId]} recordou a intervenção de Sirius durante “${scene.title}” como parte da relação, não como fato canônico.`,
-      importance: index === 2 ? 3 : 2,
+      type: negotiationBroken ? 'conflict' : 'conversation',
+      summary: negotiationBroken ? `${names[characterId]} testemunhou Sirius encerrar a negociação com uma ação ofensiva declarada durante “${scene.title}”.` : `${names[characterId]} recordou a intervenção de Sirius durante “${scene.title}” como parte da relação, não como fato canônico.`,
+      importance: negotiationBroken ? 4 : index === 2 ? 3 : 2,
     })),
     storySignals: scene.id === 'confronto-na-clareira'
       ? ['confronto_iniciado', combatDeclared ? 'abordagem_combativa' : 'abordagem_dialogo']
+      : negotiationBroken
+        ? ['negociacao_rompida_por_ataque']
       : beat ? [beat.signal] : [],
     source: 'local-canon',
   }

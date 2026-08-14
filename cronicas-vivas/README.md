@@ -18,6 +18,8 @@ Foi escolha de vocês. "Sirius ergue a mão e lança um raio contra o captor."
 
 Nesse exemplo, `Foi escolha de vocês.` é fala e o trecho entre aspas é ação. O gesto controlado por Sirius torna-se canônico na jornada; acerto, dano, morte, persuasão e demais efeitos sobre terceiros continuam sendo resolvidos pelo narrador conforme a cena e o cânone.
 
+Uma ação ofensiva declarada durante uma negociação rompe os termos imediatamente. A fala que antecede as aspas ainda é registrada como a última advertência de Sirius, mas os adversários reagem ao ataque e o Diretor conduz a crônica para a cena de combate, sem repetir propostas como se a ação não tivesse acontecido.
+
 ## Arquitetura narrativa
 
 - `src/engine/chapterZero.js`: fonte estruturada de capítulos, cenas, locais, participantes, objetivos, batidas, sinais permitidos, restrições e transições.

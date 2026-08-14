@@ -62,6 +62,7 @@ if (initial.flags.rescueComplete || !initial.flags.mastermindUnknown) errors.pus
 if (initial.presentNpcIds.join(',') !== 'mercenario-orc,elara') errors.push('participantes iniciais incorretos')
 if (!story.scenes['confronto-na-clareira']?.transition?.branches?.some(({ signal }) => signal === 'abordagem_dialogo')) errors.push('rota de negociação ausente')
 if (!story.scenes['confronto-na-clareira']?.transition?.branches?.some(({ signal }) => signal === 'abordagem_combativa')) errors.push('rota de combate ausente')
+if (!story.scenes['negociacao-na-clareira']?.transition?.branches?.some(({ signal, target }) => signal === 'negociacao_rompida_por_ataque' && target === 'combate-na-clareira')) errors.push('negociação não pode ser rompida por uma ação ofensiva posterior')
 if (!reachable.has('negociacao-na-clareira') || !reachable.has('combate-na-clareira')) errors.push('uma das abordagens da clareira é inalcançável')
 if (/descarga precisa queimou o nó|os três atacantes recuaram/iu.test(opening)) errors.push('abertura ainda resolve o confronto antes do jogador')
 

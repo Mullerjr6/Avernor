@@ -1,7 +1,7 @@
 import { story } from '../src/engine/chapterZero.js'
 import { localReply } from '../src/engine/localNarrator.js'
 import { SAVE_KEY, applyNarrativeTurn, createInitialState, loadState, persistState } from '../src/engine/gameEngine.js'
-import { narrativeInput, parsePlayerInput } from '../src/engine/playerInput.js'
+import { declaresCombatAction, narrativeInput, parsePlayerInput } from '../src/engine/playerInput.js'
 
 const errors = []
 const storage = new Map()
@@ -79,6 +79,25 @@ validateReply(reply, current, 'decisão por diálogo')
 state = applyNarrativeTurn(state, reply, 'Soltem a mulher. Ninguém precisa morrer nesta clareira.')
 if (state.sceneId !== 'negociacao-na-clareira') errors.push('fala de negociação não abriu a rota de diálogo')
 if (state.flags.clearingApproach !== 'dialogue') errors.push('rota de diálogo não foi preservada no estado')
+
+// Uma ofensiva posterior rompe a negociação em vez de ser respondida com novos termos diplomáticos.
+let rupturedState = createInitialState()
+let ruptureScene = story.scenes[rupturedState.sceneId]
+let ruptureReply = localReply({ text: 'Deixem-na livre. Esta é a última oportunidade de saírem vivos.', state: rupturedState, scene: ruptureScene })
+rupturedState = applyNarrativeTurn(rupturedState, ruptureReply, 'Deixem-na livre. Esta é a última oportunidade de saírem vivos.')
+ruptureScene = story.scenes[rupturedState.sceneId]
+const ruptureText = 'Certo, a escolha foi dos senhores. "Sirius levanta a mão e lança um raio no orc que segurava Elara."'
+ruptureReply = localReply({ text: ruptureText, state: rupturedState, scene: ruptureScene })
+validateReply(ruptureReply, ruptureScene, 'ruptura ofensiva da negociação')
+if (!ruptureReply.storySignals.includes('negociacao_rompida_por_ataque')) errors.push('ataque durante negociação não emitiu sinal de ruptura')
+if (!ruptureReply.dialogue.some(({ text }) => /fechem o flanco|prisioneira atrás da lâmina/iu.test(text))) errors.push('mercenários continuaram negociando depois do ataque')
+rupturedState = applyNarrativeTurn(rupturedState, ruptureReply, ruptureText)
+if (rupturedState.sceneId !== 'combate-na-clareira') errors.push('ataque não transferiu imediatamente a negociação para combate')
+if (!rupturedState.flags.negotiationBrokenByAttack || rupturedState.flags.clearingApproach !== 'combat') errors.push('ruptura da negociação não foi preservada no estado')
+if (!rupturedState.storyHistory.some(({ type, text }) => type === 'player-action' && /lança um raio/iu.test(text))) errors.push('ação que rompeu a negociação não entrou no histórico')
+if (!rupturedState.storyHistory.some(({ type, text }) => type === 'transition' && /palavra perdeu autoridade/iu.test(text))) errors.push('transição não registrou o fim da negociação')
+if (!declaresCombatAction('"Sirius lança um feitiço nos orcs."')) errors.push('feitiço ofensivo entre aspas não foi reconhecido como combate')
+if (declaresCombatAction('"Sirius lança um olhar para Elara."')) errors.push('ação não ofensiva com o verbo lançar foi classificada como combate')
 
 state = playUntil(state, 'clareira-depois-do-grito', [
   'Quem pagou não lhes deu o próprio nome. Isso deveria preocupá-los mais do que minha presença.',
