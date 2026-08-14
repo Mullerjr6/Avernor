@@ -1,14 +1,21 @@
 import { canonById } from '../data/knowledge.js'
 
-export default function CodexDrawer({ discovered, inventory, relationships, flags, dialogueInsights = [], open, onClose }) {
+const characterNames = { elara: 'Elara', 'rainha-aelwen': 'Aelwen' }
+
+export default function CodexDrawer({ discovered, inventory, relationships, memories = [], progress = {}, open, onClose }) {
   const records = discovered.map((id) => canonById[id]).filter(Boolean)
-  const memories = journeyMemories(flags)
   return (
     <aside className={`codex-drawer ${open ? 'is-open' : ''}`} aria-hidden={!open} inert={!open} aria-label="Códice da jornada">
       <button className="drawer-close" type="button" onClick={onClose} aria-label="Fechar códice">×</button>
       <p className="eyebrow">ARQUIVO DE CAMPO</p>
       <h2>Códice de Sirius</h2>
-      <p className="drawer-intro">Somente conhecimentos encontrados nesta jornada aparecem aqui.</p>
+      <p className="drawer-intro">Somente registros encontrados, testemunhos preservados e memórias desta jornada aparecem aqui.</p>
+
+      <section className="codex-summary">
+        <div><strong>{progress.records ?? records.length}</strong><span>registros</span></div>
+        <div><strong>{progress.scenes ?? 1}</strong><span>cenas vividas</span></div>
+        <div><strong>{progress.facts ?? 0}</strong><span>marcos</span></div>
+      </section>
 
       <section>
         <h3>Registros descobertos</h3>
@@ -24,67 +31,34 @@ export default function CodexDrawer({ discovered, inventory, relationships, flag
       </section>
 
       <section>
-        <h3>Inventário</h3>
+        <h3>Inventário da jornada</h3>
         <ul>{inventory.map((item) => <li key={item}>{item}</li>)}</ul>
       </section>
 
       <section>
         <h3>Vínculos</h3>
         <dl>
-          <div><dt>Elara</dt><dd>{relationshipLabel(relationships.elara)}</dd></div>
-          <div><dt>Aelwen</dt><dd>{relationshipLabel(relationships.aelwen)}</dd></div>
+          {Object.entries(relationships).map(([id, relationship]) => (
+            <div key={id}><dt>{characterNames[id] ?? id}</dt><dd>{relationshipLabel(relationship)}</dd></div>
+          ))}
         </dl>
       </section>
 
       {memories.length > 0 && (
         <section>
           <h3>Memórias da jornada</h3>
-          <ul className="journey-memories">{memories.map((memory) => <li key={memory}>{memory}</li>)}</ul>
-        </section>
-      )}
-
-      {dialogueInsights.length > 0 && (
-        <section>
-          <h3>Palavras que permaneceram</h3>
-          <p className="drawer-intro">Confissões, gestos e tensões reconhecidos durante as conversas livres.</p>
-          <ul className="dialogue-memories">{dialogueInsights.map((memory) => <li key={memory}>{memory}</li>)}</ul>
+          <ul className="journey-memories">{memories.map((memory) => <li key={memory.id}>{memory.summary}</li>)}</ul>
         </section>
       )}
     </aside>
   )
 }
 
-function relationshipLabel(value = 0) {
-  if (value >= 6) return 'Vínculo profundo'
-  if (value >= 4) return 'Confiança escolhida'
-  if (value >= 2) return 'Confiança nascente'
-  if (value >= 1) return 'Respeito cauteloso'
-  if (value <= -4) return 'Ruptura'
-  if (value <= -2) return 'Desconfiança aberta'
-  if (value < 0) return 'Tensão'
-  return 'Não definido'
-}
-
-function journeyMemories(flags = {}) {
-  const memories = []
-  if (flags.rescueApproach === 'shadow') memories.push('Sirius iniciou o resgate pelas sombras.')
-  if (flags.rescueApproach === 'parley') memories.push('Sirius tentou negociar antes de usar a força.')
-  if (flags.rescueApproach === 'storm') memories.push('Sirius revelou a tempestade na clareira.')
-  if (flags.orcsSpared) memories.push('Os mercenários saíram vivos e deixaram uma dívida em aberto.')
-  if (flags.orcBloodshed) memories.push('Um captor, possivelmente chamado Arvak, morreu pelo raio de Sirius.')
-  if (flags.orcsEscaped && !flags.orcsSpared) memories.push('Fugitivos levaram a história do homem-corvo para além da clareira.')
-  if (flags.identityRevealed) memories.push('Elara conhece o nome completo de Sirius Kayler.')
-  if (flags.identityHidden) memories.push('Sirius confiou a Elara apenas metade de seu nome.')
-  if (flags.contractKept) memories.push('O fragmento do contrato sem selo foi preservado.')
-  if (flags.ravenProtocolShared) memories.push('Elara conhece o protocolo para ajudar Sirius a retornar da forma de corvo.')
-  if (flags.rescueMotiveShared) memories.push('Sirius contou por que escolheu seguir o grito na floresta.')
-  if (flags.companionshipAccepted) memories.push('Sirius e Elara escolheram seguir como companheiros até Sylvaris.')
-  if (flags.companionshipConditional) memories.push('A companhia foi aceita apenas até a fronteira de Sylvaris.')
-  if (flags.companionshipRefused) memories.push('Sirius recusou transformar a estrada compartilhada em companhia.')
-  if (flags.sharedFear) memories.push('Sirius e Elara falaram sobre o medo de serem transformados em símbolos.')
-  if (flags.route === 'hidden') memories.push('A dupla escolheu o Caminho das Árvores Ausentes.')
-  if (flags.route === 'orcs') memories.push('A dupla decidiu perseguir os mercenários.')
-  if (flags.route === 'camp') memories.push('A dupla preferiu conversar no abrigo antes de seguir.')
-  if (flags.ending) memories.push(`Destino deste capítulo: ${flags.ending}.`)
-  return memories
+function relationshipLabel(relationship = {}) {
+  const labels = {
+    stranger: 'Ainda não definido', acquaintance: 'Reconhecimento cauteloso', ally: 'Aliança nascente',
+    friend: 'Confiança escolhida', close_friend: 'Vínculo profundo', romantic_interest: 'Afeto em descoberta',
+    partner: 'Companheirismo íntimo', rival: 'Rivalidade respeitosa', enemy: 'Ruptura aberta',
+  }
+  return labels[relationship.relationshipStage] ?? 'Ainda não definido'
 }

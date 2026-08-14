@@ -1,13 +1,14 @@
-{
+﻿{
   "$schema": "../node_modules/wrangler/config-schema.json",
   "name": "cronicas-vivas-api",
   "main": "worker/index.js",
-  "compatibility_date": "2026-08-13",
+  "compatibility_date": "2026-08-14",
   "ai": {
     "binding": "AI"
   },
   "vars": {
     "AI_MODEL": "@cf/qwen/qwen3-30b-a3b-fp8",
-    "ALLOWED_ORIGINS": "http://localhost:4174,http://localhost:4175,http://localhost:5173,http://127.0.0.1:4174,http://127.0.0.1:4175,http://127.0.0.1:5173"
+    "ALLOWED_ORIGINS": "http://localhost:4174,http://localhost:4175,http://localhost:5173,http://127.0.0.1:4174,http://127.0.0.1:4175,http://127.0.0.1:5173,https://cronicas-de-avernor.pages.dev,https://cronicas-vivas-avernor.pages.dev"
   }
 }
+

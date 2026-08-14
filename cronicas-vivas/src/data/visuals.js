@@ -23,5 +23,6 @@ export const portraits = {
   sirius: { src: sirius, alt: 'Sirius Kayler', focus: '50% 18%' },
   elara: { src: elara, alt: 'Elara', focus: '50% 18%' },
   aelwen: { src: aelwen, alt: 'Rainha Aelwen', focus: '50% 16%' },
+  'rainha-aelwen': { src: aelwen, alt: 'Rainha Aelwen', focus: '50% 16%' },
   orc: { src: orc, alt: 'Guerreiro orc mercenário na clareira', focus: '50% 17%' },
 }

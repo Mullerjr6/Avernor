@@ -3,8 +3,14 @@ import { localReply } from '../engine/localNarrator.js'
 
 const endpoint = import.meta.env.VITE_NARRATIVE_API_URL?.trim()
 
-export async function requestNarrativeReply({ text, state, scene, interpretation }) {
-  if (!endpoint) return localReply({ text, state, scene, interpretation })
+function hasValidNarrative(reply, participants) {
+  if (!reply || typeof reply.narration !== 'string' || !reply.narration.trim()) return false
+  if (!Array.isArray(reply.dialogue) || !reply.dialogue.length) return false
+  return reply.dialogue.every(({ speakerId, text }) => participants.includes(speakerId) && typeof text === 'string' && text.trim())
+}
+
+export async function requestNarrativeReply({ text, state, scene }) {
+  if (!endpoint) return localReply({ text, state, scene })
 
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 60_000)
@@ -16,32 +22,38 @@ export async function requestNarrativeReply({ text, state, scene, interpretation
       body: JSON.stringify({
         chapterId: state.chapterId,
         sceneId: scene.id,
-        sceneContext: {
+        beat: state.beat,
+        playerText: text,
+        directorContext: {
           title: scene.title,
           location: scene.location,
-          passage: scene.passage,
-          consequence: state.pendingConsequence,
+          objective: scene.objective,
+          participants: scene.participants,
+          beats: scene.beats,
+          allowedSignals: scene.allowedSignals,
+          constraints: scene.constraints,
         },
-        playerText: text,
         state: {
           flags: state.flags,
           inventory: state.inventory,
           relationships: state.relationships,
           discovered: state.discovered,
-          recentConversation: (state.freeReplies[scene.id] ?? []).slice(-6),
-          dialogueMemory: (state.dialogueMemory ?? []).slice(-12),
+          completedBeats: state.completedBeats,
+          storyMemories: state.storyMemories,
+          memoryState: state.memoryState,
+          recentHistory: state.recentHistory,
+          summary: state.summary,
         },
-        interpretation,
-        context: canonicalContext('elara', state.discovered),
+        context: scene.participants.map((characterId) => canonicalContext(characterId, state.discovered)),
       }),
     })
     if (!response.ok) throw new Error(`Narrative API returned ${response.status}`)
     const reply = await response.json()
-    if (!reply?.dialogue || !reply?.narration || reply.speaker !== 'ELARA') throw new Error('Invalid narrative response')
-    return { ...reply, understoodLabel: interpretation.understoodLabel, source: 'workers-ai' }
+    if (!hasValidNarrative(reply, scene.participants)) throw new Error('Invalid narrative response')
+    return { ...reply, source: 'workers-ai' }
   } catch (error) {
-    console.warn('Narrador remoto indisponível; usando o motor canônico local.', error)
-    return { ...localReply({ text, state, scene, interpretation }), fallback: true }
+    console.warn('Narrador remoto indisponível; usando o Diretor canônico local.', error)
+    return { ...localReply({ text, state, scene }), fallback: true }
   } finally {
     clearTimeout(timeout)
   }

@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CodexDrawer from './components/CodexDrawer.jsx'
 import DialoguePanel from './components/DialoguePanel.jsx'
 import TitleScreen from './components/TitleScreen.jsx'
 import { requestNarrativeReply } from './api/narrativeClient.js'
 import { backgrounds, portraits } from './data/visuals.js'
-import { chapter } from './engine/chapterZero.js'
-import { interpretPlayerDialogue } from './engine/dialogueInterpreter.js'
+import { story } from './engine/chapterZero.js'
 import {
-  SAVE_KEY, addFreeReply, choicesForScene, choose, loadState, persistState, progressFor, resetState,
+  SAVE_KEY, applyNarrativeTurn, currentScene, loadState, persistState, progressFor, resetState,
 } from './engine/gameEngine.js'
 
 export default function App() {
@@ -16,13 +15,11 @@ export default function App() {
   const [codexOpen, setCodexOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [hasSave, setHasSave] = useState(() => Boolean(localStorage.getItem(SAVE_KEY)))
-  const scene = chapter.scenes[game.sceneId]
+  const scene = currentScene(game)
   const background = backgrounds[scene.stage]
-  const portrait = scene.portrait ? portraits[scene.portrait] : null
-  const replies = Array.isArray(game.freeReplies[scene.id]) ? game.freeReplies[scene.id] : []
-  const availableChoices = choicesForScene(game, scene)
-  const canFreeTalk = game.flags.metElara && !scene.ending && scene.passage.some(({ speaker }) => speaker === 'ELARA')
+  const activePortraits = scene.portraits.map((id) => ({ id, ...portraits[id] })).filter(({ src }) => src)
   const progress = progressFor(game)
+  const activeChapter = story.chapters.find(({ id }) => id === game.chapterId)
 
   useEffect(() => {
     if (screen !== 'game') return
@@ -30,37 +27,32 @@ export default function App() {
   }, [game, screen])
 
   useEffect(() => {
-    if (screen === 'game') window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [game.sceneId, screen])
+    if (screen !== 'game' || game.totalTurns === 0) return
+    document.getElementById('sirius-dialogue')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [game.totalTurns, game.sceneId, screen])
 
-  const locationName = useMemo(() => {
-    if (scene.location) return scene.location
-    if (scene.stage === 'lethariel') return 'Lethariel'
-    if (scene.stage === 'palace') return 'Palácio da Seiva Clara'
-    if (scene.stage === 'hiddenPath') return 'Caminho das Árvores Ausentes'
-    return 'Floresta Antiga'
-  }, [scene.location, scene.stage])
+  const locationName = scene.location || 'Floresta Antiga'
 
   function startNew() {
-    if (hasSave && !window.confirm('Recomeçar apagará o progresso atual deste capítulo. Deseja continuar?')) return
+    if (hasSave && !window.confirm('Recomeçar apagará o progresso atual desta jornada neste aparelho. Deseja continuar?')) return
     const initial = resetState()
     setGame(initial)
     setHasSave(true)
     setScreen('game')
+    window.scrollTo({ top: 0 })
   }
 
-  function makeChoice(choiceId) {
-    setHasSave(true)
-    setGame((current) => choose(current, choiceId))
-  }
-
-  async function sendFreeText(text) {
+  async function sendDialogue(text) {
+    if (busy) return
     setBusy(true)
     try {
-      const interpretation = interpretPlayerDialogue(text, game, scene)
-      const narrativeReply = await requestNarrativeReply({ text, state: game, scene, interpretation })
+      const stateAtRequest = game
+      const sceneAtRequest = currentScene(stateAtRequest)
+      const narrativeReply = await requestNarrativeReply({ text, state: stateAtRequest, scene: sceneAtRequest })
       setHasSave(true)
-      setGame((current) => addFreeReply(current, { ...narrativeReply, playerText: text }, interpretation))
+      setGame((current) => current.sceneId === stateAtRequest.sceneId
+        ? applyNarrativeTurn(current, narrativeReply, text)
+        : current)
     } finally {
       setBusy(false)
     }
@@ -72,7 +64,7 @@ export default function App() {
 
   return (
     <main className={`game-screen mood-${scene.mood}`}>
-      <img key={scene.id} className="scene-background" src={background.src} alt={background.alt} />
+      <img key={scene.stage} className="scene-background" src={background.src} alt={background.alt} />
       <div className="scene-vignette" />
       <div className="scene-grain" />
 
@@ -81,13 +73,13 @@ export default function App() {
           <span className="mini-sigil"><i>A</i></span>
           <span><strong>Crônicas Vivas</strong><small>AVERNOR</small></span>
         </button>
-        <div className="chapter-progress" aria-label={`${progress}% do capítulo concluído`}>
-          <span>{chapter.number}</span>
+        <div className="chapter-progress" aria-label={`${progress}% do capítulo percorrido`}>
+          <span>{activeChapter?.number ?? scene.chapterNumber}</span>
           <div><i style={{ width: `${progress}%` }} /></div>
           <small>{progress}%</small>
         </div>
         <div className="header-actions">
-          <span className="save-state"><i /> Salvo</span>
+          <span className={`save-state ${busy ? 'is-saving' : ''}`}><i /> {busy ? 'A história responde' : 'Salvo'}</span>
           <button type="button" onClick={() => setCodexOpen(true)}>Códice <b>{game.discovered.length}</b></button>
         </div>
       </header>
@@ -97,31 +89,21 @@ export default function App() {
         <strong>{locationName}</strong>
       </div>
 
-      {portrait && (
-        <figure key={portrait.src} className="character-portrait">
-          <img src={portrait.src} alt={portrait.alt} style={{ objectPosition: portrait.focus }} />
-        </figure>
-      )}
+      <div className={`portrait-ensemble count-${activePortraits.length}`} aria-hidden="true">
+        {activePortraits.map((portrait, index) => (
+          <figure key={`${scene.id}-${portrait.id}`} className={`character-portrait portrait-${index + 1}`}>
+            <img src={portrait.src} alt="" style={{ objectPosition: portrait.focus }} />
+          </figure>
+        ))}
+      </div>
 
       <div className="game-content">
         <DialoguePanel
-          key={scene.id}
           scene={scene}
-          replies={replies}
-          choices={availableChoices}
-          consequence={game.pendingConsequence}
-          canFreeTalk={canFreeTalk}
+          history={game.storyHistory}
           busy={busy}
-          onChoice={makeChoice}
-          onFreeText={sendFreeText}
+          onDialogue={sendDialogue}
         />
-        {scene.ending && (
-          <section className="ending-actions">
-            <p>{scene.endingLabel ?? 'Capítulo Zero concluído'}</p>
-            <button type="button" onClick={() => setScreen('title')}>Voltar ao título</button>
-            <button type="button" onClick={() => setCodexOpen(true)}>Rever descobertas</button>
-          </section>
-        )}
       </div>
 
       <button className="mobile-codex" type="button" onClick={() => setCodexOpen(true)} aria-label="Abrir códice">⌘</button>
@@ -132,8 +114,8 @@ export default function App() {
             discovered={game.discovered}
             inventory={game.inventory}
             relationships={game.relationships}
-            flags={game.flags}
-            dialogueInsights={game.dialogueInsights}
+            memories={game.storyMemories}
+            progress={game.codexProgress}
             open
             onClose={() => setCodexOpen(false)}
           />

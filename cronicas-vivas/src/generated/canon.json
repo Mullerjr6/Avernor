@@ -757,6 +757,47 @@
       "thumbnail": "/assets/images/artifacts/medalhao-da-folha-partida-card.webp"
     },
     {
+      "collection": "artifacts",
+      "id": "adaga-do-passo-velado",
+      "slug": "adaga-do-passo-velado",
+      "name": "Adaga do Passo Velado",
+      "subtitle": "A lâmina rúnica de Elara",
+      "summary": "Adaga élfica capaz de transportar Elara por distâncias curtas até pontos visíveis ou previamente marcados.",
+      "description": "Runas gravadas no metal dobram a distância por um instante. Cada salto exige concentração contínua, esforço físico e um destino visível ou previamente marcado que ofereça área segura para chegada. A adaga não atravessa ferro meteórico, não pode levar grandes cargas e não corrige um ponto de pouso perigoso. Cada uso retira calor do corpo da portadora; três saltos rápidos podem causar perda de consciência.",
+      "category": "Artefato rúnico",
+      "status": "Ativo",
+      "origin": "Sylvaris",
+      "location": "Com Elara",
+      "period": "Era atual",
+      "appearance": "Adaga estreita de prata fosca, com runas que parecem se aproximar quando o destino está marcado. A bainha possui compartimentos térmicos e fios para assinalar pontos seguros.",
+      "limitations": [
+        "Curto alcance",
+        "Exige concentração contínua e esforço físico",
+        "Requer destino seguro, visível ou previamente marcado",
+        "Não corrige ponto de pouso perigoso",
+        "Não atravessa ferro meteórico",
+        "Carga e passageiros ampliam o risco"
+      ],
+      "relations": [
+        {
+          "label": "Elara",
+          "to": "/personagens/elara"
+        }
+      ],
+      "events": [
+        "Treinamento de Elara",
+        "Missão nas margens de Sylvaris"
+      ],
+      "curiosities": [
+        "A bainha contém sais aquecedores para reduzir o risco de hipotermia."
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/artifacts/adaga-do-passo-velado-page.webp",
+      "thumbnail": "/assets/images/artifacts/adaga-do-passo-velado-card.webp"
+    },
+    {
       "collection": "relics",
       "id": "fulgarion",
       "slug": "fulgarion",
@@ -847,6 +888,106 @@
       "spoilerLevel": "public",
       "image": "/assets/images/archive-plates/celestiais-e-lancas-page.webp",
       "thumbnail": "/assets/images/archive-plates/celestiais-e-lancas-card.webp"
+    },
+    {
+      "collection": "legends",
+      "id": "pacto-dos-descendentes",
+      "slug": "pacto-dos-descendentes",
+      "name": "O Pacto dos Descendentes",
+      "subtitle": "A promessa de Normus e Aelwen",
+      "summary": "Acordo reservado entre Normus e Aelwen que protegeu o descendente Kayler sem transformar qualquer herdeiro em propriedade do outro.",
+      "description": "O pacto entre Normus e Aelwen existiu, protegeu Sirius e permanece relevante para a relação entre os herdeiros. Ele não constitui casamento, propriedade ou renúncia ao consentimento. O medalhão dividido, atas limitadas dos Círculos e ações de abrigo confirmam a existência do acordo. Alcance, cláusulas, contrapartidas e condições integrais são secretas e não aparecem no conteúdo público.",
+      "category": "Pacto secreto",
+      "status": "Ativo e incompleto",
+      "origin": "Avernor",
+      "location": "Sylvaris",
+      "period": "Fim da Era das Coroas",
+      "relations": [
+        {
+          "label": "Normus Kayler",
+          "to": "/personagens/normus-kayler"
+        },
+        {
+          "label": "Rainha Aelwen",
+          "to": "/personagens/rainha-aelwen"
+        },
+        {
+          "label": "Elara",
+          "to": "/personagens/elara"
+        },
+        {
+          "label": "Sirius Kayler",
+          "to": "/personagens/sirius-kayler"
+        }
+      ],
+      "truthStatus": "redacted",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/gallery/pacto-dos-descendentes-page.webp",
+      "thumbnail": "/assets/images/gallery/pacto-dos-descendentes-card.webp"
+    },
+    {
+      "collection": "worlds",
+      "id": "elyra",
+      "slug": "elyra",
+      "name": "Elyra",
+      "subtitle": "Mundo da Luz Imóvel",
+      "summary": "Lugar sem noite observável, onde sombras permanecem mesmo após seus objetos se moverem.",
+      "description": "Elyra é descrita como território de luz imóvel, sombras atrasadas e cidades claras sem habitantes visíveis. O Arquivo aceita a existência dos materiais retornados, não uma interpretação única do lugar. Amostras perdem cor sob o luar de Avernor; três relatos independentes registram sombra persistente e ausência de noite. População, extensão, passagem do tempo e natureza das cidades permanecem desconhecidas.",
+      "category": "Outro mundo",
+      "status": "Acesso não controlado",
+      "origin": "Avernor",
+      "curiosities": [
+        "Relatos divergem sobre a passagem do tempo."
+      ],
+      "truthStatus": "witnessed",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/cosmology/elyra-page.webp",
+      "thumbnail": "/assets/images/cosmology/elyra-card.webp"
+    },
+    {
+      "collection": "peoples",
+      "id": "orcs",
+      "slug": "orcs",
+      "name": "Orcs de Vul’Gar",
+      "subtitle": "Clãs unidos pela Brasa",
+      "summary": "Povo de cidades, clãs e rotas orientais que entende identidade como fogo compartilhado e responsabilidade recíproca.",
+      "description": "A Brasa do Clã é um vínculo social mantido por lareiras comunais, testemunhos e obrigações. Não controla mentes nem produz magia. Clãs podem divergir, misturar-se ou expulsar chefes que quebram o abrigo comum. Vul’Gar designa uma região cultural; não uma horda ou vontade única.",
+      "category": "Povo mortal",
+      "status": "Confederações autônomas",
+      "origin": "Clãs e cidades de Vul’Gar, ligados por rotas de poço e memória da Cicatriz Vermelha.",
+      "location": "Vul’Gar e fronteira oriental",
+      "beliefs": [
+        "Brasa do Clã",
+        "O nome adulto deve ser confirmado por serviço",
+        "Água compartilhada suspende vinganças"
+      ],
+      "abilities": [
+        "Resistência física",
+        "Logística em terras áridas",
+        "Diplomacia interclânica"
+      ],
+      "limitations": [
+        "Não possuem magia verdadeira",
+        "Acordos dependem dos clãs signatários",
+        "Estereótipos humanos sabotam tratados"
+      ],
+      "relations": [
+        {
+          "label": "Kharza Gron",
+          "to": "/personagens/kharza-gron"
+        },
+        {
+          "label": "Facções de Avernor",
+          "to": "/faccoes"
+        }
+      ],
+      "truthStatus": "documented",
+      "canonStatus": "canon",
+      "spoilerLevel": "public",
+      "image": "/assets/images/archive-plates/povos-de-avernor-page.webp",
+      "thumbnail": "/assets/images/archive-plates/povos-de-avernor-card.webp"
     }
   ]
 }

@@ -1,111 +1,78 @@
-import { chapter } from '../src/engine/chapterZero.js'
-import { ALLOWED_INVENTORY, choicesForScene, choose, createInitialState } from '../src/engine/gameEngine.js'
-import { consequenceForChoice } from '../src/engine/choiceConsequences.js'
+import { readFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import { story } from '../src/engine/chapterZero.js'
+import { ALLOWED_INVENTORY, createInitialState } from '../src/engine/gameEngine.js'
 import canon from '../src/generated/canon.json' with { type: 'json' }
 
 const errors = []
-const sceneIds = new Set(Object.keys(chapter.scenes))
+const sceneIds = new Set(Object.keys(story.scenes))
 const canonIds = new Set(canon.records.map(({ id }) => id))
 const reachable = new Set()
-const stateReachable = new Set()
-const reachableEndings = new Set()
-const requirementFlags = new Set()
-let consequenceCount = 0
-const distinctConsequences = new Set()
-
-for (const scene of Object.values(chapter.scenes)) {
-  for (const choice of scene.choices) {
-    Object.keys(choice.requires?.flags ?? {}).forEach((key) => requirementFlags.add(key))
-    ;(choice.requires?.anyFlags ?? []).forEach((key) => requirementFlags.add(key))
-  }
-}
+const directory = path.dirname(fileURLToPath(import.meta.url))
+const projectRoot = path.resolve(directory, '..')
 
 function visit(sceneId) {
   if (reachable.has(sceneId)) return
-  const scene = chapter.scenes[sceneId]
-  if (!scene) return
+  const current = story.scenes[sceneId]
+  if (!current) return
   reachable.add(sceneId)
-  scene.choices.forEach(({ target }) => visit(target))
+  if (current.transition?.target && current.transition.target !== sceneId) visit(current.transition.target)
 }
 
-visit(chapter.firstSceneId)
+visit(story.firstSceneId)
 
-const depthMemo = new Map()
-function routeDepth(sceneId) {
-  if (depthMemo.has(sceneId)) return depthMemo.get(sceneId)
-  const scene = chapter.scenes[sceneId]
-  const ownWords = scene.text.trim().split(/\s+/).length
-  if (scene.ending) return { minWords: ownWords, maxWords: ownWords, minScenes: 1, maxScenes: 1 }
-  const paths = scene.choices.map(({ target }) => routeDepth(target))
-  const result = {
-    minWords: ownWords + Math.min(...paths.map(({ minWords }) => minWords)),
-    maxWords: ownWords + Math.max(...paths.map(({ maxWords }) => maxWords)),
-    minScenes: 1 + Math.min(...paths.map(({ minScenes }) => minScenes)),
-    maxScenes: 1 + Math.max(...paths.map(({ maxScenes }) => maxScenes)),
+for (const current of Object.values(story.scenes)) {
+  if (!current.id || !current.chapterId || !current.stage || !current.location || !current.title || !current.objective) errors.push(`${current.id}: metadados do Diretor incompletos`)
+  if (!Array.isArray(current.opening) || current.opening.length < 2) errors.push(`${current.id}: abertura narrativa insuficiente`)
+  const words = current.opening.map(({ text }) => text).join(' ').trim().split(/\s+/).length
+  if (words < 70) errors.push(`${current.id}: abertura rasa com ${words} palavras`)
+  if (!Array.isArray(current.participants) || current.participants.length === 0) errors.push(`${current.id}: cena sem participantes`)
+  if (!Array.isArray(current.beats) || current.beats.length < 3) errors.push(`${current.id}: menos de três batidas narrativas`)
+  const signals = current.beats.map(({ signal }) => signal)
+  if (new Set(signals).size !== signals.length) errors.push(`${current.id}: sinais narrativos duplicados`)
+  if (!current.allowedSignals.every((signal) => signals.includes(signal))) errors.push(`${current.id}: sinal permitido não pertence às batidas`)
+  if (!current.transition?.target || !sceneIds.has(current.transition.target)) errors.push(`${current.id}: transição inválida`)
+  if (!current.transition?.signal || !signals.includes(current.transition.signal)) errors.push(`${current.id}: transição sem sinal semântico válido`)
+  for (const id of [...current.discoverOnEnter, ...Object.values(current.discoverBySignal).flat()]) {
+    if (!canonIds.has(id)) errors.push(`${current.id}: descoberta sem registro canônico ${id}`)
   }
-  depthMemo.set(sceneId, result)
-  return result
-}
-
-const narrativeDepth = routeDepth(chapter.firstSceneId)
-if (narrativeDepth.minWords < 3_000) errors.push(`rota mais curta possui apenas ${narrativeDepth.minWords} palavras narrativas`)
-if (narrativeDepth.minScenes < 24) errors.push(`rota mais curta possui apenas ${narrativeDepth.minScenes} cenas`)
-
-const queue = [createInitialState()]
-const stateSignatures = new Set()
-while (queue.length) {
-  const state = queue.shift()
-  const relevantFlags = Object.fromEntries([...requirementFlags].map((key) => [key, state.flags[key] ?? false]))
-  const signature = JSON.stringify({ sceneId: state.sceneId, flags: relevantFlags, relationships: state.relationships })
-  if (stateSignatures.has(signature)) continue
-  stateSignatures.add(signature)
-  if (stateSignatures.size > 100_000) {
-    errors.push('exploração de estados excedeu o limite de segurança')
-    break
-  }
-
-  const currentScene = chapter.scenes[state.sceneId]
-  stateReachable.add(state.sceneId)
-  if (currentScene.ending) reachableEndings.add(currentScene.id)
-  const available = choicesForScene(state, currentScene)
-  if (!currentScene.ending && available.length === 0) errors.push(`${currentScene.id}: estado válido sem escolhas disponíveis`)
-  for (const choice of available) queue.push(choose(state, choice.id))
-}
-
-for (const scene of Object.values(chapter.scenes)) {
-  if (!scene.id || !scene.stage || !scene.speaker || !scene.title || !scene.text) errors.push(`${scene.id}: campos narrativos ausentes`)
-  if (scene.text.length < 80) errors.push(`${scene.id}: cena excessivamente curta`)
-  const choiceIds = scene.choices.map(({ id }) => id)
-  if (new Set(choiceIds).size !== choiceIds.length) errors.push(`${scene.id}: escolhas duplicadas`)
-  for (const choice of scene.choices) {
-    const consequence = consequenceForChoice(scene, choice)
-    const consequenceWords = consequence.trim().split(/\s+/).length
-    consequenceCount += 1
-    distinctConsequences.add(consequence)
-    if (consequenceWords < 45) errors.push(`${scene.id}/${choice.id}: consequência rasa com ${consequenceWords} palavras`)
-    if (!sceneIds.has(choice.target)) errors.push(`${scene.id}/${choice.id}: alvo inexistente ${choice.target}`)
-    for (const effect of choice.effects ?? []) {
-      if (effect.type !== 'relationship_delta') errors.push(`${scene.id}/${choice.id}: efeito não autorizado ${effect.type}`)
-      if (!['elara', 'aelwen'].includes(effect.target)) errors.push(`${scene.id}/${choice.id}: alvo de relação inválido ${effect.target}`)
-      if (!Number.isInteger(effect.value) || Math.abs(effect.value) > 1) errors.push(`${scene.id}/${choice.id}: variação de relação inválida`)
-    }
-  }
-  for (const id of scene.discover ?? []) if (!canonIds.has(id)) errors.push(`${scene.id}: descoberta sem registro canônico ${id}`)
-  for (const item of scene.inventory ?? []) if (!ALLOWED_INVENTORY.has(item)) errors.push(`${scene.id}: item não autorizado ${item}`)
-  if (!scene.ending && scene.choices.length === 0) errors.push(`${scene.id}: beco sem saída não declarado`)
+  for (const entry of current.opening) if (entry.speaker === 'SIRIUS') errors.push(`${current.id}: a história escreveu fala pronta para Sirius`)
 }
 
 for (const sceneId of sceneIds) if (!reachable.has(sceneId)) errors.push(`${sceneId}: cena inalcançável`)
-for (const sceneId of sceneIds) if (!stateReachable.has(sceneId)) errors.push(`${sceneId}: cena inalcançável pelas condições de estado`)
-const declaredEndings = Object.values(chapter.scenes).filter(({ ending }) => ending)
-if (!declaredEndings.length) errors.push('capítulo sem encerramento')
-for (const ending of declaredEndings) if (!reachableEndings.has(ending.id)) errors.push(`${ending.id}: desfecho declarado mas inalcançável`)
-for (const item of createInitialState().inventory) if (!ALLOWED_INVENTORY.has(item)) errors.push(`inventário inicial contém item não autorizado ${item}`)
+if (story.chapters.length < 2) errors.push('a fonte estruturada não demonstra continuidade entre capítulos')
+if (!Object.values(story.scenes).some(({ participants }) => participants.length > 1)) errors.push('nenhuma cena multi-NPC foi encontrada')
+if (!Object.values(story.scenes).some(({ participants }) => !participants.includes('elara'))) errors.push('nenhuma cena sem Elara foi encontrada')
+
+const opening = story.scenes[story.firstSceneId].opening.map(({ text }) => text).join(' ')
+for (const required of ['cavalo', 'Embainhou', 'grito feminino', 'forma de corvo', 'três guerreiros orcs', 'Elara', 'mercenários', 'mandante']) {
+  if (!opening.includes(required)) errors.push(`abertura canônica não preservou: ${required}`)
+}
+if (!/não representantes de um povo/iu.test(opening)) errors.push('abertura não separa mercenários do povo orc')
+
+const initial = createInitialState()
+for (const item of initial.inventory) if (!ALLOWED_INVENTORY.has(item)) errors.push(`inventário inicial contém item não autorizado: ${item}`)
+if (!initial.flags.rescueComplete || !initial.flags.ravenFormWitnessed || !initial.flags.mastermindUnknown) errors.push('estado inicial não preserva os fatos do resgate')
+if (initial.presentNpcIds.join(',') !== 'elara') errors.push('participantes iniciais incorretos')
+
+const inspectedFiles = [
+  'src/App.jsx', 'src/components/DialoguePanel.jsx', 'src/engine/gameEngine.js', 'src/engine/storyDirector.js',
+]
+const forbiddenNames = [
+  ['choices', 'ForScene'].join(''), ['available', 'Choices'].join(''), ['on', 'Choice'].join(''),
+  ['choice', 'Consequences'].join(''), ['choice', '-consequence'].join(''),
+]
+for (const relative of inspectedFiles) {
+  const source = await readFile(path.join(projectRoot, relative), 'utf8')
+  for (const name of forbiddenNames) if (source.includes(name)) errors.push(`${relative}: mecanismo antigo ainda presente (${name})`)
+}
 
 if (errors.length) {
-  console.error(`Validação do capítulo falhou com ${errors.length} erro(s):`)
+  console.error(`Validação estrutural falhou com ${errors.length} erro(s):`)
   errors.forEach((error) => console.error(`- ${error}`))
   process.exitCode = 1
 } else {
-  console.log(`Capítulo válido: ${sceneIds.size} cenas, ${reachableEndings.size} desfechos, ${stateSignatures.size} estados, ${consequenceCount} consequências (${distinctConsequences.size} textos distintos) e rotas de ${narrativeDepth.minScenes}–${narrativeDepth.maxScenes} cenas (${narrativeDepth.minWords}–${narrativeDepth.maxWords} palavras fixas).`)
+  const totalWords = Object.values(story.scenes).reduce((total, current) => total + current.opening.map(({ text }) => text).join(' ').split(/\s+/).length, 0)
+  console.log(`Diretor válido: ${sceneIds.size} cenas em ${story.chapters.length} capítulos, ${totalWords} palavras de abertura, elenco múltiplo, progressão semântica e nenhuma fala pronta de Sirius.`)
 }

@@ -1,10 +1,22 @@
 # Crônicas Vivas
 
-Primeiro capítulo jogável da visual novel interativa de Avernor. A aplicação é separada da enciclopédia, mas seu pacote canônico é gerado diretamente de `src/content/`.
+Conto interativo contínuo de Avernor. O jogador é sempre **Sirius Kayler** e escreve exclusivamente as palavras dele. O Narrador conduz ambiente, ritmo e transições; Elara, Aelwen e os futuros personagens entram e saem conforme a cena estruturada.
 
-## Capítulo Zero — O Grito na Floresta
+## História atual
 
-Sirius parte a cavalo para Sylvaris, ouve o grito de Elara e assume a forma de corvo para encontrá-la presa por três mercenários orcs. O capítulo possui 55 cenas, conversas livres persistentes e cinco desfechos. Cada percurso atravessa entre 25 e 32 cenas, além das conversas opcionais. Furtividade, negociação, misericórdia, violência, confiança e sigilo alteram o caminho até a fronteira élfica e a forma como Sirius será recebido.
+O Capítulo Zero começa com Sirius a cavalo, a caminho de Sylvaris. Depois de ouvir um grito na Floresta Antiga, ele assume a forma de corvo, encontra Elara presa por três mercenários orcs e a resgata. Elara testemunha a transformação. A filiação dos mercenários não é confirmada e o mandante permanece desconhecido.
+
+A primeira entrada livre acontece depois do resgate. A jornada então atravessa os vestígios da clareira, a estrada florestal, o Caminho das Árvores Ausentes, Lethariel e uma audiência com Aelwen. Há cenas com múltiplos NPCs, uma conversa sem Elara e a abertura do Capítulo Um.
+
+## Arquitetura narrativa
+
+- `src/engine/chapterZero.js`: fonte estruturada de capítulos, cenas, locais, participantes, objetivos, batidas, sinais permitidos, restrições e transições.
+- `src/engine/storyDirector.js`: única autoridade para aplicar progresso, fatos, relações, memórias, entrada e saída de personagens e persistência.
+- `worker/narrative.js`: narrador remoto multi-NPC. Recebe contexto confiável montado no servidor e devolve narração, falas de NPCs e sugestões limitadas.
+- `src/engine/localNarrator.js`: continuidade canônica quando o Worker estiver indisponível.
+- `src/ai/`: perfis, políticas de conhecimento, memória, relações e proteções compartilhadas com Personagens Vivos.
+
+O modelo nunca controla o estado diretamente. Participantes, sinais narrativos, efeitos, memórias e mudanças relacionais são filtrados e limitados antes de chegar ao Diretor. A entrada do jogador e o histórico são tratados como conteúdo não confiável e não alteram a identidade fixa de Sirius nem liberam material reservado ao autor.
 
 ## Executar sem IA remota
 
@@ -12,27 +24,28 @@ Sirius parte a cavalo para Sylvaris, ouve o grito de Elara e assume a forma de c
 npm run vivas:dev
 ```
 
-O Capítulo Zero funciona integralmente com o narrador canônico local e salva o progresso no navegador. Depois de encontrar Elara, a caixa **Conversa livre** aceita perguntas e falas escritas pelo jogador. O interpretador local reconhece assuntos canônicos, tom emocional, perguntas de continuação e referências à conversa anterior; as respostas incluem narração, reação corporal, pensamentos de Elara e um fecho que devolve a conversa ao enredo. Falas relevantes também permanecem na memória do Códice.
+O Diretor local mantém a história funcional e salva automaticamente capítulo, cena, batidas, fatos, relações, memórias, elenco presente, histórico, resumo, Códice e progresso no `localStorage`.
 
-## Ativar respostas livres com Cloudflare Workers AI
+## Executar com Cloudflare Workers AI
 
-1. Autentique o Wrangler na conta Cloudflare que executará o binding Workers AI.
-2. Execute o Worker a partir da raiz; nenhuma chave de modelo é necessária:
+1. Autentique o Wrangler na conta Cloudflare.
+2. Inicie o Worker a partir da raiz:
 
 ```bash
 npx wrangler@latest dev --config cronicas-vivas/wrangler.jsonc --port 8789
 ```
 
 3. Copie `cronicas-vivas/.env.example` para `cronicas-vivas/.env`.
-4. Execute `npm run vivas:dev`.
+4. Em outro terminal, execute `npm run vivas:dev`.
 
-O Worker usa o binding `env.AI` e, por padrão, o modelo `@cf/qwen/qwen3-30b-a3b-fp8`. Se o endpoint ou o Workers AI estiver indisponível, a interface retorna automaticamente ao narrador local. Com o Worker ativo, a IA recebe a cena atual, a consequência da última escolha, o histórico recente e apenas os registros canônicos liberados. Ela pode compreender formulações mais abertas, mas não tem autoridade para modificar inventário, relações ou cânone.
+O Worker usa exclusivamente o binding `env.AI` e o modelo `@cf/qwen/qwen3-30b-a3b-fp8`. Não é necessária chave de provedor pago. Se a inferência falhar, a interface usa automaticamente o Diretor local.
 
 ## Qualidade
 
 ```bash
 npm run vivas:validate
 npm run vivas:build
+npx wrangler@latest deploy --dry-run --config cronicas-vivas/wrangler.jsonc --outdir cronicas-vivas/output/worker-new-dry-run
 ```
 
-O validador recusa cenas inalcançáveis, escolhas quebradas, consequências narrativas rasas, descobertas sem registro canônico, efeitos de estado fora da lista permitida e regressões na interpretação da conversa livre.
+As validações cobrem a abertura canônica, ausência de falas prontas para Sirius, cenas multi-NPC, cena sem Elara, progressão por vários turnos, memória entre cenas, consulta de informação, defesa contra troca de identidade e acesso a conteúdo do autor, persistência e integridade do grafo narrativo.

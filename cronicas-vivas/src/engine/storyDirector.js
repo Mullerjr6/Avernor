@@ -1,0 +1,286 @@
+import { updateConversationMemories } from '../../../src/ai/memoryService.js'
+import { getCharacterProfile } from '../../../src/ai/characters/characterProfiles.js'
+import { applyRelationshipSuggestion, createRelationship, sanitizeRelationship } from '../../../src/ai/relationshipService.js'
+import { FIRST_SCENE_ID, STORY_VERSION, story } from './chapterZero.js'
+
+export const SAVE_KEY = 'avernor-cronicas-vivas-save-v3'
+export const ALLOWED_INVENTORY = new Set(['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'])
+const MAX_HISTORY = 180
+const MAX_RECENT_HISTORY = 32
+const MAX_STORY_MEMORIES = 40
+
+const unique = (items) => [...new Set(items)]
+const now = () => new Date().toISOString()
+const safeText = (value, maximum = 1800) => String(value ?? '').trim().slice(0, maximum)
+
+function relationshipMap(value = {}) {
+  return {
+    elara: sanitizeRelationship(value.elara ?? createRelationship()),
+    'rainha-aelwen': sanitizeRelationship(value['rainha-aelwen'] ?? createRelationship()),
+  }
+}
+
+function openingEntries(scene) {
+  return scene.opening.map((entry, index) => ({
+    ...entry,
+    id: `${scene.id}-opening-${index}`,
+    sceneId: scene.id,
+    chapterId: scene.chapterId,
+  }))
+}
+
+function codexProgress(discovered, visitedScenes, flags) {
+  return {
+    records: discovered.length,
+    scenes: visitedScenes.length,
+    facts: Object.values(flags).filter(Boolean).length,
+  }
+}
+
+export function createInitialState() {
+  const firstScene = story.scenes[FIRST_SCENE_ID]
+  const discovered = unique(['sirius-kayler', 'floresta-antiga', ...firstScene.discoverOnEnter])
+  const flags = { metElara: true, ravenFormWitnessed: true, rescueComplete: true, mastermindUnknown: true }
+  return {
+    version: STORY_VERSION,
+    chapterId: firstScene.chapterId,
+    sceneId: firstScene.id,
+    beat: 0,
+    completedBeats: [],
+    sceneTurns: 0,
+    totalTurns: 0,
+    flags,
+    inventory: ['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'],
+    relationships: relationshipMap(),
+    memoryState: { playerMemory: [], characterMemory: [], relationshipMemory: [] },
+    storyMemories: [{
+      id: 'memory-rescue-opening', type: 'witnessed', sourceCharacterId: 'elara', importance: 5,
+      summary: 'Elara viu Sirius assumir a forma de corvo e resgatá-la de três mercenários orcs na Floresta Antiga.',
+    }],
+    discovered,
+    presentNpcIds: [...firstScene.participants],
+    visitedScenes: [firstScene.id],
+    completedScenes: [],
+    storyHistory: openingEntries(firstScene),
+    recentHistory: [],
+    summary: 'Sirius seguia para Sylvaris quando ouviu um grito, encontrou Elara presa por três mercenários orcs e a resgatou. Elara testemunhou sua forma de corvo. O mandante permanece desconhecido.',
+    recentEffects: [],
+    codexProgress: codexProgress(discovered, [firstScene.id], flags),
+    startedAt: now(),
+    updatedAt: now(),
+  }
+}
+
+function sanitizeDialogue(reply, scene) {
+  const allowed = new Set(scene.participants)
+  return (Array.isArray(reply.dialogue) ? reply.dialogue : [])
+    .filter(({ speakerId, text }) => allowed.has(speakerId) && safeText(text))
+    .slice(0, scene.multiNpc ? 4 : 2)
+    .map(({ speakerId, speaker, text, action, emotion }) => ({
+      speakerId,
+      speaker: safeText(speaker, 60) || (speakerId === 'rainha-aelwen' ? 'AELWEN' : 'ELARA'),
+      text: safeText(text),
+      action: safeText(action, 320),
+      emotion: safeText(emotion, 32),
+    }))
+}
+
+function sanitizeSignals(reply, scene) {
+  const allowed = new Set(scene.allowedSignals)
+  return unique((Array.isArray(reply.storySignals) ? reply.storySignals : []).filter((signal) => allowed.has(signal))).slice(0, 3)
+}
+
+function fallbackSignal(state, scene, signals) {
+  if (signals.length) return signals
+  const pending = scene.beats.filter(({ signal }) => !state.completedBeats.includes(`${scene.id}:${signal}`))
+  return pending[0] ? [pending[0].signal] : []
+}
+
+function applyRelationships(current, suggestions, scene) {
+  const next = relationshipMap(current)
+  for (const item of Array.isArray(suggestions) ? suggestions : []) {
+    if (!scene.participants.includes(item.characterId)) continue
+    const profile = getCharacterProfile(item.characterId)
+    if (!profile) continue
+    next[item.characterId] = applyRelationshipSuggestion(next[item.characterId], item.delta, profile.relationshipPolicy)
+  }
+  return next
+}
+
+function applyMemories(state, reply, playerText, scene) {
+  let memoryState = state.memoryState
+  for (const characterId of scene.participants) memoryState = updateConversationMemories(memoryState, playerText, characterId)
+
+  const present = new Set(scene.participants)
+  const accepted = (Array.isArray(reply.memorySuggestions) ? reply.memorySuggestions : [])
+    .filter(({ characterId, summary }) => present.has(characterId) && safeText(summary))
+    .slice(0, 4)
+    .map(({ characterId, type, summary, importance }, index) => ({
+      id: `story-memory-${state.totalTurns + 1}-${index}-${characterId}`,
+      type: safeText(type, 40) || 'conversation',
+      sourceCharacterId: characterId,
+      summary: safeText(summary, 320),
+      importance: Math.min(5, Math.max(1, Number(importance) || 2)),
+    }))
+  const keys = new Set()
+  const storyMemories = [...state.storyMemories, ...accepted].filter((memory) => {
+    const key = `${memory.sourceCharacterId}:${memory.type}:${memory.summary.toLocaleLowerCase('pt-BR')}`
+    if (keys.has(key)) return false
+    keys.add(key)
+    return true
+  }).slice(-MAX_STORY_MEMORIES)
+  return { memoryState, storyMemories }
+}
+
+function historyFromTurn(state, reply, playerText, scene, dialogue) {
+  const turnId = `turn-${state.totalTurns + 1}`
+  const entries = [
+    { id: `${turnId}-sirius`, type: 'player', speaker: 'SIRIUS', text: safeText(playerText, 900), sceneId: scene.id, chapterId: scene.chapterId },
+    { id: `${turnId}-narration`, type: 'narration', speaker: 'NARRADOR', text: safeText(reply.narration), sceneId: scene.id, chapterId: scene.chapterId },
+    ...dialogue.flatMap((item, index) => [
+      ...(item.action ? [{ id: `${turnId}-action-${index}`, type: 'narration', speaker: 'NARRADOR', text: item.action, sceneId: scene.id, chapterId: scene.chapterId }] : []),
+      { id: `${turnId}-dialogue-${index}`, type: 'dialogue', ...item, sceneId: scene.id, chapterId: scene.chapterId },
+    ]),
+    ...(safeText(reply.afterNarration) ? [{ id: `${turnId}-after`, type: 'narration', speaker: 'NARRADOR', text: safeText(reply.afterNarration), sceneId: scene.id, chapterId: scene.chapterId }] : []),
+  ].filter(({ text }) => text)
+
+  const recent = entries.map(({ type, speaker, speakerId, text, sceneId }) => ({ type, speaker, speakerId, text, sceneId }))
+  return {
+    storyHistory: [...state.storyHistory, ...entries].slice(-MAX_HISTORY),
+    recentHistory: [...state.recentHistory, ...recent].slice(-MAX_RECENT_HISTORY),
+  }
+}
+
+function applySignalEffects(state, scene, signals) {
+  let flags = { ...state.flags }
+  let discovered = [...state.discovered]
+  for (const signal of signals) {
+    flags = { ...flags, ...(scene.flagsBySignal[signal] ?? {}) }
+    discovered = unique([...discovered, ...(scene.discoverBySignal[signal] ?? [])])
+  }
+  discovered = unique([...discovered, ...scene.discoverOnEnter])
+  return { flags, discovered }
+}
+
+function shouldAdvance(scene, sceneTurns, signals) {
+  if (!scene.transition || scene.transition.target === scene.id) return false
+  return sceneTurns >= scene.maxTurns || (sceneTurns >= scene.minTurns && signals.includes(scene.transition.signal))
+}
+
+function transitionToNext(state, scene) {
+  const nextScene = story.scenes[scene.transition.target]
+  if (!nextScene) return state
+  const transitionEntry = {
+    id: `transition-${scene.id}-${state.totalTurns}`,
+    type: 'transition', speaker: 'NARRADOR', text: scene.transition.narration,
+    sceneId: scene.id, chapterId: scene.chapterId,
+  }
+  const storyHistory = [...state.storyHistory, transitionEntry, ...openingEntries(nextScene)].slice(-MAX_HISTORY)
+  const visitedScenes = unique([...state.visitedScenes, nextScene.id])
+  const completedScenes = unique([...state.completedScenes, scene.id])
+  const discovered = unique([...state.discovered, ...nextScene.discoverOnEnter])
+  const summary = `${state.summary} ${scene.title}: ${scene.objective}`.slice(-3200)
+  return {
+    ...state,
+    chapterId: nextScene.chapterId,
+    sceneId: nextScene.id,
+    beat: 0,
+    sceneTurns: 0,
+    presentNpcIds: [...nextScene.participants],
+    visitedScenes,
+    completedScenes,
+    discovered,
+    storyHistory,
+    recentHistory: [],
+    summary,
+    codexProgress: codexProgress(discovered, visitedScenes, state.flags),
+  }
+}
+
+export function applyNarrativeTurn(state, reply, playerText) {
+  const scene = story.scenes[state.sceneId]
+  if (!scene || !safeText(playerText, 900)) return state
+  const dialogue = sanitizeDialogue(reply, scene)
+  let signals = sanitizeSignals(reply, scene)
+  signals = fallbackSignal(state, scene, signals)
+  const completedBeats = unique([...state.completedBeats, ...signals.map((signal) => `${scene.id}:${signal}`)])
+  const { flags, discovered } = applySignalEffects(state, scene, signals)
+  const relationships = applyRelationships(state.relationships, reply.relationshipSuggestions, scene)
+  const { memoryState, storyMemories } = applyMemories(state, reply, playerText, scene)
+  const { storyHistory, recentHistory } = historyFromTurn(state, reply, playerText, scene, dialogue)
+  const sceneTurns = state.sceneTurns + 1
+  const recentEffects = (Array.isArray(reply.sceneEffects) ? reply.sceneEffects : [])
+    .filter(({ type, value }) => ['ambience', 'tension', 'clue', 'presence'].includes(type) && safeText(value))
+    .slice(0, 4)
+    .map(({ type, value }) => ({ type, value: safeText(value, 180) }))
+
+  let next = {
+    ...state,
+    beat: Math.min(scene.beats.length, completedBeats.filter((key) => key.startsWith(`${scene.id}:`)).length),
+    completedBeats,
+    sceneTurns,
+    totalTurns: state.totalTurns + 1,
+    flags,
+    discovered,
+    relationships,
+    memoryState,
+    storyMemories,
+    storyHistory,
+    recentHistory,
+    recentEffects,
+    codexProgress: codexProgress(discovered, state.visitedScenes, flags),
+    updatedAt: now(),
+  }
+  if (shouldAdvance(scene, sceneTurns, signals)) next = transitionToNext(next, scene)
+  return next
+}
+
+export function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVE_KEY))
+    if (saved?.version === STORY_VERSION && story.scenes[saved.sceneId]) {
+      const scene = story.scenes[saved.sceneId]
+      const discovered = unique((saved.discovered ?? []).filter((id) => typeof id === 'string'))
+      const visitedScenes = unique((saved.visitedScenes ?? [scene.id]).filter((id) => story.scenes[id]))
+      const flags = saved.flags && typeof saved.flags === 'object' ? saved.flags : {}
+      return {
+        ...createInitialState(),
+        ...saved,
+        chapterId: scene.chapterId,
+        inventory: unique((saved.inventory ?? []).filter((item) => ALLOWED_INVENTORY.has(item))),
+        relationships: relationshipMap(saved.relationships),
+        discovered,
+        visitedScenes,
+        presentNpcIds: [...scene.participants],
+        storyHistory: Array.isArray(saved.storyHistory) ? saved.storyHistory.slice(-MAX_HISTORY) : openingEntries(scene),
+        recentHistory: Array.isArray(saved.recentHistory) ? saved.recentHistory.slice(-MAX_RECENT_HISTORY) : [],
+        storyMemories: Array.isArray(saved.storyMemories) ? saved.storyMemories.slice(-MAX_STORY_MEMORIES) : [],
+        codexProgress: codexProgress(discovered, visitedScenes, flags),
+      }
+    }
+  } catch {
+    // Um save inválido nunca impede o início de uma nova crônica.
+  }
+  return createInitialState()
+}
+
+export function persistState(state) {
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state))
+}
+
+export function resetState() {
+  localStorage.removeItem(SAVE_KEY)
+  return createInitialState()
+}
+
+export function progressFor(state) {
+  const chapter = story.chapters.find(({ id }) => id === state.chapterId)
+  if (!chapter) return 0
+  const completed = chapter.sceneIds.filter((id) => state.completedScenes.includes(id)).length
+  const currentWeight = chapter.sceneIds.includes(state.sceneId) ? Math.min(.85, state.sceneTurns / Math.max(1, story.scenes[state.sceneId].maxTurns)) : 0
+  return Math.min(99, Math.round(((completed + currentWeight) / chapter.sceneIds.length) * 100))
+}
+
+export function currentScene(state) {
+  return story.scenes[state.sceneId]
+}
