@@ -2,7 +2,7 @@ const names = { elara: 'ELARA', 'rainha-aelwen': 'AELWEN' }
 
 const sceneVoices = {
   'clareira-depois-do-grito': [
-    'Elara sustentou o olhar, ainda equilibrando gratidão e cautela. A pergunta de Sirius não apagava a violência da clareira, mas mudava a forma como ela media o desconhecido diante de si.',
+    'Elara sustentou o olhar, ainda equilibrando gratidão e cautela. As poucas palavras de Sirius não apagavam a violência da clareira, mas mudavam a forma como ela media o desconhecido diante de si.',
     'O tremor nos pulsos de Elara reapareceu e foi contido quando ela fechou os dedos ao redor da bainha. Ela ouviu até o fim antes de responder, como se a ordem das palavras pudesse revelar uma intenção que a magia não mostrava.',
     'Um galho quebrou longe demais para ser ameaça imediata e perto o bastante para encerrar qualquer ilusão de segurança. Elara lançou um olhar à mata oriental e devolveu a atenção a Sirius com urgência renovada.',
   ],
@@ -50,52 +50,146 @@ const sceneVoices = {
 
 const npcSpeech = {
   elara: {
-    'clareira-depois-do-grito': 'Não vou transformar o resgate numa dívida, mas também não vou fingir que ele não diz nada sobre você. Eu estava contando respirações quando vi um corvo cair entre três lâminas e escolher precisão em vez de espetáculo. Diga o que deseja que eu saiba agora; o restante pode continuar desconhecido até que exista confiança para outra pergunta.',
-    'vestigios-do-contrato': 'Temos vestígios, não um rosto. A cera sem selo pode ter vindo de qualquer corte; as moedas misturadas parecem feitas para nos empurrar contra o inimigo errado. Posso dizer que alguém conhecia minha rota. Qualquer coisa além disso seria medo vestido de prova, e já houve gente suficiente lucrando com esse tipo de erro.',
-    'estrada-das-samambaias': 'Eu consigo caminhar ao lado de uma pergunta sem exigir que ela seja respondida inteira. O que não consigo é esquecer que você já seguia para Sylvaris com um símbolo da minha Casa. Se quiser preservar parte da história, diga onde termina o que posso perguntar. Um limite honesto vale mais que uma versão confortável.',
-    'caminho-das-arvores-ausentes': 'Este caminho oferece imagens antes de oferecer contexto. É assim que rumores e profecias ruins começam. Sobre o pacto, sei que existe e que Aelwen guardou uma parte dele com Normus; não conheço todas as cláusulas. Se alguém disser que ele decide o que devemos sentir ou escolher, essa pessoa sabe mais do que eu — ou mente melhor.',
-    'portas-de-lethariel': 'Registrarei os três atacantes como mercenários orcs sem clã confirmado. Também registrarei que o mandante não foi identificado. Se a corte quiser uma conclusão mais útil politicamente, terá de produzi-la sem usar minha voz. Quanto à sua forma de corvo, pertence ao seu relato decidir o que se torna público.',
-    'audiencia-da-seiva-clara': 'Não quero gratidão usada como cortina. Sirius precisa ouvir o que você sabe, tia, e também precisa saber quando está diante de um segredo que você escolheu manter. Depois disso, ele poderá responder ao limite real, não a uma desculpa inventada para poupá-lo.',
-    'retorno-de-elara': 'Não pretendo entrar no arquivo procurando um culpado que já escolhemos. Quero descobrir quem podia copiar os marcadores, quando a cópia teria sido feita e quem ganhou com o meu desaparecimento. E quero levar conosco o modo como contamos a clareira: fatos primeiro, suspeitas nomeadas como suspeitas.',
-    'caminho-das-folhas-baixas': 'Eu me lembro do que você disse antes, inclusive do que evitou dizer. Não uso isso como prova sobre Avernor, apenas como parte da pessoa que aprendi a reconhecer. Quando abrirmos aquele arquivo, diga se perceber que minha pressa está transformando hipótese em certeza. Eu farei o mesmo por você.',
+    'clareira-depois-do-grito': [
+      'Não vou transformar o resgate numa dívida, mas também não vou fingir que ele não diz nada sobre você. Eu estava contando respirações quando vi um corvo cair entre três lâminas e escolher precisão em vez de espetáculo. Diga o que deseja que eu saiba agora; o restante pode continuar desconhecido até que exista confiança para outra pergunta.',
+      'Meu nome é Elara. Isso é verdade suficiente para este instante. Eu estava examinando uma rota que deveria permanecer segura e encontrei homens que conheciam meus passos melhor do que deveriam. Se continuarmos conversando, prefiro que cada resposta seja oferecida, não arrancada.',
+      'Os três fugiram para leste e não podemos presumir que estejam sozinhos. Ainda assim, partir sem olhar os vestígios seria entregar ao mandante a vantagem que ele comprou. Podemos falar enquanto examinamos a clareira, desde que nenhuma pergunta seja confundida com obrigação.',
+    ],
+    'vestigios-do-contrato': [
+      'Temos vestígios, não um rosto. A cera sem selo pode ter vindo de qualquer corte; as moedas misturadas parecem feitas para nos empurrar contra o inimigo errado. Posso dizer que alguém conhecia minha rota. Qualquer coisa além disso seria medo vestido de prova, e já houve gente suficiente lucrando com esse tipo de erro.',
+      'Eles rasparam marcas de clã, misturaram moedas e trouxeram ferro meteórico para conter minha adaga. Isso exige preparo, mas não identifica um reino. Minha rota devia ser conhecida por poucas pessoas; é aí que a investigação começa, mesmo que a resposta me desagrade.',
+      'Levarei a cera, as medidas das pegadas e a posição das moedas. Não levarei uma acusação pronta. Em Lethariel, alguém tentará preencher o vazio com conveniência política; quero chegar antes que uma suspeita repetida muitas vezes passe a ser chamada de prova.',
+    ],
+    'estrada-das-samambaias': [
+      'Eu consigo caminhar ao lado de uma pergunta sem exigir que ela seja respondida inteira. O que não consigo é esquecer que você já seguia para Sylvaris com um símbolo da minha Casa. Se quiser preservar parte da história, diga onde termina o que posso perguntar. Um limite honesto vale mais que uma versão confortável.',
+      'A forma de corvo não me assusta pelo que é, mas pelo que os outros farão quando souberem. Cortes transformam raridade em presságio, arma ou direito de posse. Se pretende entrar em Sylvaris, precisa decidir não o que é capaz de esconder, mas a quem escolhe contar.',
+      'Lethariel não recebe viajantes como uma cidade humana recebe. A floresta observa antes dos guardas, e os guardas escutam antes de abrir caminho. Posso conduzi-lo até minha tia, mas não posso prometer qual lembrança o nome Kayler despertará no conselho.',
+    ],
+    'caminho-das-arvores-ausentes': [
+      'Este caminho oferece imagens antes de oferecer contexto. É assim que rumores e profecias ruins começam. Sobre o pacto, sei que existe e que Aelwen guardou uma parte dele com Normus; não conheço todas as cláusulas. Se alguém disser que ele decide o que devemos sentir ou escolher, essa pessoa sabe mais do que eu — ou mente melhor.',
+      'Minha tia chama isto de memória territorial; outros chamam de vontade da floresta. Eu só afirmo o que testemunhei: o caminho reage a nomes, perdas e promessas, mas nunca explicou por quê. O sentido dessas imagens continua contestado até entre os Círculos.',
+      'Quando atravessarmos, haverá gente pronta para interpretar cada silêncio nosso. Direi que você me resgatou, que os atacantes eram mercenários e que o mandante permanece desconhecido. O que disser sobre Normus, o medalhão ou sua magia continuará pertencendo a você.',
+    ],
+    'portas-de-lethariel': [
+      'Registrarei os três atacantes como mercenários orcs sem clã confirmado. Também registrarei que o mandante não foi identificado. Se a corte quiser uma conclusão mais útil politicamente, terá de produzi-la sem usar minha voz. Quanto à sua forma de corvo, pertence ao seu relato decidir o que se torna público.',
+      'O escriba precisa de fatos que outra testemunha possa conferir. Direi onde estavam as cordas, como minha adaga foi isolada e para que lado fugiram. Não escreverei que três indivíduos representam um povo, nem que moedas misturadas provam quem pagou por elas.',
+      'Aelwen aceitou recebê-lo antes do conselho. Isso significa que reconheceu o medalhão ou o nome de seu pai, talvez ambos; não significa que tenha decidido confiar. Dentro do palácio, pergunte quando uma resposta for incompleta. Minha tia respeita precisão, mesmo quando ela a constrange.',
+    ],
+    'audiencia-da-seiva-clara': [
+      'Não quero gratidão usada como cortina. Sirius precisa ouvir o que você sabe, tia, e também precisa saber quando está diante de um segredo que você escolheu manter. Depois disso, ele poderá responder ao limite real, não a uma desculpa inventada para poupá-lo.',
+      'O pacto não pode ser explicado como se Sirius e eu fôssemos cláusulas herdadas. Se nossos nomes aparecem nele, queremos saber por quê, quem consentiu e o que ainda pode ser recusado. Proteger uma escolha exige primeiro permitir que ela exista.',
+      'Eu ouvi o que Aelwen pode provar e o que decidiu guardar. Agora quero separar o perigo atual do juramento antigo: alguém copiou meus marcadores de rota. Se o pacto for a razão, encontraremos evidência; se não for, não o usaremos para explicar todo inimigo.',
+    ],
+    'retorno-de-elara': [
+      'Não pretendo entrar no arquivo procurando um culpado que já escolhemos. Quero descobrir quem podia copiar os marcadores, quando a cópia teria sido feita e quem ganhou com o meu desaparecimento. E quero levar conosco o modo como contamos a clareira: fatos primeiro, suspeitas nomeadas como suspeitas.',
+      'Os registros da Casa das Folhas Baixas anotam entrada, cópia e correção em camadas diferentes de tinta. Se uma rota foi alterada, talvez descubramos quando; se uma página desapareceu, o espaço deixado por ela ainda pode indicar quem precisava do silêncio.',
+      'Partiremos sem comitiva ostensiva. Guardas demais avisariam quem quer que tenha tocado o arquivo, e guardas de menos repetiriam o erro da clareira. Aelwen nos dará duas sentinelas que manterão distância; o restante dependerá da atenção, não do título.',
+    ],
+    'caminho-das-folhas-baixas': [
+      'Eu me lembro do que você disse antes, inclusive do que evitou dizer. Não uso isso como prova sobre Avernor, apenas como parte da pessoa que aprendi a reconhecer. Quando abrirmos aquele arquivo, diga se perceber que minha pressa está transformando hipótese em certeza. Eu farei o mesmo por você.',
+      'A casa adiante preserva rotas usadas por refugiados durante a Caça às Bruxas. Isso pode explicar o interesse nos marcadores e também por que alguém preferiu roubar uma cópia a solicitar acesso. Nenhuma dessas possibilidades está provada; ambas merecem cuidado.',
+      'Depois da clareira, eu teria chamado isto apenas de investigação. Agora sei que também procuramos o ponto em que a história de Normus encontra os passos dos mercenários. Se não houver ligação, aceitaremos a ausência. Se houver, precisaremos decidir quem pode ouvi-la sem transformá-la em arma.',
+    ],
   },
   'rainha-aelwen': {
-    'audiencia-da-seiva-clara': 'Eu reconheço Sirius Kayler, o medalhão que carrega e a responsabilidade que assumi diante de Normus. Não reconheço autoridade para decidir seus sentimentos, seus passos ou o uso que fará da herança. Posso preservar um pacto e ainda admitir que preservá-lo possui custos. Pergunte; quando eu não puder responder, direi que estou guardando, não que desconheço.',
-    'conversa-sem-elara': 'Normus foi meu aliado e meu amigo, mas amizade com o pai não me concede posse sobre o filho. O pacto existe. Seu teor integral permanece protegido porque envolve vontades além da minha. Posso oferecer registros verificáveis, a metade do medalhão e meu testemunho. Não oferecerei uma certeza fabricada apenas para tornar esta audiência mais fácil.',
-    'retorno-de-elara': 'Vocês irão como testemunhas autorizadas. Elara conhece os protocolos; Sirius oferece uma perspectiva que ainda não foi moldada pela corte. Nenhum de vocês está autorizado a acusar, apreender ou prometer em nome de Sylvaris. Tragam cópias, divergências e silêncios. Às vezes, o que falta num arquivo identifica melhor uma mão do que aquilo que ela deixou.',
+    'audiencia-da-seiva-clara': [
+      'Eu reconheço Sirius Kayler, o medalhão que carrega e a responsabilidade que assumi diante de Normus. Não reconheço autoridade para decidir seus sentimentos, seus passos ou o uso que fará da herança. Posso preservar um pacto e ainda admitir que preservá-lo possui custos. Pergunte; quando eu não puder responder, direi que estou guardando, não que desconheço.',
+      'Elara está correta ao distinguir proteção de consentimento. Normus pediu abrigo para uma criança perseguida, não obediência de um homem adulto. O pacto registra deveres meus e de minha Casa; não concede a Sylvaris domínio sobre Sirius nem converte gratidão em aliança.',
+      'Há uma parte que posso abrir diante de ambos e outra que envolve testemunhos ainda protegidos pelos Círculos. Não chamarei a segunda de perdida. Ela existe, está sob guarda e permanece secreta até que as pessoas alcançadas por ela possam ser ouvidas.',
+    ],
+    'conversa-sem-elara': [
+      'Normus foi meu aliado e meu amigo, mas amizade com o pai não me concede posse sobre o filho. O pacto existe. Seu teor integral permanece protegido porque envolve vontades além da minha. Posso oferecer registros verificáveis, a metade do medalhão e meu testemunho. Não oferecerei uma certeza fabricada apenas para tornar esta audiência mais fácil.',
+      'Durante a Caça, esconder um nome podia salvar uma vida; depois dela, o mesmo silêncio passou a impedir escolhas. Essa é a dívida que reconheço. Não lhe peço perdão antecipado, Sirius. Ofereço acesso ao que posso provar e responsabilidade pelo que decidi ocultar.',
+      'O arquivo de marcadores pode mostrar se o ataque pertence ao presente ou se alguém está procurando caminhos usados no tempo de Normus. Essa distinção importa. Um pacto antigo não deve ser usado como resposta automática para todo perigo novo.',
+    ],
+    'retorno-de-elara': [
+      'Vocês irão como testemunhas autorizadas. Elara conhece os protocolos; Sirius oferece uma perspectiva que ainda não foi moldada pela corte. Nenhum de vocês está autorizado a acusar, apreender ou prometer em nome de Sylvaris. Tragam cópias, divergências e silêncios. Às vezes, o que falta num arquivo identifica melhor uma mão do que aquilo que ela deixou.',
+      'Duas sentinelas acompanharão a distância necessária para proteger sem conduzir. Se encontrarem resistência, preservem o registro antes de perseguir alguém. Uma página recuperada pode valer mais do que um suspeito acuado e pronto para repetir o nome de quem o pagou.',
+      'O conselho saberá apenas que a herdeira revisa uma rota comprometida. A ligação com Normus e o medalhão permanece secreta por enquanto, não por vergonha, mas porque ainda não sabemos se pertence ao ataque. Voltem com fatos suficientes para mudar essa decisão ou confirmá-la.',
+    ],
   },
 }
 
-function dialogueFor(scene, index) {
-  return scene.participants.map((speakerId) => ({
-    speakerId,
-    speaker: names[speakerId],
-    text: npcSpeech[speakerId]?.[scene.id] ?? 'Não tenho uma resposta completa. Posso dizer apenas o que testemunhei e separar isso do que ainda permanece desconhecido.',
-    action: index === 1 ? `${names[speakerId] === 'AELWEN' ? 'Aelwen' : 'Elara'} deixa o silêncio permanecer por um instante antes de continuar.` : '',
-    emotion: index === 0 ? 'guarded' : index === 1 ? 'reflective' : 'firm',
-  }))
+const openingIntentResponses = {
+  identityRefusal: 'Ninguém atravessa três lâminas por uma desconhecida e continua sendo ninguém. Mas não preciso arrancar um nome de quem acabou de me devolver a liberdade. Até que escolha outro, vou chamá-lo de viajante — e julgá-lo pelo que fizer depois desta clareira, não pelo título que recusou.',
+  reasonAway: 'Eu estava inspecionando uma antiga rota de refugiados nas margens de Sylvaris. Alguns marcadores de passagem foram removidos, e uma comitiva anunciaria minha posição antes que eu descobrisse quem os tocou. Vim com discrição e encontrei uma emboscada preparada para minha adaga. Estar longe de casa foi escolha minha; ser encontrada por aqueles três, não.',
+  elaraIdentity: 'Elara. Sou de Lethariel e respondo perante os Círculos da Memória de Sylvaris. Meu título pode esperar; nesta clareira ele atrairia mais perigo do que respeito. Por enquanto, basta saber que a rota que eu examinava deveria ser secreta e que alguém pagou para conhecê-la.',
+  attackers: 'Não reconheci nenhum dos três. As marcas de clã foram raspadas, as moedas pertencem a reinos diferentes e eles sabiam usar ferro meteórico contra minha adaga. Isso prova preparação, não autoria. Quem os contratou permanece desconhecido, e culpar um povo inteiro só ajudaria o verdadeiro mandante.',
+  condition: 'Consigo caminhar, embora meus pulsos discordem. A adaga consome calor quando abro um passo e o ferro deles tornou o último salto pior. Preciso de alguns minutos, não de tutela. Se quiser ajudar, veja se deixaram cera, ordens ou pegadas que a chuva ainda não levou.',
+  ravenMagic: 'Vi sombra tornar-se pena e pena tornar-se homem, mas não conheço o nome desse dom. Em Sylvaris, raridade costuma atrair interpretações antes de compreensão. Não vou anunciá-lo. Ainda assim, preciso saber se a transformação deixa algum rastro que seus perseguidores possam reconhecer.',
+  destination: 'Sylvaris fica além das trilhas orientais, mas a entrada segura mudou depois da remoção dos marcadores. Posso conduzi-lo a Lethariel quando terminarmos aqui. Antes disso, precisamos descobrir se aqueles mercenários conheciam apenas minha rota ou também esperavam alguém vindo pela estrada.',
+  help: 'Ajude-me a preservar o que a chuva ainda não apagou. Não persiga os três sozinho e não toque nas moedas antes que eu registre a posição delas. Depois, se ainda pretende seguir para Sylvaris, viajaremos pela rota que eles não parecem conhecer.',
+}
+
+const openingIntentNarration = {
+  identityRefusal: 'A recusa não soou como apresentação, e Elara teve o cuidado de não tratá-la como uma. A ponta da adaga desceu mais um dedo, não por confiança completa, mas em reconhecimento ao limite que Sirius acabara de impor.',
+  reasonAway: 'A pergunta alcançou uma preocupação que Elara já carregava antes da emboscada. Seus olhos seguiram por um instante a trilha oriental; quando voltou a encará-lo, a cautela tinha cedido lugar à precisão de quem decidira explicar a própria escolha.',
+  elaraIdentity: 'Elara hesitou apenas no espaço entre oferecer um nome e entregar uma posição política. A floresta ainda podia esconder ouvidos, e o título que carregava explicaria demais a qualidade da emboscada.',
+  attackers: 'Ao voltar a atenção para os fugitivos, Elara se agachou perto da marca deixada por uma joelheira no barro. A raiva estava presente, mas não recebeu permissão para ocupar o lugar da prova.',
+  condition: 'Elara avaliou os próprios pulsos antes de responder. Não escondeu a dor nem permitiu que ela fosse confundida com incapacidade; havia nessa distinção uma disciplina aprendida muito antes da clareira.',
+  ravenMagic: 'As penas que ainda se desfaziam junto aos ombros de Sirius atraíram novamente o olhar de Elara. A curiosidade apareceu sem apagar o cálculo político: certos prodígios eram perigosos sobretudo depois de serem narrados por testemunhas erradas.',
+  destination: 'A menção ao reino élfico alterou a postura de Elara. Pela primeira vez desde o resgate, ela examinou não apenas o homem diante dela, mas a estrada pela qual ele chegara e o destino que ambos agora compartilhavam.',
+  help: 'O pedido ou a oferta deslocou a conversa da identidade para a urgência. Elara guardou parte da lâmina e percorreu a clareira com os olhos, escolhendo tarefas que preservariam indícios sem transformar gratidão em comando.',
+}
+
+function normalize(value) {
+  return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function containsAny(text, phrases) {
+  return phrases.some((phrase) => text.includes(phrase))
+}
+
+function openingIntent(text) {
+  const value = normalize(text)
+  if (containsAny(value, ['nao sou ninguem', 'sou ninguem', 'meu nome nao importa', 'nao importa quem sou', 'prefiro nao dizer meu nome'])) return 'identityRefusal'
+  if (containsAny(value, ['longe de casa', 'faz aqui', 'fazendo aqui', 'por aqui', 'fora de casa', 'saiu de casa', 'veio ate aqui', 'porque veio', 'por que veio'])) return 'reasonAway'
+  if (containsAny(value, ['quem e voce', 'qual seu nome', 'como se chama', 'quem voce e'])) return 'elaraIdentity'
+  if (containsAny(value, ['quem eram', 'quem sao eles', 'quem eram eles', 'orcs', 'atacantes', 'mercenarios', 'mandante', 'pagou por isso'])) return 'attackers'
+  if (containsAny(value, ['esta bem', 'esta ferida', 'machucada', 'ferimentos', 'consegue andar', 'precisa de ajuda'])) return 'condition'
+  if (containsAny(value, ['corvo', 'transformacao', 'transformar', 'magia', 'raio', 'poder'])) return 'ravenMagic'
+  if (containsAny(value, ['sylvaris', 'lethariel', 'reino elfico', 'para onde', 'onde fica', 'caminho'])) return 'destination'
+  if (containsAny(value, ['posso ajudar', 'vou ajudar', 'o que fazemos', 'que faremos', 'vamos sair', 'vamos investigar', 'como posso'])) return 'help'
+  return ''
+}
+
+function isQuestionLike(text) {
+  const raw = String(text ?? '').trim()
+  const value = normalize(raw)
+  return /\?\s*$/u.test(raw) || /^(oq|o que|por que|porque|quem|onde|aonde|como|quando|qual|quais|quanto|quantos|sera que|voce sabe)\b/u.test(value)
+}
+
+function dialogueFor(scene, index, intent) {
+  return scene.participants.map((speakerId) => {
+    const variants = npcSpeech[speakerId]?.[scene.id]
+    const contextual = scene.id === 'clareira-depois-do-grito' && speakerId === 'elara' ? openingIntentResponses[intent] : ''
+    return {
+      speakerId,
+      speaker: names[speakerId],
+      text: contextual || variants?.[Math.min(index, variants.length - 1)] || 'Não tenho uma resposta completa. Posso dizer apenas o que testemunhei e separar isso do que ainda permanece desconhecido.',
+      action: index === 1 && !contextual ? `${names[speakerId] === 'AELWEN' ? 'Aelwen' : 'Elara'} deixa o silêncio permanecer por um instante antes de continuar.` : '',
+      emotion: index === 0 ? 'guarded' : index === 1 ? 'reflective' : 'firm',
+    }
+  })
 }
 
 export function localReply({ text, state, scene }) {
   const index = Math.min(2, state.sceneTurns)
   const beat = scene.beats[Math.min(index, scene.beats.length - 1)]
-  const isQuestion = /\?\s*$/u.test(String(text).trim())
-  const narration = sceneVoices[scene.id]?.[index] ?? 'A fala de Sirius alterou o silêncio da cena. Quem estava presente reagiu ao significado antes de procurar uma resposta segura.'
-  const dialogue = dialogueFor(scene, index).map((entry) => ({
-    ...entry,
-    text: `${isQuestion ? 'A pergunta merece uma resposta direta. ' : ''}${entry.text}`,
-  }))
+  const question = isQuestionLike(text)
+  const intent = scene.id === 'clareira-depois-do-grito' ? openingIntent(text) : ''
+  const narration = openingIntentNarration[intent] || sceneVoices[scene.id]?.[index] || 'A fala de Sirius alterou o silêncio da cena. Quem estava presente reagiu ao significado antes de procurar uma resposta segura.'
+  const afterNarrations = [
+    'Nenhuma conclusão fechou o assunto. A resposta abriu espaço para a fala seguinte e tornou um pouco mais legível a distância entre cautela e confiança.',
+    'A conversa não resolveu tudo, mas já não estava no mesmo lugar. O que fora dito permaneceu entre os presentes como contexto para a próxima pergunta, não como frase destinada a ser repetida.',
+    'A conversa havia produzido movimento suficiente para que o mundo ao redor voltasse a exigir atenção. O próximo lugar não apagaria o que fora dito ali.',
+  ]
   return {
     narration,
-    dialogue,
-    afterNarration: index === 2
-      ? 'A conversa havia produzido movimento suficiente para que o mundo ao redor voltasse a exigir atenção. O próximo lugar não apagaria o que fora dito ali.'
-      : 'Nenhuma conclusão fechou o assunto. A resposta criou espaço para a fala seguinte e deixou uma mudança perceptível entre os presentes.',
+    dialogue: dialogueFor(scene, index, intent),
+    afterNarration: afterNarrations[index],
     sceneEffects: [{ type: index === 2 ? 'presence' : 'ambience', value: index === 2 ? 'A cena se aproxima de uma transição orgânica.' : 'O ambiente acompanha a tensão sem decidir por Sirius.' }],
-    relationshipSuggestions: scene.participants.map((characterId) => ({
-      characterId,
-      delta: { affinity: 0, trust: isQuestion ? 1 : 0, respect: 1, romance: 0, tension: 0 },
-    })),
+    relationshipSuggestions: scene.participants.map((characterId) => ({ characterId, delta: { affinity: 0, trust: question ? 1 : 0, respect: 1, romance: 0, tension: 0 } })),
     memorySuggestions: scene.participants.map((characterId) => ({
       characterId,
       type: 'conversation',
