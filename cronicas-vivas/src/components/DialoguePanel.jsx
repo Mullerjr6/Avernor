@@ -1,22 +1,30 @@
 import { useState } from 'react'
 
 function StoryEntry({ entry }) {
-  if (entry.type === 'player') {
-    return <div className="story-entry player-entry"><span>SIRIUS</span><p>{entry.text}</p></div>
-  }
-  if (entry.type === 'dialogue') {
+  if (entry.type === 'scene-divider') {
     return (
-      <div className={`story-entry npc-entry npc-${entry.speakerId}`}>
+      <div className="story-scene-divider">
         <span>{entry.speaker}</span>
-        <p>{entry.text}</p>
+        <strong>{entry.text}</strong>
       </div>
     )
   }
+  if (entry.type === 'player') {
+    return <article className="story-entry player-entry"><span>SIRIUS</span><p>{entry.text}</p></article>
+  }
+  if (entry.type === 'dialogue') {
+    return (
+      <article className={`story-entry npc-entry npc-${entry.speakerId}`}>
+        <header><span>{entry.speaker}</span><i aria-hidden="true" /></header>
+        <blockquote>{entry.text}</blockquote>
+      </article>
+    )
+  }
   return (
-    <div className={`story-entry narrator-entry ${entry.type === 'transition' ? 'is-transition' : ''}`}>
+    <article className={`story-entry narrator-entry ${entry.type === 'transition' ? 'is-transition' : ''}`}>
       <span>NARRADOR</span>
       <p>{entry.text}</p>
-    </div>
+    </article>
   )
 }
 
@@ -42,31 +50,36 @@ export default function DialoguePanel({ scene, history, busy, onDialogue }) {
         <span className="scene-kind">CONTO INTERATIVO</span>
       </header>
 
+      <div className={`scene-direction ${scene.decisionScene ? 'is-decision' : ''}`}>
+        <span>{scene.decisionScene ? 'A DECISÃO É SUA' : 'A CENA PERMANECE ABERTA'}</span>
+        <p>{scene.decisionScene ? 'Escreva livremente como Sirius intervém. A história reconhecerá palavra, estratégia, magia ou confronto sem oferecer botões de destino.' : scene.objective}</p>
+      </div>
+
       <div className="story-history" aria-live="polite" aria-label="História em curso">
         {history.map((entry) => <StoryEntry key={entry.id} entry={entry} />)}
         {busy && (
           <div className="narrative-thinking" role="status">
             <i /><i /><i />
-            <span>As vozes da cena procuram a resposta certa…</span>
+            <span>A floresta, as testemunhas e as consequências respondem…</span>
           </div>
         )}
       </div>
 
       <form className="free-dialogue" onSubmit={submit}>
-        <label htmlFor="sirius-dialogue">Sirius</label>
+        <label htmlFor="sirius-dialogue"><span>Sirius</span><small>fala, intenção ou ação</small></label>
         <div>
           <textarea
             id="sirius-dialogue"
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
-            placeholder="Escreva as palavras de Sirius..."
+            placeholder="Escreva o que Sirius diz, tenta ou decide fazer..."
             maxLength={900}
             rows={3}
             disabled={busy}
           />
-          <button type="submit" disabled={busy || !draft.trim()}>{busy ? 'OUVINDO…' : 'DIZER'}</button>
+          <button type="submit" disabled={busy || !draft.trim()}>{busy ? 'NARRANDO…' : 'INTERVIR'}</button>
         </div>
-        <small>{draft.length}/900 · você controla apenas o que Sirius diz</small>
+        <small>{draft.length}/900 · nenhuma fala, pensamento ou ação de Sirius será inventada pelo narrador</small>
       </form>
     </section>
   )

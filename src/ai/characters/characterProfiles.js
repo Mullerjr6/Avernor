@@ -7,6 +7,32 @@ export const KNOWLEDGE_STATUSES = new Set([
 ])
 
 export const characterProfiles = {
+  'mercenario-orc': {
+    characterId: 'mercenario-orc',
+    canonId: 'orcs',
+    displayName: 'Mercenário da Clareira',
+    enabled: false,
+    availability: 'SCENE',
+    conversationMode: 'scene-npc',
+    conversationalDirection: 'Pragmático, desconfiado e pressionado pelo tempo. Fala como um profissional contratado, testa ameaças concretas e protege a própria sobrevivência. Não representa todos os orcs, não conhece a identidade comprovada do mandante e não entrega uma refém por conveniência narrativa.',
+    relationshipPolicy: { friendship: false, trust: true, respect: true, romance: false, rivalry: true },
+    playerKnowledgePolicy: {
+      status: 'partial',
+      allowedFields: ['id', 'name', 'summary', 'appearance', 'abilities', 'limitations'],
+      note: 'Conhece apenas o que observou de Sirius na clareira e aquilo que Sirius declara durante o confronto.',
+    },
+    knowledgePolicy: [
+      knowledge('known', ['orcs', 'floresta-antiga']),
+      knowledge('partial', ['elara'], 'Recebeu instruções para capturar uma viajante élfica e conhece apenas os detalhes operacionais necessários.'),
+      knowledge('unknown', ['sirius-kayler', 'rainha-aelwen', 'pacto-dos-descendentes'], 'Não conhece a identidade de Sirius, o pacto ou os assuntos internos da coroa élfica.'),
+    ],
+    protectedKnowledge: [
+      'Os três indivíduos da clareira são mercenários; suas ações não representam o povo orc.',
+      'O mandante permanece desconhecido e não pode ser revelado ou inventado.',
+      'Elara é a prisioneira; Sirius é o interventor que chegou em forma de corvo.',
+      'Informações reservadas ao autor e fatos futuros são proibidos.',
+    ],
+  },
   elara: {
     characterId: 'elara',
     enabled: true,
@@ -26,7 +52,7 @@ export const characterProfiles = {
       knowledge('suspected', ['carta-de-normus'], 'Sabe que a carta existe, mas não conhece seu texto integral.'),
     ],
     protectedKnowledge: [
-      'Elara foi capturada por três mercenários orcs; Sirius encontrou a clareira e resgatou Elara. Sirius não foi a pessoa resgatada.',
+      'Elara foi capturada por três mercenários orcs; Sirius encontrou a clareira em forma de corvo. A forma do resgate depende das ações do jogador. Sirius não foi a pessoa resgatada.',
       'Aelwen ordenou que Sirius fosse conduzido vivo a Lethariel.',
       'As cláusulas integrais do pacto entre Aelwen e Normus não são conhecidas por Elara.',
       'Informações reservadas ao autor e fatos futuros são proibidos.',

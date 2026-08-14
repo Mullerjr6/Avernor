@@ -18,6 +18,7 @@ function visit(sceneId) {
   if (!current) return
   reachable.add(sceneId)
   if (current.transition?.target && current.transition.target !== sceneId) visit(current.transition.target)
+  for (const branch of current.transition?.branches ?? []) if (branch.target !== sceneId) visit(branch.target)
 }
 
 visit(story.firstSceneId)
@@ -32,8 +33,12 @@ for (const current of Object.values(story.scenes)) {
   const signals = current.beats.map(({ signal }) => signal)
   if (new Set(signals).size !== signals.length) errors.push(`${current.id}: sinais narrativos duplicados`)
   if (!current.allowedSignals.every((signal) => signals.includes(signal))) errors.push(`${current.id}: sinal permitido não pertence às batidas`)
-  if (!current.transition?.target || !sceneIds.has(current.transition.target)) errors.push(`${current.id}: transição inválida`)
-  if (!current.transition?.signal || !signals.includes(current.transition.signal)) errors.push(`${current.id}: transição sem sinal semântico válido`)
+  const routes = current.transition?.branches ?? (current.transition?.target ? [current.transition] : [])
+  if (!routes.length) errors.push(`${current.id}: transição inválida`)
+  for (const route of routes) {
+    if (!sceneIds.has(route.target)) errors.push(`${current.id}: destino de transição inválido (${route.target})`)
+    if (!signals.includes(route.signal)) errors.push(`${current.id}: transição sem sinal semântico válido (${route.signal})`)
+  }
   for (const id of [...current.discoverOnEnter, ...Object.values(current.discoverBySignal).flat()]) {
     if (!canonIds.has(id)) errors.push(`${current.id}: descoberta sem registro canônico ${id}`)
   }
@@ -46,15 +51,19 @@ if (!Object.values(story.scenes).some(({ participants }) => participants.length 
 if (!Object.values(story.scenes).some(({ participants }) => !participants.includes('elara'))) errors.push('nenhuma cena sem Elara foi encontrada')
 
 const opening = story.scenes[story.firstSceneId].opening.map(({ text }) => text).join(' ')
-for (const required of ['cavalo', 'Embainhou', 'grito feminino', 'forma de corvo', 'três guerreiros orcs', 'Elara', 'mercenários', 'mandante']) {
-  if (!opening.includes(required)) errors.push(`abertura canônica não preservou: ${required}`)
+for (const required of ['cavalo', 'Embainhou', 'grito feminino', 'forma do corvo', 'três guerreiros orcs', 'pousou', 'mercenários', 'mandante']) {
+  if (!opening.toLocaleLowerCase('pt-BR').includes(required.toLocaleLowerCase('pt-BR'))) errors.push(`abertura canônica não preservou: ${required}`)
 }
 if (!/não representantes de um povo/iu.test(opening)) errors.push('abertura não separa mercenários do povo orc')
 
 const initial = createInitialState()
 for (const item of initial.inventory) if (!ALLOWED_INVENTORY.has(item)) errors.push(`inventário inicial contém item não autorizado: ${item}`)
-if (!initial.flags.rescueComplete || !initial.flags.ravenFormWitnessed || !initial.flags.mastermindUnknown) errors.push('estado inicial não preserva os fatos do resgate')
-if (initial.presentNpcIds.join(',') !== 'elara') errors.push('participantes iniciais incorretos')
+if (initial.flags.rescueComplete || !initial.flags.mastermindUnknown) errors.push('estado inicial resolveu o resgate antes da intervenção do jogador')
+if (initial.presentNpcIds.join(',') !== 'mercenario-orc,elara') errors.push('participantes iniciais incorretos')
+if (!story.scenes['confronto-na-clareira']?.transition?.branches?.some(({ signal }) => signal === 'abordagem_dialogo')) errors.push('rota de negociação ausente')
+if (!story.scenes['confronto-na-clareira']?.transition?.branches?.some(({ signal }) => signal === 'abordagem_combativa')) errors.push('rota de combate ausente')
+if (!reachable.has('negociacao-na-clareira') || !reachable.has('combate-na-clareira')) errors.push('uma das abordagens da clareira é inalcançável')
+if (/descarga precisa queimou o nó|os três atacantes recuaram/iu.test(opening)) errors.push('abertura ainda resolve o confronto antes do jogador')
 
 const inspectedFiles = [
   'src/App.jsx', 'src/components/DialoguePanel.jsx', 'src/engine/gameEngine.js', 'src/engine/storyDirector.js',

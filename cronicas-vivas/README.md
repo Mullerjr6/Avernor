@@ -4,9 +4,9 @@ Conto interativo contínuo de Avernor. O jogador é sempre **Sirius Kayler** e e
 
 ## História atual
 
-O Capítulo Zero começa com Sirius a cavalo, a caminho de Sylvaris. Depois de ouvir um grito na Floresta Antiga, ele assume a forma de corvo, encontra Elara presa por três mercenários orcs e a resgata. Elara testemunha a transformação. A filiação dos mercenários não é confirmada e o mandante permanece desconhecido.
+O Capítulo Zero começa com Sirius a cavalo, a caminho de Sylvaris. Depois de ouvir um grito na Floresta Antiga, ele assume a forma de corvo, encontra uma jovem elfa presa por três mercenários orcs e pousa diante dos captores. O resgate não acontece numa passagem automática: a primeira intervenção livre do jogador abre uma rota de negociação ou de combate, com cenas, riscos, fatos e memórias diferentes. Elara participa da própria libertação. A filiação dos mercenários não é confirmada e o mandante permanece desconhecido.
 
-A primeira entrada livre acontece depois do resgate. A jornada então atravessa os vestígios da clareira, a estrada florestal, o Caminho das Árvores Ausentes, Lethariel e uma audiência com Aelwen. Há cenas com múltiplos NPCs, uma conversa sem Elara e a abertura do Capítulo Um.
+A primeira entrada livre acontece antes do resgate, no instante em que a clareira espera a decisão de Sirius. Depois das consequências da abordagem escolhida, a jornada atravessa os vestígios da clareira, a estrada florestal, o Caminho das Árvores Ausentes, Lethariel e uma audiência com Aelwen. Há cenas com múltiplos NPCs, uma conversa sem Elara e a abertura do Capítulo Um.
 
 ## Arquitetura narrativa
 

@@ -1,0 +1,1 @@
+import{t as e}from"./index-DLxiO5JN.js";import{n as t}from"./taxonomies-7_XBzsVw.js";var n=e();function r({status:e,compact:r=!1}){let i=t(e);return(0,n.jsx)(`span`,{className:`truth-badge truth-${i.tone} ${r?`truth-compact`:``}`,title:i.description,children:i.label})}export{r as t};

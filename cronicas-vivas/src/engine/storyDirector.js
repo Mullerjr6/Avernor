@@ -3,7 +3,7 @@ import { getCharacterProfile } from '../../../src/ai/characters/characterProfile
 import { applyRelationshipSuggestion, createRelationship, sanitizeRelationship } from '../../../src/ai/relationshipService.js'
 import { FIRST_SCENE_ID, STORY_VERSION, story } from './chapterZero.js'
 
-export const SAVE_KEY = 'avernor-cronicas-vivas-save-v3'
+export const SAVE_KEY = 'avernor-cronicas-vivas-save-v4'
 export const ALLOWED_INVENTORY = new Set(['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'])
 const MAX_HISTORY = 180
 const MAX_RECENT_HISTORY = 32
@@ -17,16 +17,24 @@ function relationshipMap(value = {}) {
   return {
     elara: sanitizeRelationship(value.elara ?? createRelationship()),
     'rainha-aelwen': sanitizeRelationship(value['rainha-aelwen'] ?? createRelationship()),
+    'mercenario-orc': sanitizeRelationship(value['mercenario-orc'] ?? createRelationship()),
   }
 }
 
 function openingEntries(scene) {
-  return scene.opening.map((entry, index) => ({
+  return [{
+    id: `${scene.id}-divider`,
+    type: 'scene-divider',
+    speaker: scene.chapterNumber,
+    text: scene.title,
+    sceneId: scene.id,
+    chapterId: scene.chapterId,
+  }, ...scene.opening.map((entry, index) => ({
     ...entry,
     id: `${scene.id}-opening-${index}`,
     sceneId: scene.id,
     chapterId: scene.chapterId,
-  }))
+  }))]
 }
 
 function codexProgress(discovered, visitedScenes, flags) {
@@ -40,7 +48,7 @@ function codexProgress(discovered, visitedScenes, flags) {
 export function createInitialState() {
   const firstScene = story.scenes[FIRST_SCENE_ID]
   const discovered = unique(['sirius-kayler', 'floresta-antiga', ...firstScene.discoverOnEnter])
-  const flags = { metElara: true, ravenFormWitnessed: true, rescueComplete: true, mastermindUnknown: true }
+  const flags = { clearingFound: true, rescueComplete: false, mastermindUnknown: true }
   return {
     version: STORY_VERSION,
     chapterId: firstScene.chapterId,
@@ -54,8 +62,8 @@ export function createInitialState() {
     relationships: relationshipMap(),
     memoryState: { playerMemory: [], characterMemory: [], relationshipMemory: [] },
     storyMemories: [{
-      id: 'memory-rescue-opening', type: 'witnessed', sourceCharacterId: 'elara', importance: 5,
-      summary: 'Elara viu Sirius assumir a forma de corvo e resgatá-la de três mercenários orcs na Floresta Antiga.',
+      id: 'memory-clearing-arrival', type: 'witnessed', sourceCharacterId: 'mercenario-orc', importance: 4,
+      summary: 'Sirius chegou em forma de corvo à clareira onde três mercenários orcs mantinham uma elfa prisioneira; a forma da intervenção ainda não havia sido escolhida.',
     }],
     discovered,
     presentNpcIds: [...firstScene.participants],
@@ -63,7 +71,7 @@ export function createInitialState() {
     completedScenes: [],
     storyHistory: openingEntries(firstScene),
     recentHistory: [],
-    summary: 'Sirius seguia para Sylvaris quando ouviu um grito, encontrou Elara presa por três mercenários orcs e a resgatou. Elara testemunhou sua forma de corvo. O mandante permanece desconhecido.',
+    summary: 'Sirius seguia para Sylvaris quando ouviu um grito, assumiu a forma de corvo e encontrou uma elfa presa por três mercenários orcs. Ele pousou diante dos captores. A forma da intervenção pertence ao jogador; o mandante permanece desconhecido.',
     recentEffects: [],
     codexProgress: codexProgress(discovered, [firstScene.id], flags),
     startedAt: now(),
@@ -76,13 +84,18 @@ function sanitizeDialogue(reply, scene) {
   return (Array.isArray(reply.dialogue) ? reply.dialogue : [])
     .filter(({ speakerId, text }) => allowed.has(speakerId) && safeText(text))
     .slice(0, scene.multiNpc ? 4 : 2)
-    .map(({ speakerId, speaker, text, action, emotion }) => ({
-      speakerId,
-      speaker: safeText(speaker, 60) || (speakerId === 'rainha-aelwen' ? 'AELWEN' : 'ELARA'),
-      text: safeText(text),
-      action: safeText(action, 320),
-      emotion: safeText(emotion, 32),
-    }))
+    .map(({ speakerId, speaker, text, action, emotion }) => {
+      const displayName = speakerId === 'rainha-aelwen' ? 'AELWEN' : speakerId === 'mercenario-orc' ? 'MERCENÁRIO' : 'ELARA'
+      const candidateAction = safeText(action, 320)
+      const meaningfulAction = candidateAction.length >= 18 && candidateAction.toLocaleLowerCase('pt-BR') !== displayName.toLocaleLowerCase('pt-BR') ? candidateAction : ''
+      return {
+        speakerId,
+        speaker: safeText(speaker, 60) || displayName,
+        text: safeText(text),
+        action: meaningfulAction,
+        emotion: safeText(emotion, 32),
+      }
+    })
 }
 
 function sanitizeSignals(reply, scene) {
@@ -90,8 +103,9 @@ function sanitizeSignals(reply, scene) {
   return unique((Array.isArray(reply.storySignals) ? reply.storySignals : []).filter((signal) => allowed.has(signal))).slice(0, 3)
 }
 
-function fallbackSignal(state, scene, signals) {
+function fallbackSignal(state, scene, signals, source) {
   if (signals.length) return signals
+  if (source !== 'local-canon') return []
   const pending = scene.beats.filter(({ signal }) => !state.completedBeats.includes(`${scene.id}:${signal}`))
   return pending[0] ? [pending[0].signal] : []
 }
@@ -162,17 +176,20 @@ function applySignalEffects(state, scene, signals) {
   return { flags, discovered }
 }
 
-function shouldAdvance(scene, sceneTurns, signals) {
-  if (!scene.transition || scene.transition.target === scene.id) return false
-  return sceneTurns >= scene.maxTurns || (sceneTurns >= scene.minTurns && signals.includes(scene.transition.signal))
+function resolvedTransition(scene, sceneTurns, signals) {
+  if (!scene.transition || sceneTurns < scene.minTurns) return null
+  const branch = scene.transition.branches?.find(({ signal }) => signals.includes(signal))
+  if (branch?.target && branch.target !== scene.id) return branch
+  if (scene.transition.target && scene.transition.target !== scene.id && signals.includes(scene.transition.signal)) return scene.transition
+  return null
 }
 
-function transitionToNext(state, scene) {
-  const nextScene = story.scenes[scene.transition.target]
+function transitionToNext(state, scene, route) {
+  const nextScene = story.scenes[route.target]
   if (!nextScene) return state
   const transitionEntry = {
     id: `transition-${scene.id}-${state.totalTurns}`,
-    type: 'transition', speaker: 'NARRADOR', text: scene.transition.narration,
+    type: 'transition', speaker: 'NARRADOR', text: route.narration,
     sceneId: scene.id, chapterId: scene.chapterId,
   }
   const storyHistory = [...state.storyHistory, transitionEntry, ...openingEntries(nextScene)].slice(-MAX_HISTORY)
@@ -202,11 +219,21 @@ export function applyNarrativeTurn(state, reply, playerText) {
   if (!scene || !safeText(playerText, 900)) return state
   const dialogue = sanitizeDialogue(reply, scene)
   let signals = sanitizeSignals(reply, scene)
-  signals = fallbackSignal(state, scene, signals)
+  signals = fallbackSignal(state, scene, signals, reply.source)
   const completedBeats = unique([...state.completedBeats, ...signals.map((signal) => `${scene.id}:${signal}`)])
   const { flags, discovered } = applySignalEffects(state, scene, signals)
   const relationships = applyRelationships(state.relationships, reply.relationshipSuggestions, scene)
-  const { memoryState, storyMemories } = applyMemories(state, reply, playerText, scene)
+  const memories = applyMemories(state, reply, playerText, scene)
+  let { storyMemories } = memories
+  const memoryState = memories.memoryState
+  const rescueSignal = signals.find((signal) => ['elara_libertada_por_dialogo', 'elara_libertada_por_combate'].includes(signal))
+  if (rescueSignal && !storyMemories.some(({ id }) => id === 'memory-rescue-opening')) {
+    const path = rescueSignal === 'elara_libertada_por_dialogo' ? 'por uma abordagem de diálogo e pressão' : 'durante um confronto direto'
+    storyMemories = [...storyMemories, {
+      id: 'memory-rescue-opening', type: 'witnessed', sourceCharacterId: 'elara', importance: 5,
+      summary: `Elara viu Sirius assumir a forma de corvo e conquistar sua liberdade ${path} diante de três mercenários orcs na Floresta Antiga.`,
+    }].slice(-MAX_STORY_MEMORIES)
+  }
   const { storyHistory, recentHistory } = historyFromTurn(state, reply, playerText, scene, dialogue)
   const sceneTurns = state.sceneTurns + 1
   const recentEffects = (Array.isArray(reply.sceneEffects) ? reply.sceneEffects : [])
@@ -231,7 +258,8 @@ export function applyNarrativeTurn(state, reply, playerText) {
     codexProgress: codexProgress(discovered, state.visitedScenes, flags),
     updatedAt: now(),
   }
-  if (shouldAdvance(scene, sceneTurns, signals)) next = transitionToNext(next, scene)
+  const route = resolvedTransition(scene, sceneTurns, signals)
+  if (route) next = transitionToNext(next, scene, route)
   return next
 }
 

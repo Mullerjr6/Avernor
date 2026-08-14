@@ -9,7 +9,7 @@ export default function TitleScreen({ hasSave, onStart, onContinue }) {
         <div className="title-divider"><span />✦<span /></div>
         <p className="chapter-label">CAPÍTULO ZERO</p>
         <h2>O Grito na Floresta</h2>
-        <p className="title-copy">A caminho de Sylvaris, Sirius ouve um grito entre as árvores. Depois do resgate, cada palavra passa a viver na memória de uma história que continua avançando.</p>
+        <p className="title-copy">A caminho de Sylvaris, Sirius ouve um grito entre as árvores. Na clareira, sua primeira palavra ou seu primeiro gesto decidirá se o encontro começa pela lâmina ou pelo diálogo.</p>
         <div className="title-actions">
           {hasSave && <button className="primary-action" type="button" onClick={onContinue}>Continuar jornada</button>}
           <button className={hasSave ? 'secondary-action' : 'primary-action'} type="button" onClick={onStart}>

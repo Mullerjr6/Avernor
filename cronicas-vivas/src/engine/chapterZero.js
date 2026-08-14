@@ -1,5 +1,5 @@
-export const STORY_VERSION = 3
-export const FIRST_SCENE_ID = 'clareira-depois-do-grito'
+export const STORY_VERSION = 4
+export const FIRST_SCENE_ID = 'confronto-na-clareira'
 
 const line = (speaker, text, speakerId = null) => ({
   type: speaker === 'NARRADOR' ? 'narration' : 'dialogue',
@@ -9,8 +9,8 @@ const line = (speaker, text, speakerId = null) => ({
 })
 
 const scene = (definition) => ({
-  minTurns: 2,
-  maxTurns: 3,
+  minTurns: 3,
+  maxTurns: 6,
   constraints: [],
   discoverOnEnter: [],
   discoverBySignal: {},
@@ -20,18 +20,94 @@ const scene = (definition) => ({
 })
 
 export const scenes = {
+  'confronto-na-clareira': scene({
+    id: 'confronto-na-clareira',
+    chapterId: 'capitulo-zero-o-grito-na-floresta', chapterNumber: 'CAPÍTULO ZERO',
+    stage: 'orcClearing', location: 'Clareira sem nome — Floresta Antiga', mood: 'urgent',
+    title: 'Entre três lâminas', participants: ['mercenario-orc', 'elara'], portraits: ['orc', 'elara'],
+    minTurns: 1, maxTurns: 5, decisionScene: true,
+    objective: 'Entregar a Sirius a decisão sobre como intervir: conversar, enganar, ameaçar, lutar, observar ou combinar estratégias sem resolver o resgate por ele.',
+    opening: [
+      line('NARRADOR', 'Sirius subiu em seu cavalo enquanto a manhã ainda era uma claridade cinzenta sob as copas. Embainhou Fulgarion, conferiu a carta de Normus e o Medalhão da Folha Partida e tomou a estrada na direção do reino élfico. Não levava estandarte nem escolta. A Floresta Antiga fechava-se atrás dele como um arquivo que recusasse leitores apressados.'),
+      line('NARRADOR', 'O grito feminino veio quando a chuva começou: breve, sufocado no meio e próximo o bastante para assustar o cavalo. Sirius desmontou, prendeu as rédeas a um tronco baixo e se desfez numa corrente de sombra e penas. Fulgarion permaneceu junto à sela; aço e couro não acompanhavam a forma do corvo. Ele seguiu a voz por entre ramos molhados até que a mata se abriu.'),
+      line('NARRADOR', 'Três guerreiros orcs mantinham uma jovem elfa imobilizada no centro da clareira. Um prendia os braços dela; outro guardava, enrolada em tecido de ferro meteórico, uma adaga de brilho rúnico; o terceiro vigiava a trilha. As armaduras não compartilhavam brasão, os sinais de clã tinham sido raspados e as moedas no barro vinham de reinos diferentes. Eram mercenários escondendo a origem do pagamento, não representantes de um povo; a identidade do mandante permanecia desconhecida.'),
+      line('NARRADOR', 'O corvo desceu entre a prisioneira e a borda da clareira. Penas tornaram-se sombra; sombra recuperou contorno humano. Sirius pousou perto o bastante para ser visto e longe o bastante para que nenhuma lâmina alcançasse a elfa por acidente. A chuva encontrou seus ombros antes que o último vestígio negro desaparecesse. Os três mercenários se reposicionaram. A decisão ainda não havia sido tomada.'),
+      line('MERCENÁRIO', 'Fique onde está. Esta mulher não lhe pertence, e esta dívida tampouco. Dê meia-volta enquanto ainda pode escolher sair daqui sem carregar o preço dela.', 'mercenario-orc'),
+      line('NARRADOR', 'A jovem ergueu o rosto. Sangue marcava o canto de sua boca, os pulsos traziam o relevo das cordas e os olhos dourados permaneceram atentos apesar da lâmina próxima. Ela não conhecia o homem que acabara de nascer de um corvo. Ainda assim, percebeu o instante exato em que a clareira passou a esperar pela vontade dele.'),
+    ],
+    beats: [
+      { id: 'primeira-intervencao', signal: 'confronto_iniciado', description: 'Sirius se dirige à clareira sem que o narrador escolha sua estratégia.' },
+      { id: 'palavra-como-arma', signal: 'abordagem_dialogo', description: 'Sirius tenta alterar a situação por negociação, ameaça, engano, pergunta ou pressão verbal.' },
+      { id: 'ruptura-do-impasse', signal: 'abordagem_combativa', description: 'Sirius inicia uma ação física, mágica ou tática contra os captores.' },
+    ],
+    transition: {
+      branches: [
+        { signal: 'abordagem_dialogo', target: 'negociacao-na-clareira', narration: 'A primeira arma escolhida não teve fio. A voz de Sirius atravessou a chuva, e os três mercenários precisaram decidir se o desconhecido diante deles era ameaça, testemunha ou oportunidade. A lâmina junto à elfa não baixou, mas também não avançou.' },
+        { signal: 'abordagem_combativa', target: 'combate-na-clareira', narration: 'O impasse se rompeu. A clareira deixou de ser uma negociação possível e se tornou distância, tempo e consequência. Os captores reagiram como indivíduos treinados, mas não como uma unidade que tivesse aprendido a confiar uns nos outros.' },
+      ],
+    },
+    discoverOnEnter: ['floresta-antiga', 'orcs'],
+    flagsBySignal: { confronto_iniciado: { clearingConfrontationStarted: true }, abordagem_dialogo: { clearingApproach: 'dialogue' }, abordagem_combativa: { clearingApproach: 'combat' } },
+    constraints: ['Elara ainda está presa e não foi resgatada.', 'Fulgarion permaneceu junto ao cavalo e não está nas mãos de Sirius.', 'O jogador decide toda fala, ação e estratégia de Sirius.', 'Os três captores são mercenários orcs sem filiação confirmada.', 'O mandante é desconhecido.', 'Nunca atribuir culpa coletiva ao povo orc.'],
+  }),
+
+  'negociacao-na-clareira': scene({
+    id: 'negociacao-na-clareira',
+    chapterId: 'capitulo-zero-o-grito-na-floresta', chapterNumber: 'CAPÍTULO ZERO',
+    stage: 'orcClearing', location: 'Clareira sem nome — sob a chuva', mood: 'guarded',
+    title: 'O preço de uma vida', participants: ['mercenario-orc', 'elara'], portraits: ['orc', 'elara'],
+    minTurns: 2, maxTurns: 6, decisionScene: true,
+    objective: 'Permitir que Sirius negocie de verdade, descubra limites dos captores e construa uma saída sem garantir que toda palavra seja aceita.',
+    opening: [
+      line('NARRADOR', 'O mercenário à frente não respondeu depressa. Olhou para o companheiro que guardava a adaga, depois para a trilha pela qual deveriam fugir. O atraso revelou uma fissura: os três tinham recebido o mesmo pagamento, não a mesma coragem.'),
+      line('MERCENÁRIO', 'Palavras custam tempo, e tempo é a única moeda que não nos pagaram para perder. Fale, então. Mas entenda isto: não direi o nome de quem não conheço, e não soltarei a prisioneira por causa de uma promessa vazia.', 'mercenario-orc'),
+      line('NARRADOR', 'A elfa permaneceu imóvel, mas seus dedos buscaram discretamente o nó inferior. Ela não precisava que Sirius prometesse salvá-la; precisava que mantivesse os olhos dos captores longe de suas mãos por algumas respirações.'),
+    ],
+    beats: [
+      { id: 'motivo-testado', signal: 'termos_expostos', description: 'Os termos, o medo ou a motivação prática dos mercenários são pressionados.' },
+      { id: 'fissura-entre-captores', signal: 'discordia_entre_mercenarios', description: 'A negociação explora a falta de confiança entre os três indivíduos.' },
+      { id: 'liberdade-conquistada', signal: 'elara_libertada_por_dialogo', description: 'Elara obtém a abertura necessária por retirada, rendição, engano ou acordo sem autoria inventada para Sirius.' },
+    ],
+    transition: { target: 'clareira-depois-do-grito', signal: 'elara_libertada_por_dialogo', narration: 'O nó deixou de cumprir sua função antes que a conversa perdesse a última utilidade. Elara alcançou a Adaga do Passo Velado; prata rúnica acendeu sob a chuva. Os mercenários recuaram pela trilha oriental, levando consigo versões diferentes do que acabara de acontecer — e nenhum nome verificável do mandante.' },
+    discoverBySignal: { termos_expostos: ['orcs'], elara_libertada_por_dialogo: ['elara', 'adaga-do-passo-velado'] },
+    flagsBySignal: { termos_expostos: { mercenaryTermsExposed: true }, discordia_entre_mercenarios: { mercenaryDiscordFound: true }, elara_libertada_por_dialogo: { rescueComplete: true, ravenFormWitnessed: true, rescuePath: 'dialogue', mastermindUnknown: true } },
+    constraints: ['O mercenário não conhece a identidade comprovada do mandante.', 'Negociação não significa obediência automática.', 'Elara participa da própria libertação quando surge oportunidade.', 'Sirius não é obrigado a prometer, pagar ou perdoar.', 'Nenhum acordo pode estabelecer culpa coletiva contra orcs.'],
+  }),
+
+  'combate-na-clareira': scene({
+    id: 'combate-na-clareira',
+    chapterId: 'capitulo-zero-o-grito-na-floresta', chapterNumber: 'CAPÍTULO ZERO',
+    stage: 'orcClearing', location: 'Clareira sem nome — círculo de raízes', mood: 'urgent',
+    title: 'O trovão sob as raízes', participants: ['mercenario-orc', 'elara'], portraits: ['orc', 'elara'],
+    minTurns: 2, maxTurns: 6, decisionScene: true,
+    objective: 'Resolver o confronto em ações sucessivas, respeitando limites mágicos, posição da refém e cada movimento declarado pelo jogador.',
+    opening: [
+      line('NARRADOR', 'A primeira mudança de peso percorreu os três captores como uma ordem sem voz. Um fechou a distância; outro puxou a elfa para a linha da lâmina; o terceiro procurou o flanco onde as raízes ofereciam cobertura. A clareira não era um campo vazio: cada raio mal conduzido podia alcançar a prisioneira ou incendiar madeira viva.'),
+      line('MERCENÁRIO', 'Então escolha depressa, corvo. O próximo movimento decide quem sai daqui andando.', 'mercenario-orc'),
+      line('NARRADOR', 'Sob a chuva, a magia de tempestade tinha umidade suficiente para responder. Faltava-lhe apenas a direção que nenhum narrador escolheria por Sirius.'),
+    ],
+    beats: [
+      { id: 'primeiro-movimento', signal: 'combate_assumido', description: 'A ação declarada por Sirius produz uma reação concreta dos adversários.' },
+      { id: 'refem-protegida', signal: 'elara_protegida_no_confronto', description: 'A posição de Elara e o risco às raízes influenciam a tática.' },
+      { id: 'liberdade-conquistada', signal: 'elara_libertada_por_combate', description: 'Elara recupera liberdade e participa do desfecho sem destino letal obrigatório para os mercenários.' },
+    ],
+    transition: { target: 'clareira-depois-do-grito', signal: 'elara_libertada_por_combate', narration: 'Quando a última ameaça imediata cedeu, Elara já não estava entre braços e lâminas. A Adaga do Passo Velado voltou à mão de sua dona. Os mercenários sobreviventes romperam para leste, carregando ferimentos, medo e o silêncio comprado por um mandante ainda sem rosto.' },
+    discoverBySignal: { combate_assumido: ['sirius-kayler'], elara_libertada_por_combate: ['elara', 'adaga-do-passo-velado'] },
+    flagsBySignal: { combate_assumido: { combatOccurred: true }, elara_protegida_no_confronto: { protectedElaraInCombat: true }, elara_libertada_por_combate: { rescueComplete: true, ravenFormWitnessed: true, rescuePath: 'combat', mastermindUnknown: true } },
+    constraints: ['Apenas ações explicitamente declaradas pelo jogador podem ser atribuídas a Sirius.', 'Fulgarion não está disponível nesta clareira.', 'A magia de tempestade pode ferir Elara e raízes vivas se usada sem precisão.', 'O destino dos mercenários não precisa ser letal.', 'O mandante permanece desconhecido.'],
+  }),
+
   'clareira-depois-do-grito': scene({
     id: 'clareira-depois-do-grito',
     chapterId: 'capitulo-zero-o-grito-na-floresta', chapterNumber: 'CAPÍTULO ZERO',
     stage: 'orcClearing', location: 'Clareira sem nome — Floresta Antiga', mood: 'alert',
-    title: 'O grito entre as folhas', participants: ['elara'], portraits: ['elara'],
-    objective: 'Transformar o resgate em um primeiro entendimento sem apagar o perigo que ainda cerca a clareira.',
+    title: 'Depois da escolha', participants: ['elara'], portraits: ['elara'],
+    objective: 'Permitir que Elara e Sirius reconheçam o que aconteceu, inclusive a abordagem escolhida, antes de converter o confronto em investigação.',
     opening: [
-      line('NARRADOR', 'Sirius subiu em seu cavalo enquanto a manhã ainda era uma claridade cinzenta sob as copas. Embainhou Fulgarion, conferiu a carta de Normus e o Medalhão da Folha Partida e tomou a estrada na direção do reino élfico. Não levava estandarte nem escolta. A Floresta Antiga fechava-se atrás dele como um arquivo que recusasse leitores apressados.'),
-      line('NARRADOR', 'O grito feminino veio quando a chuva começou: breve, sufocado no meio e próximo o bastante para assustar o cavalo. Sirius desmontou, prendeu as rédeas a um tronco baixo e se desfez numa corrente de sombra e penas. Na forma de corvo, seguiu a voz até uma clareira onde três guerreiros orcs mantinham uma jovem elfa imobilizada. As armaduras não compartilhavam brasão, os sinais de clã tinham sido raspados e as moedas caídas no barro vinham de reinos diferentes. Eram mercenários tentando esconder a origem do pagamento, não representantes de um povo.'),
-      line('NARRADOR', 'O corvo mergulhou. Sombra tornou-se mão atrás da prisioneira; uma descarga precisa queimou o nó sem tocar a pele. A elfa ganhou duas respirações, recuperou junto a uma pedra branca a Adaga do Passo Velado e desapareceu num lampejo prateado. Reapareceu atrás do captor. Sirius conduziu o trovão pelo chão, longe das raízes vivas, e os três atacantes recuaram levando um companheiro atordoado. Fugiram para leste com o nome do mandante ainda oculto.'),
-      line('NARRADOR', 'Quando o último ruído morreu, a jovem que Sirius conheceria como Elara manteve a adaga baixa, mas não guardada. Sangue marcava o canto de sua boca; os pulsos traziam o relevo das cordas. Ela olhou primeiro para as penas negras dissolvendo-se nos ombros de Sirius, depois para os olhos violetas que permaneciam humanos em ambas as formas. Alívio e suspeita dividiram o mesmo fôlego.'),
-      line('ELARA', 'Eu vi o corvo tornar-se homem. Também vi você escolher onde o raio cairia. Antes que eu decida qual dessas coisas me assusta mais: quem é você?', 'elara'),
+      line('NARRADOR', 'A clareira conservou as consequências da escolha de Sirius. A jovem estava livre, a adaga rúnica voltara à mão dela e os três mercenários já não controlavam o centro do terreno. O modo como aquilo fora alcançado — palavra, cálculo, violência ou uma combinação dos três — permaneceria na memória dos dois e mudaria a confiança possível entre eles.'),
+      line('NARRADOR', 'Sangue marcava o canto da boca da elfa; os pulsos traziam o relevo das cordas. Ela conferiu a mata oriental, onde os captores haviam desaparecido ou deixado de oferecer ameaça imediata, e só então voltou os olhos dourados para Sirius. A forma de corvo ainda era uma pergunta. A decisão tomada na clareira era outra, talvez mais importante.'),
+      line('ELARA', 'Meu nome é Elara. Você me deu a abertura de que eu precisava, mas não vou reduzir o que aconteceu a uma dívida simples. Quero entender a escolha que fez aqui — e quero saber como devo chamar o homem que a fez.', 'elara'),
+      line('NARRADOR', 'Ela manteve a adaga baixa, sem escondê-la nem apontá-la. Gratidão, dor e cautela ocupavam o mesmo gesto. A conversa começava depois de uma consequência escolhida pelo jogador, não no lugar dela.'),
     ],
     beats: [
       { id: 'primeiras-palavras', signal: 'primeiras_palavras', description: 'Elara mede a voz e as intenções de Sirius.' },
@@ -42,7 +118,7 @@ export const scenes = {
     discoverOnEnter: ['sirius-kayler', 'elara', 'floresta-antiga', 'adaga-do-passo-velado'],
     discoverBySignal: { identidade_tratada: ['sirius-kayler'], perigo_reconhecido: ['sylvaris'] },
     flagsBySignal: { primeiras_palavras: { metElara: true }, identidade_tratada: { identityDiscussed: true }, perigo_reconhecido: { mastermindUnknown: true } },
-    constraints: ['Elara testemunhou a transformação em corvo.', 'Os três atacantes eram mercenários orcs sem filiação confirmada.', 'O mandante é desconhecido.', 'O resgate já aconteceu antes da primeira fala livre do jogador.'],
+    constraints: ['Elara testemunhou a transformação em corvo.', 'A forma do resgate deve respeitar state.flags.rescuePath.', 'Os três atacantes eram mercenários orcs sem filiação confirmada.', 'O mandante é desconhecido.', 'Elara possui olhos dourados, nunca verdes.'],
   }),
 
   'vestigios-do-contrato': scene({

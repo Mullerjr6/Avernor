@@ -1,6 +1,21 @@
-const names = { elara: 'ELARA', 'rainha-aelwen': 'AELWEN' }
+const names = { elara: 'ELARA', 'rainha-aelwen': 'AELWEN', 'mercenario-orc': 'MERCENÁRIO' }
 
 const sceneVoices = {
+  'confronto-na-clareira': [
+    'A intervenção de Sirius alcançou primeiro o mercenário que guardava a trilha. Ele moveu o pé para fora da lama, buscando terreno firme, enquanto o captor junto à elfa ajustava a lâmina sem feri-la. O terceiro olhou para as copas, como se ainda esperasse encontrar nelas o corvo que acabara de desaparecer.',
+    'A chuva engrossou sobre as folhas largas e tornou visível a distância entre os três homens: próximos o bastante para cumprir o contrato, distantes demais para protegerem uns aos outros sem abandonar a prisioneira. A clareira oferecia essa falha a quem soubesse usá-la.',
+    'Nenhum brasão respondeu por eles. Havia apenas couro molhado, ferro meteórico, três respirações desiguais e uma mulher presa que acompanhava cada mudança de atenção. O próximo instante pertenceria à estratégia declarada por Sirius.',
+  ],
+  'negociacao-na-clareira': [
+    'O mercenário ouviu sem a impaciência teatral de um salteador. Seus olhos foram até a saída oriental antes de voltarem a Sirius; sobreviver ao contrato começava a disputar espaço com cumpri-lo.',
+    'A resposta dividiu os captores. O homem da adaga queria encerrar a conversa, mas o que segurava Elara afrouxou involuntariamente a mão quando percebeu que talvez tivesse recebido menos informações que os companheiros.',
+    'Elara encontrou no desacordo uma respiração de vantagem. Seus dedos alcançaram o nó inferior, e o fio prateado escondido sob a manga respondeu com um brilho tão breve que poderia ser confundido com chuva.',
+  ],
+  'combate-na-clareira': [
+    'A ação declarada encontrou uma clareira cheia de limites. O captor mais próximo reagiu; os outros precisaram escolher entre proteger a fuga, manter Elara presa e enfrentar o desconhecido sem a formação que o pagamento fingira comprar.',
+    'Raízes molhadas desviaram passos, e o tecido de ferro meteórico caiu meio palmo para o lado da adaga rúnica. Elara viu a abertura, mas ainda havia uma lâmina entre seus pulsos e a liberdade.',
+    'O confronto chegou ao ponto em que força sem precisão cobraria o preço da pessoa que pretendia proteger. Elara preparou o próprio movimento, esperando apenas que a atenção dos captores se partisse uma última vez.',
+  ],
   'clareira-depois-do-grito': [
     'Elara sustentou o olhar, ainda equilibrando gratidão e cautela. As poucas palavras de Sirius não apagavam a violência da clareira, mas mudavam a forma como ela media o desconhecido diante de si.',
     'O tremor nos pulsos de Elara reapareceu e foi contido quando ela fechou os dedos ao redor da bainha. Ela ouviu até o fim antes de responder, como se a ordem das palavras pudesse revelar uma intenção que a magia não mostrava.',
@@ -50,6 +65,16 @@ const sceneVoices = {
 
 const npcSpeech = {
   elara: {
+    'negociacao-na-clareira': [
+      'Eles conheciam minha rota, não meu nome. Isso significa que foram pagos por uma posição e uma hora, não por uma história completa. Se pretende mantê-los falando, pergunte o que lhes prometeram quando chegassem à fronteira; um caminho de fuga vale mais para eles do que outra ameaça.',
+      'O homem atrás de mim apertou a corda quando o outro mencionou pagamento. Não receberam as mesmas instruções. Continue separando aquilo que cada um acredita saber; eu preciso de duas respirações em que nenhum deles esteja olhando para minhas mãos.',
+      'Agora. O nó cedeu e minha adaga está a um passo. Não escolha por mim o que farei com ela, mas faça com que o homem da trilha precise olhar para você quando eu me mover.',
+    ],
+    'combate-na-clareira': [
+      'Não use o centro da clareira. As raízes conduzem a descarga até onde estou presa. Force o homem da adaga para a pedra branca; ali o solo é seco e os outros dois terão de quebrar a formação para alcançá-lo.',
+      'O ferro está soltando da bainha. Mais uma abertura e consigo alcançar a runa, mas o captor atrás de mim ainda usa meu corpo como cobertura. Não tente adivinhar meu salto; crie distância e eu escolherei onde reaparecer.',
+      'A mão dele abriu. Minha adaga voltou a responder e eu tenho um destino seguro à vista. Mantenha a atenção dos outros longe da pedra branca por uma respiração — a próxima escolha será minha.',
+    ],
     'clareira-depois-do-grito': [
       'Não vou transformar o resgate numa dívida, mas também não vou fingir que ele não diz nada sobre você. Eu estava contando respirações quando vi um corvo cair entre três lâminas e escolher precisão em vez de espetáculo. Diga o que deseja que eu saiba agora; o restante pode continuar desconhecido até que exista confiança para outra pergunta.',
       'Meu nome é Elara. Isso é verdade suficiente para este instante. Eu estava examinando uma rota que deveria permanecer segura e encontrei homens que conheciam meus passos melhor do que deveriam. Se continuarmos conversando, prefiro que cada resposta seja oferecida, não arrancada.',
@@ -91,6 +116,23 @@ const npcSpeech = {
       'Depois da clareira, eu teria chamado isto apenas de investigação. Agora sei que também procuramos o ponto em que a história de Normus encontra os passos dos mercenários. Se não houver ligação, aceitaremos a ausência. Se houver, precisaremos decidir quem pode ouvi-la sem transformá-la em arma.',
     ],
   },
+  'mercenario-orc': {
+    'confronto-na-clareira': [
+      'Você viu três armas e uma prisioneira; não viu o contrato. Pode falar, recuar ou descobrir quanto vale essa distância sem a espada que deixou junto ao cavalo. Mas não espere que entreguemos nosso único meio de sair vivos apenas porque surgiu das penas com olhos de tempestade.',
+      'Não confunda nossa cautela com indecisão. Fomos pagos para cruzar a fronteira com ela respirando, e isso ainda é possível. O que não estava no acordo era enfrentar um metamórfico. Diga o que veio buscar antes que meus companheiros decidam que a resposta está nas suas mãos.',
+      'A chuva está apagando rastros e nossa paciência junto com eles. Se existe uma proposta, torne-a concreta. Se existe um ataque, assuma-o. Permanecer entre os dois só aumenta a chance de alguém nesta clareira cometer um erro irreversível.',
+    ],
+    'negociacao-na-clareira': [
+      'Quer termos? Recebemos metade antes de entrar e receberíamos o restante numa passagem a leste. O intermediário ocultou rosto, voz e selo. Não posso vender um nome que nunca me deram. Posso negociar a mulher, a rota de saída e o silêncio sobre quem decidiu ouvir antes de atacar.',
+      'Meu companheiro acredita que o pagamento nos espera. Eu acredito que a trilha já pode estar fechada e que fomos contratados também para carregar a culpa. Se quer que eu solte a elfa, ofereça uma saída que os outros dois consigam aceitar sem me atravessarem pelas costas.',
+      'Chega. Levaremos nossas armas e nenhum juramento seu. A elfa fica, o ferro fica e cada lado conserva uma razão para não transformar esta manhã em três cadáveres. Se houver perseguição antes da trilha oriental, o acordo termina.',
+    ],
+    'combate-na-clareira': [
+      'Sem espada e cercado por raízes vivas. Talvez seja poderoso; isso não o torna imune ao espaço entre um raio e a pessoa que pretende salvar. Dê outro passo sem calcular esse intervalo e todos perderemos aquilo que viemos buscar.',
+      'Ele está tentando separar a formação. Fechem a trilha, tirem a adaga do alcance dela e não ofereçam ao raio uma linha única. Nosso pagamento não vale morrer, mas fugir agora vale menos se deixarmos uma testemunha armada atrás de nós.',
+      'Recuem para leste. O contrato acabou no instante em que perdemos o controle da prisioneira. Quem pagou por isto pode cobrar de homens vivos — se tiver coragem de mostrar o rosto.',
+    ],
+  },
   'rainha-aelwen': {
     'audiencia-da-seiva-clara': [
       'Eu reconheço Sirius Kayler, o medalhão que carrega e a responsabilidade que assumi diante de Normus. Não reconheço autoridade para decidir seus sentimentos, seus passos ou o uso que fará da herança. Posso preservar um pacto e ainda admitir que preservá-lo possui custos. Pergunte; quando eu não puder responder, direi que estou guardando, não que desconheço.',
@@ -111,6 +153,7 @@ const npcSpeech = {
 }
 
 const openingIntentResponses = {
+  identityAndCondition: 'Se prefere guardar o nome, guardarei a pergunta. Quanto a mim: consigo caminhar. Meus pulsos estão feridos e o ferro deles drenou calor da adaga, mas não preciso que finja que isso não existe nem que decida por mim o que sou capaz de fazer. Pode me chamar de Elara; eu o chamarei de viajante até que escolha outra coisa.',
   identityRefusal: 'Ninguém atravessa três lâminas por uma desconhecida e continua sendo ninguém. Mas não preciso arrancar um nome de quem acabou de me devolver a liberdade. Até que escolha outro, vou chamá-lo de viajante — e julgá-lo pelo que fizer depois desta clareira, não pelo título que recusou.',
   reasonAway: 'Eu estava inspecionando uma antiga rota de refugiados nas margens de Sylvaris. Alguns marcadores de passagem foram removidos, e uma comitiva anunciaria minha posição antes que eu descobrisse quem os tocou. Vim com discrição e encontrei uma emboscada preparada para minha adaga. Estar longe de casa foi escolha minha; ser encontrada por aqueles três, não.',
   elaraIdentity: 'Elara. Sou de Lethariel e respondo perante os Círculos da Memória de Sylvaris. Meu título pode esperar; nesta clareira ele atrairia mais perigo do que respeito. Por enquanto, basta saber que a rota que eu examinava deveria ser secreta e que alguém pagou para conhecê-la.',
@@ -122,6 +165,7 @@ const openingIntentResponses = {
 }
 
 const openingIntentNarration = {
+  identityAndCondition: 'Elara reconheceu as duas partes da resposta: o limite imposto ao nome e a preocupação dirigida aos ferimentos. A adaga baixou um pouco mais. Ela avaliou os próprios pulsos antes de responder, sem usar a dor para invadir o silêncio que Sirius escolhera manter.',
   identityRefusal: 'A recusa não soou como apresentação, e Elara teve o cuidado de não tratá-la como uma. A ponta da adaga desceu mais um dedo, não por confiança completa, mas em reconhecimento ao limite que Sirius acabara de impor.',
   reasonAway: 'A pergunta alcançou uma preocupação que Elara já carregava antes da emboscada. Seus olhos seguiram por um instante a trilha oriental; quando voltou a encará-lo, a cautela tinha cedido lugar à precisão de quem decidira explicar a própria escolha.',
   elaraIdentity: 'Elara hesitou apenas no espaço entre oferecer um nome e entregar uma posição política. A floresta ainda podia esconder ouvidos, e o título que carregava explicaria demais a qualidade da emboscada.',
@@ -142,11 +186,14 @@ function containsAny(text, phrases) {
 
 function openingIntent(text) {
   const value = normalize(text)
-  if (containsAny(value, ['nao sou ninguem', 'sou ninguem', 'meu nome nao importa', 'nao importa quem sou', 'prefiro nao dizer meu nome'])) return 'identityRefusal'
+  const refusesIdentity = containsAny(value, ['nao sou ninguem', 'sou ninguem', 'meu nome nao importa', 'nao importa quem sou', 'prefiro nao dizer meu nome'])
+  const asksCondition = containsAny(value, ['esta bem', 'esta ferida', 'machucada', 'ferimentos', 'consegue andar', 'precisa de ajuda'])
+  if (refusesIdentity && asksCondition) return 'identityAndCondition'
+  if (refusesIdentity) return 'identityRefusal'
   if (containsAny(value, ['longe de casa', 'faz aqui', 'fazendo aqui', 'por aqui', 'fora de casa', 'saiu de casa', 'veio ate aqui', 'porque veio', 'por que veio'])) return 'reasonAway'
   if (containsAny(value, ['quem e voce', 'qual seu nome', 'como se chama', 'quem voce e'])) return 'elaraIdentity'
   if (containsAny(value, ['quem eram', 'quem sao eles', 'quem eram eles', 'orcs', 'atacantes', 'mercenarios', 'mandante', 'pagou por isso'])) return 'attackers'
-  if (containsAny(value, ['esta bem', 'esta ferida', 'machucada', 'ferimentos', 'consegue andar', 'precisa de ajuda'])) return 'condition'
+  if (asksCondition) return 'condition'
   if (containsAny(value, ['corvo', 'transformacao', 'transformar', 'magia', 'raio', 'poder'])) return 'ravenMagic'
   if (containsAny(value, ['sylvaris', 'lethariel', 'reino elfico', 'para onde', 'onde fica', 'caminho'])) return 'destination'
   if (containsAny(value, ['posso ajudar', 'vou ajudar', 'o que fazemos', 'que faremos', 'vamos sair', 'vamos investigar', 'como posso'])) return 'help'
@@ -159,18 +206,54 @@ function isQuestionLike(text) {
   return /\?\s*$/u.test(raw) || /^(oq|o que|por que|porque|quem|onde|aonde|como|quando|qual|quais|quanto|quantos|sera que|voce sabe)\b/u.test(value)
 }
 
+function declaresAttack(text) {
+  return /\b(ataco|avan[cç]o|golpeio|derrubo|conjuro|disparo|descarrego|salto contra|parto para cima|uso (?:um |o )?raio|lan[cç]o (?:um |o )?raio)\b/u.test(normalize(text))
+}
+
 function dialogueFor(scene, index, intent) {
-  return scene.participants.map((speakerId) => {
+  const respondingParticipants = scene.id === 'confronto-na-clareira' ? ['mercenario-orc'] : scene.participants
+  return respondingParticipants.map((speakerId) => {
     const variants = npcSpeech[speakerId]?.[scene.id]
     const contextual = scene.id === 'clareira-depois-do-grito' && speakerId === 'elara' ? openingIntentResponses[intent] : ''
+    const actionBySpeaker = {
+      elara: 'Elara contém o primeiro impulso de responder e observa o rosto de Sirius antes de escolher as palavras.',
+      aelwen: 'Aelwen sustenta o silêncio por um instante, atento ao que a pergunta revela além de seu sentido imediato.',
+      'mercenario-orc': 'O mercenário consulta os companheiros com um movimento breve dos olhos; a resposta não pertence inteiramente a nenhum dos três.',
+    }
     return {
       speakerId,
       speaker: names[speakerId],
       text: contextual || variants?.[Math.min(index, variants.length - 1)] || 'Não tenho uma resposta completa. Posso dizer apenas o que testemunhei e separar isso do que ainda permanece desconhecido.',
-      action: index === 1 && !contextual ? `${names[speakerId] === 'AELWEN' ? 'Aelwen' : 'Elara'} deixa o silêncio permanecer por um instante antes de continuar.` : '',
+      action: index === 1 && !contextual ? actionBySpeaker[speakerId] : '',
       emotion: index === 0 ? 'guarded' : index === 1 ? 'reflective' : 'firm',
     }
   })
+}
+
+function afterNarrationFor(scene, index) {
+  const sceneSpecific = {
+    'confronto-na-clareira': [
+      'A chuva escorreu pela mão do captor e alcançou o punho da faca. Ele precisou ajustar a pressão; por um segundo, a elfa ganhou espaço para mover dois dedos contra o nó. A fala de Sirius não a libertara, mas já havia alterado o que cada um podia arriscar.',
+      'Um dos mercenários procurou a trilha com os olhos, outro mediu a distância até Sirius. A aparente unidade entre eles começava a revelar três medos diferentes, e a prisioneira acompanhava cada fissura sem desperdiçar movimento.',
+      'A clareira chegara ao ponto em que hesitar também seria uma escolha. O próximo gesto decidiria se o intervalo conquistado pela palavra terminaria em passagem, armadilha ou sangue.',
+    ],
+    'negociacao-na-clareira': [
+      'Elara aproveitou a atenção desviada e girou o pulso dentro da corda molhada. O nó cedeu apenas a largura de uma unha. Sirius viu; os mercenários, ocupados em calcular o preço da própria retirada, não.',
+      'A proposta não trouxe confiança, mas distribuiu a dúvida. O homem da trilha queria partir, o da adaga queria receber outra vez, e o captor começava a suspeitar que nenhuma soma compraria uma saída limpa daquela mata.',
+      'Quando a resposta terminou, já não havia um único acordo possível, mas três vontades conflitantes sob a mesma armadura sem brasão. Era a brecha de que Elara precisava.',
+    ],
+    'combate-na-clareira': [
+      'O impacto não encerrou a luta; reorganizou-a. Lama, raízes e a posição da refém passaram a importar tanto quanto força, e cada guerreiro precisou escolher entre proteger o contrato e proteger a própria garganta.',
+      'Elara acompanhou o ritmo do confronto com os pulsos presos, guardando energia para o instante em que uma abertura fosse real. Sirius percebeu que vencer depressa seria menos importante do que impedir uma lâmina desesperada.',
+      'A última formação dos mercenários rompeu-se. Restava transformar vantagem em libertação antes que o medo tornasse qualquer um deles imprevisível.',
+    ],
+  }
+
+  return sceneSpecific[scene.id]?.[index] || [
+    'A resposta não encerrou o assunto. Mudou, porém, a maneira como os presentes passaram a ocupar o mesmo silêncio.',
+    'O que fora dito permaneceu entre eles como contexto para a pergunta seguinte, e não como uma frase destinada a ser repetida.',
+    'A conversa produzira movimento suficiente para que o mundo ao redor voltasse a exigir atenção. O próximo lugar não apagaria o que fora dito ali.',
+  ][index]
 }
 
 export function localReply({ text, state, scene }) {
@@ -178,25 +261,37 @@ export function localReply({ text, state, scene }) {
   const beat = scene.beats[Math.min(index, scene.beats.length - 1)]
   const question = isQuestionLike(text)
   const intent = scene.id === 'clareira-depois-do-grito' ? openingIntent(text) : ''
-  const narration = openingIntentNarration[intent] || sceneVoices[scene.id]?.[index] || 'A fala de Sirius alterou o silêncio da cena. Quem estava presente reagiu ao significado antes de procurar uma resposta segura.'
-  const afterNarrations = [
-    'Nenhuma conclusão fechou o assunto. A resposta abriu espaço para a fala seguinte e tornou um pouco mais legível a distância entre cautela e confiança.',
-    'A conversa não resolveu tudo, mas já não estava no mesmo lugar. O que fora dito permaneceu entre os presentes como contexto para a próxima pergunta, não como frase destinada a ser repetida.',
-    'A conversa havia produzido movimento suficiente para que o mundo ao redor voltasse a exigir atenção. O próximo lugar não apagaria o que fora dito ali.',
-  ]
+  const combatDeclared = scene.id === 'confronto-na-clareira' && declaresAttack(text)
+  const narration = combatDeclared
+    ? 'Sirius rompeu a distância e a descarga encontrou o chão encharcado entre os captores. O clarão não escolheu um inimigo por ele: arrancou sombras das raízes, obrigou os três a proteger os olhos e transformou a posição de cada corpo numa urgência.'
+    : openingIntentNarration[intent] || sceneVoices[scene.id]?.[index] || 'A intervenção de Sirius alterou o equilíbrio da cena. Quem estava presente reagiu primeiro ao significado concreto, sem transformar suas palavras numa abstração conveniente.'
+  const dialogue = combatDeclared
+    ? [{
+        speakerId: 'mercenario-orc',
+        speaker: names['mercenario-orc'],
+        text: 'Fechem o flanco e mantenham a prisioneira atrás da lâmina! Se ele quiser tirá-la daqui, terá de atravessar os três — e fazê-lo sem acertar a mulher que veio salvar.',
+        action: 'O captor puxa Elara para trás, enquanto os outros dois abandonam a ameaça ensaiada e procuram terreno firme.',
+        emotion: 'alarmed',
+      }]
+    : dialogueFor(scene, index, intent)
+  const afterNarration = combatDeclared
+    ? 'O trovão não resolveu o confronto; revelou sua geometria. Elara baixou o centro do corpo para não ser usada como escudo, o homem da trilha avançou cedo demais e o portador da adaga hesitou entre preservar o prêmio e sobreviver. Pela primeira vez, os três já não agiam como se tivessem o controle.'
+    : afterNarrationFor(scene, index)
   return {
     narration,
-    dialogue: dialogueFor(scene, index, intent),
-    afterNarration: afterNarrations[index],
+    dialogue,
+    afterNarration,
     sceneEffects: [{ type: index === 2 ? 'presence' : 'ambience', value: index === 2 ? 'A cena se aproxima de uma transição orgânica.' : 'O ambiente acompanha a tensão sem decidir por Sirius.' }],
     relationshipSuggestions: scene.participants.map((characterId) => ({ characterId, delta: { affinity: 0, trust: question ? 1 : 0, respect: 1, romance: 0, tension: 0 } })),
     memorySuggestions: scene.participants.map((characterId) => ({
       characterId,
       type: 'conversation',
-      summary: `${names[characterId] === 'AELWEN' ? 'Aelwen' : 'Elara'} recordou a fala de Sirius durante “${scene.title}” como parte da relação, não como fato canônico.`,
+      summary: `${names[characterId]} recordou a intervenção de Sirius durante “${scene.title}” como parte da relação, não como fato canônico.`,
       importance: index === 2 ? 3 : 2,
     })),
-    storySignals: beat ? [beat.signal] : [],
+    storySignals: scene.id === 'confronto-na-clareira'
+      ? ['confronto_iniciado', combatDeclared ? 'abordagem_combativa' : 'abordagem_dialogo']
+      : beat ? [beat.signal] : [],
     source: 'local-canon',
   }
 }

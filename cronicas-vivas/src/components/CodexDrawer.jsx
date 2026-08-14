@@ -1,6 +1,6 @@
 import { canonById } from '../data/knowledge.js'
 
-const characterNames = { elara: 'Elara', 'rainha-aelwen': 'Aelwen' }
+const characterNames = { elara: 'Elara', 'rainha-aelwen': 'Aelwen', 'mercenario-orc': 'Mercenário da clareira' }
 
 export default function CodexDrawer({ discovered, inventory, relationships, memories = [], progress = {}, open, onClose }) {
   const records = discovered.map((id) => canonById[id]).filter(Boolean)
