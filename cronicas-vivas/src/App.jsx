@@ -115,6 +115,7 @@ export default function App() {
             inventory={game.inventory}
             relationships={game.relationships}
             memories={game.storyMemories}
+            playerActions={game.playerActions}
             progress={game.codexProgress}
             open
             onClose={() => setCodexOpen(false)}

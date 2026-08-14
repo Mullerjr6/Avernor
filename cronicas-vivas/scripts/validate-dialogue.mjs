@@ -1,6 +1,7 @@
 import { story } from '../src/engine/chapterZero.js'
 import { localReply } from '../src/engine/localNarrator.js'
 import { SAVE_KEY, applyNarrativeTurn, createInitialState, loadState, persistState } from '../src/engine/gameEngine.js'
+import { narrativeInput, parsePlayerInput } from '../src/engine/playerInput.js'
 
 const errors = []
 const storage = new Map()
@@ -44,6 +45,31 @@ const initialText = initial.storyHistory.map(({ text }) => text).join(' ')
 if (!/três guerreiros orcs/iu.test(initialText)) errors.push('nova jornada não encontra os três mercenários')
 if (!/A decisão ainda não havia sido tomada/iu.test(initialText)) errors.push('abertura não entrega a decisão ao jogador')
 if (initial.flags.rescueComplete) errors.push('resgate começou concluído')
+
+// Aspas separam fala e ação, preservam a ação na continuidade e não concedem resultados sobre terceiros.
+const quotedText = 'Foi escolha de vocês. "Sirius usa seus poderes para lançar um raio no mercenário que segura Elara."'
+const quotedInput = parsePlayerInput(quotedText)
+if (quotedInput.speech !== 'Foi escolha de vocês.') errors.push('texto fora das aspas não foi preservado como fala')
+if (quotedInput.actions.length !== 1 || !/lançar um raio/iu.test(quotedInput.actions[0])) errors.push('texto entre aspas não foi reconhecido como ação')
+if (!/\[FALA DECLARADA POR SIRIUS\]/u.test(narrativeInput(quotedInput)) || !/\[AÇÃO 1 DECLARADA POR SIRIUS\]/u.test(narrativeInput(quotedInput))) errors.push('entrada estruturada não separou fala e ação para o narrador')
+const curvedInput = parsePlayerInput('“Sirius abre a mão.” e então pergunta se todos compreenderam.')
+if (curvedInput.actions[0] !== 'Sirius abre a mão.' || !/então pergunta/iu.test(curvedInput.speech)) errors.push('aspas curvas não foram interpretadas')
+const unmatchedInput = parsePlayerInput('Sirius diz "a frase ficou aberta')
+if (unmatchedInput.hasActions || unmatchedInput.speech !== unmatchedInput.raw) errors.push('aspas incompletas removeram parte da fala')
+
+let quotedState = createInitialState()
+let quotedScene = story.scenes[quotedState.sceneId]
+const quotedReply = localReply({ text: quotedText, state: quotedState, scene: quotedScene })
+validateReply(quotedReply, quotedScene, 'ação entre aspas')
+if (!/descarga partiu|raio fora lançado/iu.test(quotedReply.narration) || /encontrou o chão/iu.test(quotedReply.narration)) errors.push('narrador local contradisse a direção do raio declarado')
+quotedState = applyNarrativeTurn(quotedState, quotedReply, quotedText)
+if (quotedState.sceneId !== 'combate-na-clareira') errors.push('raio declarado entre aspas não abriu a rota de combate')
+if (!quotedState.storyHistory.some(({ type, text }) => type === 'player' && text === 'Foi escolha de vocês.')) errors.push('fala externa às aspas não ganhou registro próprio')
+if (!quotedState.storyHistory.some(({ type, text }) => type === 'player-action' && /lançar um raio/iu.test(text))) errors.push('ação entre aspas não ganhou registro visual próprio')
+if (!quotedState.playerActions.some(({ text, status }) => /lançar um raio/iu.test(text) && status === 'declared')) errors.push('ação entre aspas não entrou na continuidade canônica da crônica')
+if (quotedState.flags.rescueComplete) errors.push('ação declarada concedeu resultado automático sobre terceiros')
+persistState(quotedState)
+if (!loadState().playerActions.some(({ text }) => /lançar um raio/iu.test(text))) errors.push('save/load não preservou a ação declarada')
 
 // A palavra abre uma rota própria e não é tratada como combate.
 let state = initial

@@ -2,7 +2,7 @@ import { canonById } from '../data/knowledge.js'
 
 const characterNames = { elara: 'Elara', 'rainha-aelwen': 'Aelwen', 'mercenario-orc': 'Mercenário da clareira' }
 
-export default function CodexDrawer({ discovered, inventory, relationships, memories = [], progress = {}, open, onClose }) {
+export default function CodexDrawer({ discovered, inventory, relationships, memories = [], playerActions = [], progress = {}, open, onClose }) {
   const records = discovered.map((id) => canonById[id]).filter(Boolean)
   return (
     <aside className={`codex-drawer ${open ? 'is-open' : ''}`} aria-hidden={!open} inert={!open} aria-label="Códice da jornada">
@@ -48,6 +48,14 @@ export default function CodexDrawer({ discovered, inventory, relationships, memo
         <section>
           <h3>Memórias da jornada</h3>
           <ul className="journey-memories">{memories.map((memory) => <li key={memory.id}>{memory.summary}</li>)}</ul>
+        </section>
+      )}
+
+      {playerActions.length > 0 && (
+        <section>
+          <h3>Atos declarados de Sirius</h3>
+          <p className="codex-action-note">Gestos incorporados à continuidade desta crônica. Seus efeitos são resolvidos pelo narrador.</p>
+          <ul className="codex-player-actions">{playerActions.map((action) => <li key={action.id}>{action.text}</li>)}</ul>
         </section>
       )}
     </aside>

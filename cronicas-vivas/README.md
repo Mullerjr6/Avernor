@@ -8,6 +8,16 @@ O Capítulo Zero começa com Sirius a cavalo, a caminho de Sylvaris. Depois de o
 
 A primeira entrada livre acontece antes do resgate, no instante em que a clareira espera a decisão de Sirius. Depois das consequências da abordagem escolhida, a jornada atravessa os vestígios da clareira, a estrada florestal, o Caminho das Árvores Ausentes, Lethariel e uma audiência com Aelwen. Há cenas com múltiplos NPCs, uma conversa sem Elara e a abertura do Capítulo Um.
 
+## Fala e ação na entrada livre
+
+Texto fora de aspas é interpretado como fala de Sirius. Um trecho entre aspas retas, curvas ou angulares é uma ação declarada pelo jogador e passa a integrar a continuidade salva da crônica:
+
+```text
+Foi escolha de vocês. "Sirius ergue a mão e lança um raio contra o captor."
+```
+
+Nesse exemplo, `Foi escolha de vocês.` é fala e o trecho entre aspas é ação. O gesto controlado por Sirius torna-se canônico na jornada; acerto, dano, morte, persuasão e demais efeitos sobre terceiros continuam sendo resolvidos pelo narrador conforme a cena e o cânone.
+
 ## Arquitetura narrativa
 
 - `src/engine/chapterZero.js`: fonte estruturada de capítulos, cenas, locais, participantes, objetivos, batidas, sinais permitidos, restrições e transições.

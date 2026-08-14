@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { parsePlayerInput } from '../engine/playerInput.js'
 
 function StoryEntry({ entry }) {
   if (entry.type === 'scene-divider') {
@@ -10,7 +11,10 @@ function StoryEntry({ entry }) {
     )
   }
   if (entry.type === 'player') {
-    return <article className="story-entry player-entry"><span>SIRIUS</span><p>{entry.text}</p></article>
+    return <article className="story-entry player-entry"><span>SIRIUS — FALA</span><p>{entry.text}</p></article>
+  }
+  if (entry.type === 'player-action') {
+    return <article className="story-entry player-action-entry"><span>AÇÃO DE SIRIUS</span><p>{entry.text}</p></article>
   }
   if (entry.type === 'dialogue') {
     return (
@@ -30,6 +34,7 @@ function StoryEntry({ entry }) {
 
 export default function DialoguePanel({ scene, history, busy, onDialogue }) {
   const [draft, setDraft] = useState('')
+  const parsedDraft = parsePlayerInput(draft)
 
   function submit(event) {
     event.preventDefault()
@@ -79,7 +84,11 @@ export default function DialoguePanel({ scene, history, busy, onDialogue }) {
           />
           <button type="submit" disabled={busy || !draft.trim()}>{busy ? 'NARRANDO…' : 'INTERVIR'}</button>
         </div>
-        <small>{draft.length}/900 · nenhuma fala, pensamento ou ação de Sirius será inventada pelo narrador</small>
+        <div className={`action-syntax ${parsedDraft.hasActions ? 'is-detected' : ''}`} aria-live="polite">
+          <span>{parsedDraft.hasActions ? `${parsedDraft.actions.length} AÇÃO${parsedDraft.actions.length > 1 ? 'ÕES' : ''} RECONHECIDA${parsedDraft.actions.length > 1 ? 'S' : ''}` : 'ASPAS DEFINEM UMA AÇÃO'}</span>
+          <p>{parsedDraft.hasActions ? parsedDraft.actions.join(' · ') : 'Exemplo: "Sirius ergue a mão e invoca um raio"'}</p>
+        </div>
+        <small>{draft.length}/900 · ações entre aspas entram no cânone desta crônica; consequências continuam com o narrador</small>
       </form>
     </section>
   )

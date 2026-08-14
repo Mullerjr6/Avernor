@@ -40,6 +40,7 @@ export async function requestNarrativeReply({ text, state, scene }) {
           discovered: state.discovered,
           completedBeats: state.completedBeats,
           storyMemories: state.storyMemories,
+          playerActions: state.playerActions,
           memoryState: state.memoryState,
           recentHistory: state.recentHistory,
           summary: state.summary,

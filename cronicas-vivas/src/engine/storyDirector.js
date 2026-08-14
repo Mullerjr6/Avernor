@@ -2,12 +2,14 @@ import { updateConversationMemories } from '../../../src/ai/memoryService.js'
 import { getCharacterProfile } from '../../../src/ai/characters/characterProfiles.js'
 import { applyRelationshipSuggestion, createRelationship, sanitizeRelationship } from '../../../src/ai/relationshipService.js'
 import { FIRST_SCENE_ID, STORY_VERSION, story } from './chapterZero.js'
+import { parsePlayerInput } from './playerInput.js'
 
 export const SAVE_KEY = 'avernor-cronicas-vivas-save-v4'
 export const ALLOWED_INVENTORY = new Set(['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'])
 const MAX_HISTORY = 180
 const MAX_RECENT_HISTORY = 32
 const MAX_STORY_MEMORIES = 40
+const MAX_PLAYER_ACTIONS = 60
 
 const unique = (items) => [...new Set(items)]
 const now = () => new Date().toISOString()
@@ -61,6 +63,7 @@ export function createInitialState() {
     inventory: ['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'],
     relationships: relationshipMap(),
     memoryState: { playerMemory: [], characterMemory: [], relationshipMemory: [] },
+    playerActions: [],
     storyMemories: [{
       id: 'memory-clearing-arrival', type: 'witnessed', sourceCharacterId: 'mercenario-orc', importance: 4,
       summary: 'Sirius chegou em forma de corvo à clareira onde três mercenários orcs mantinham uma elfa prisioneira; a forma da intervenção ainda não havia sido escolhida.',
@@ -148,8 +151,20 @@ function applyMemories(state, reply, playerText, scene) {
 
 function historyFromTurn(state, reply, playerText, scene, dialogue) {
   const turnId = `turn-${state.totalTurns + 1}`
+  const playerInput = parsePlayerInput(playerText)
+  const playerEntries = [
+    ...(playerInput.speech ? [{ id: `${turnId}-sirius`, type: 'player', speaker: 'SIRIUS', text: playerInput.speech, sceneId: scene.id, chapterId: scene.chapterId }] : []),
+    ...playerInput.actions.map((action, index) => ({
+      id: `${turnId}-sirius-action-${index}`,
+      type: 'player-action',
+      speaker: 'SIRIUS',
+      text: action,
+      sceneId: scene.id,
+      chapterId: scene.chapterId,
+    })),
+  ]
   const entries = [
-    { id: `${turnId}-sirius`, type: 'player', speaker: 'SIRIUS', text: safeText(playerText, 900), sceneId: scene.id, chapterId: scene.chapterId },
+    ...playerEntries,
     { id: `${turnId}-narration`, type: 'narration', speaker: 'NARRADOR', text: safeText(reply.narration), sceneId: scene.id, chapterId: scene.chapterId },
     ...dialogue.flatMap((item, index) => [
       ...(item.action ? [{ id: `${turnId}-action-${index}`, type: 'narration', speaker: 'NARRADOR', text: item.action, sceneId: scene.id, chapterId: scene.chapterId }] : []),
@@ -235,6 +250,15 @@ export function applyNarrativeTurn(state, reply, playerText) {
     }].slice(-MAX_STORY_MEMORIES)
   }
   const { storyHistory, recentHistory } = historyFromTurn(state, reply, playerText, scene, dialogue)
+  const declaredActions = parsePlayerInput(playerText).actions.map((text, index) => ({
+    id: `player-action-${state.totalTurns + 1}-${index}`,
+    text,
+    sceneId: scene.id,
+    chapterId: scene.chapterId,
+    turn: state.totalTurns + 1,
+    status: 'declared',
+  }))
+  const playerActions = [...(state.playerActions ?? []), ...declaredActions].slice(-MAX_PLAYER_ACTIONS)
   const sceneTurns = state.sceneTurns + 1
   const recentEffects = (Array.isArray(reply.sceneEffects) ? reply.sceneEffects : [])
     .filter(({ type, value }) => ['ambience', 'tension', 'clue', 'presence'].includes(type) && safeText(value))
@@ -251,6 +275,7 @@ export function applyNarrativeTurn(state, reply, playerText) {
     discovered,
     relationships,
     memoryState,
+    playerActions,
     storyMemories,
     storyHistory,
     recentHistory,
@@ -283,6 +308,7 @@ export function loadState() {
         storyHistory: Array.isArray(saved.storyHistory) ? saved.storyHistory.slice(-MAX_HISTORY) : openingEntries(scene),
         recentHistory: Array.isArray(saved.recentHistory) ? saved.recentHistory.slice(-MAX_RECENT_HISTORY) : [],
         storyMemories: Array.isArray(saved.storyMemories) ? saved.storyMemories.slice(-MAX_STORY_MEMORIES) : [],
+        playerActions: Array.isArray(saved.playerActions) ? saved.playerActions.slice(-MAX_PLAYER_ACTIONS) : [],
         codexProgress: codexProgress(discovered, visitedScenes, flags),
       }
     }

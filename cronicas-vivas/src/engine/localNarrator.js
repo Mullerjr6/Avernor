@@ -1,3 +1,5 @@
+import { declaresCombatAction, parsePlayerInput } from './playerInput.js'
+
 const names = { elara: 'ELARA', 'rainha-aelwen': 'AELWEN', 'mercenario-orc': 'MERCENÁRIO' }
 
 const sceneVoices = {
@@ -207,7 +209,7 @@ function isQuestionLike(text) {
 }
 
 function declaresAttack(text) {
-  return /\b(ataco|avan[cç]o|golpeio|derrubo|conjuro|disparo|descarrego|salto contra|parto para cima|uso (?:um |o )?raio|lan[cç]o (?:um |o )?raio)\b/u.test(normalize(text))
+  return declaresCombatAction(text)
 }
 
 function dialogueFor(scene, index, intent) {
@@ -262,9 +264,15 @@ export function localReply({ text, state, scene }) {
   const question = isQuestionLike(text)
   const intent = scene.id === 'clareira-depois-do-grito' ? openingIntent(text) : ''
   const combatDeclared = scene.id === 'confronto-na-clareira' && declaresAttack(text)
+  const declaredAction = parsePlayerInput(text).actions.join(' ')
+  const lightningDeclared = /\b(raio|relampago|eletric|trovao)\b/u.test(normalize(declaredAction || text))
   const narration = combatDeclared
-    ? 'Sirius rompeu a distância e a descarga encontrou o chão encharcado entre os captores. O clarão não escolheu um inimigo por ele: arrancou sombras das raízes, obrigou os três a proteger os olhos e transformou a posição de cada corpo numa urgência.'
-    : openingIntentNarration[intent] || sceneVoices[scene.id]?.[index] || 'A intervenção de Sirius alterou o equilíbrio da cena. Quem estava presente reagiu primeiro ao significado concreto, sem transformar suas palavras numa abstração conveniente.'
+    ? lightningDeclared
+      ? 'A descarga partiu de Sirius na direção que ele declarara. O clarão arrancou sombras das raízes e obrigou os três captores a reagir; o raio fora lançado, mas alcançar o alvo e decidir o que o impacto causaria ainda pertenciam às distâncias, às defesas e ao instante seguinte.'
+      : 'Sirius rompeu a distância segundo a ofensiva que declarara. O movimento obrigou os três captores a abandonar a ameaça ensaiada e reagir; o ataque já pertencia à cena, mas seu resultado ainda dependeria das posições, das defesas e do instante seguinte.'
+    : declaredAction
+      ? 'A ação que Sirius escolhera deixou de ser hipótese e passou a pertencer à cena. Os presentes reagiram ao gesto realmente executado; qualquer efeito sobre eles, porém, ainda dependeria da distância, da resistência e das condições daquele instante.'
+      : openingIntentNarration[intent] || sceneVoices[scene.id]?.[index] || 'A intervenção de Sirius alterou o equilíbrio da cena. Quem estava presente reagiu primeiro ao significado concreto, sem transformar suas palavras numa abstração conveniente.'
   const dialogue = combatDeclared
     ? [{
         speakerId: 'mercenario-orc',
@@ -275,7 +283,7 @@ export function localReply({ text, state, scene }) {
       }]
     : dialogueFor(scene, index, intent)
   const afterNarration = combatDeclared
-    ? 'O trovão não resolveu o confronto; revelou sua geometria. Elara baixou o centro do corpo para não ser usada como escudo, o homem da trilha avançou cedo demais e o portador da adaga hesitou entre preservar o prêmio e sobreviver. Pela primeira vez, os três já não agiam como se tivessem o controle.'
+    ? `${lightningDeclared ? 'O raio lançado' : 'A ofensiva'} não resolveu o confronto; revelou sua geometria. Elara baixou o centro do corpo para não ser usada como escudo, o homem da trilha avançou cedo demais e o portador da adaga hesitou entre preservar o prêmio e sobreviver. Pela primeira vez, os três já não agiam como se tivessem o controle.`
     : afterNarrationFor(scene, index)
   return {
     narration,
