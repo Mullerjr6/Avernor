@@ -98,6 +98,21 @@ if (!rupturedState.storyHistory.some(({ type, text }) => type === 'player-action
 if (!rupturedState.storyHistory.some(({ type, text }) => type === 'transition' && /palavra perdeu autoridade/iu.test(text))) errors.push('transição não registrou o fim da negociação')
 if (!declaresCombatAction('"Sirius lança um feitiço nos orcs."')) errors.push('feitiço ofensivo entre aspas não foi reconhecido como combate')
 if (declaresCombatAction('"Sirius lança um olhar para Elara."')) errors.push('ação não ofensiva com o verbo lançar foi classificada como combate')
+const naturalSpell = parsePlayerInput('Sirius joga um feitiço nos orcs')
+if (!naturalSpell.inferredAction || naturalSpell.speech || naturalSpell.actions[0] !== naturalSpell.raw) errors.push('comando ofensivo natural sem aspas não foi registrado como ação')
+if (!declaresCombatAction('Sirius joga um feitiço nos orcs')) errors.push('comando ofensivo natural sem aspas não foi reconhecido como combate')
+if (declaresCombatAction('Sirius joga conversa fora com os mercenários')) errors.push('frase não ofensiva com o verbo jogar foi classificada como combate')
+
+// Mesmo uma resposta remota antiga ou incorreta não pode manter a negociação depois da ofensiva do jogador.
+let guardedState = createInitialState()
+let guardedScene = story.scenes[guardedState.sceneId]
+let guardedReply = localReply({ text: 'Soltem a mulher e talvez ainda exista uma saída.', state: guardedState, scene: guardedScene })
+guardedState = applyNarrativeTurn(guardedState, guardedReply, 'Soltem a mulher e talvez ainda exista uma saída.')
+guardedScene = story.scenes[guardedState.sceneId]
+guardedReply = localReply({ text: 'Quanto receberam por ela?', state: guardedState, scene: guardedScene })
+guardedReply = { ...guardedReply, source: 'workers-ai', storySignals: ['termos_expostos'] }
+guardedState = applyNarrativeTurn(guardedState, guardedReply, 'Péssima escolha "sirius lança raio na direção do orc que segurava Elara"')
+if (guardedState.sceneId !== 'combate-na-clareira' || !guardedState.flags.negotiationBrokenByAttack) errors.push('Diretor aceitou continuação diplomática remota depois de uma ação ofensiva')
 
 state = playUntil(state, 'clareira-depois-do-grito', [
   'Quem pagou não lhes deu o próprio nome. Isso deveria preocupá-los mais do que minha presença.',

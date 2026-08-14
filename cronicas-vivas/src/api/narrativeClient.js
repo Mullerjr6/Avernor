@@ -1,5 +1,6 @@
 import { canonicalContext } from '../data/knowledge.js'
 import { localReply } from '../engine/localNarrator.js'
+import { declaresCombatAction } from '../engine/playerInput.js'
 
 const endpoint = import.meta.env.VITE_NARRATIVE_API_URL?.trim()
 
@@ -10,6 +11,9 @@ function hasValidNarrative(reply, participants) {
 }
 
 export async function requestNarrativeReply({ text, state, scene }) {
+  if (['confronto-na-clareira', 'negociacao-na-clareira'].includes(scene.id) && declaresCombatAction(text)) {
+    return { ...localReply({ text, state, scene }), source: 'local-canon', canonicalPriority: true }
+  }
   if (!endpoint) return localReply({ text, state, scene })
 
   const controller = new AbortController()

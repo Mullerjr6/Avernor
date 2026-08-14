@@ -2,7 +2,7 @@ import { updateConversationMemories } from '../../../src/ai/memoryService.js'
 import { getCharacterProfile } from '../../../src/ai/characters/characterProfiles.js'
 import { applyRelationshipSuggestion, createRelationship, sanitizeRelationship } from '../../../src/ai/relationshipService.js'
 import { FIRST_SCENE_ID, STORY_VERSION, story } from './chapterZero.js'
-import { parsePlayerInput } from './playerInput.js'
+import { declaresCombatAction, parsePlayerInput } from './playerInput.js'
 
 export const SAVE_KEY = 'avernor-cronicas-vivas-save-v4'
 export const ALLOWED_INVENTORY = new Set(['Carta cifrada de Normus', 'Medalhão da Folha Partida', 'Fulgarion'])
@@ -235,6 +235,8 @@ export function applyNarrativeTurn(state, reply, playerText) {
   if (!scene || !safeText(playerText, 900)) return state
   const dialogue = sanitizeDialogue(reply, scene)
   let signals = sanitizeSignals(reply, scene)
+  if (declaresCombatAction(playerText) && scene.id === 'negociacao-na-clareira') signals = ['negociacao_rompida_por_ataque']
+  if (declaresCombatAction(playerText) && scene.id === 'confronto-na-clareira') signals = ['confronto_iniciado', 'abordagem_combativa']
   signals = fallbackSignal(state, scene, signals, reply.source)
   const completedBeats = unique([...state.completedBeats, ...signals.map((signal) => `${scene.id}:${signal}`)])
   const { flags, discovered } = applySignalEffects(state, scene, signals)

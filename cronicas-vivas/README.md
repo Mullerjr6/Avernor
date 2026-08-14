@@ -20,6 +20,8 @@ Nesse exemplo, `Foi escolha de vocês.` é fala e o trecho entre aspas é ação
 
 Uma ação ofensiva declarada durante uma negociação rompe os termos imediatamente. A fala que antecede as aspas ainda é registrada como a última advertência de Sirius, mas os adversários reagem ao ataque e o Diretor conduz a crônica para a cena de combate, sem repetir propostas como se a ação não tivesse acontecido.
 
+Comandos ofensivos inequívocos também são reconhecidos sem aspas — por exemplo, `Sirius joga um feitiço nos orcs`. Nesse caso, a entrada inteira é registrada como ação, não como uma fala em terceira pessoa. Expressões não ofensivas semelhantes, como `Sirius lança um olhar para Elara`, permanecem sem efeito de combate.
+
 ## Arquitetura narrativa
 
 - `src/engine/chapterZero.js`: fonte estruturada de capítulos, cenas, locais, participantes, objetivos, batidas, sinais permitidos, restrições e transições.
